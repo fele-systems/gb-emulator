@@ -1,3 +1,6 @@
+#include "gbcpu.h"
+#include "gbmemory.h"
+#include <bits/stdint-uintn.h>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,7 +17,7 @@ extern "C" {
     #include <capstone/capstone.h>
 }
 
-enum CartridgeType : uint8_t
+enum class CartridgeType : uint8_t
 {
     rom                     = 0x00,
     mbc1                    = 0x01,
@@ -47,8 +50,17 @@ enum CartridgeType : uint8_t
     huc1_ram_battery        = 0xff
 };
 
+enum class RomSize : uint8_t
+{
+    s_none,
+    s_2kbyte,
+    s_8kbyte,
+    s_32kbyte,
+    s_128kbyte
+};
+
 template<typename T>
-T get_from_memory(const std::vector<uint8_t>& memory, size_t offset)
+T get_from_memory(const GbMemory& memory, size_t offset)
 {
     static_assert(std::is_same_v<T, uint8_t> || std::is_same_v<T, uint16_t> || std::is_same_v<T, uint32_t> || std::is_enum_v<T>, "T must be either uint8, uint16 or uint32");
     if constexpr ( std::is_same_v<T, uint8_t> || (std::is_enum_v<T> && sizeof(T) == 1) )
@@ -66,12 +78,16 @@ T get_from_memory(const std::vector<uint8_t>& memory, size_t offset)
 }
 
 template<typename T, size_t N>
-std::array<T, N> bytes_from_memory(const std::vector<uint8_t>& memory, size_t offset)
+std::array<T, N> bytes_from_memory(const GbMemory& memory, size_t offset)
 {
     static_assert(N > 1, "N must be higher than 1");
     static_assert(sizeof(T) == 1, "T must by a 8bit integral value");
     std::array<T, N> arr;
-    std::copy_n(memory.begin() + offset, N, arr.begin());
+    // std::copy_n(memory.get_bytes(offset, N), N, arr.begin());
+    for (size_t i = 0; i < N; i++)
+    {
+        arr[i] = memory[i+offset];
+    }
     return arr;
 }
 
@@ -105,12 +121,12 @@ public:
     uint8_t global_checksum;
     uint8_t version_number;
     uint8_t ram_size;
-    uint8_t rom_size;
+    RomSize rom_size;
     CartridgeType cartridge_type;
     uint8_t old_licensee;
     uint16_t new_licensee;
 public:
-    GBRomHeader(const std::vector<uint8_t>& memory)
+    GBRomHeader(const GbMemory& memory)
         :
         rom_entrypoint( get_from_memory<uint32_t>(memory, rom_entrypoint_offset) ),
         nintendo_logo( bytes_from_memory<uint8_t, 0x2f>(memory, nintendo_logo_offset) ),
@@ -122,7 +138,7 @@ public:
         global_checksum( get_from_memory<uint8_t>(memory, global_checksum_offset) ),
         version_number( get_from_memory<uint8_t>(memory, version_number_offset) ),
         ram_size( get_from_memory<uint8_t>(memory, ram_size_offset) ),
-        rom_size( get_from_memory<uint8_t>(memory, rom_size_offset) ),
+        rom_size( get_from_memory<RomSize>(memory, rom_size_offset) ),
         cartridge_type( get_from_memory<CartridgeType>(memory, cartridge_type_offset) ),
         old_licensee( get_from_memory<uint8_t>(memory, old_licensee_offset) ),
         new_licensee( get_from_memory<uint16_t>(memory, new_licensee_offset) )
@@ -140,18 +156,49 @@ std::string to_string_debug(const GBRomHeader& header)
     fmt::format_to(os, "\tnintendo_logo: blob,\n");
     fmt::format_to(os, "\ttitle: '{}',\n", std::string{ header.title.data(), header.title.size() });
     fmt::format_to(os, "\tmanufacurer_code: 0x{:0>8x},\n", header.manufacurer_code);
-    fmt::format_to(os, "\tgame_color: 0x{:0>2x}\n", header.game_color);
+    fmt::format_to(os, "\tgame_color: {}(0x{:0>2x})\n", header.game_color == 0x80, header.game_color);
     fmt::format_to(os, "\tdestination_code: 0x{:0>2x}\n", header.destination_code);
     fmt::format_to(os, "\theader_checksum: 0x{:0>2x}\n", header.header_checksum);
     fmt::format_to(os, "\tglobal_checksum: 0x{:0>2x}\n", header.global_checksum);
     fmt::format_to(os, "\tversion_number: 0x{:0>2x}\n", header.version_number);
     fmt::format_to(os, "\tram_size: 0x{:0>2x}\n", header.ram_size);
-    fmt::format_to(os, "\trom_size: 0x{:0>2x}\n", header.rom_size);
-    fmt::format_to(os, "\tcartridge_type: 0x{:0>2x}\n", header.cartridge_type);
+    fmt::format_to(os, "\trom_size: {}(0x{:0>2x})\n", magic_enum::enum_name(header.rom_size), header.rom_size);
+    fmt::format_to(os, "\tcartridge_type: {}(0x{:0>2x})\n", magic_enum::enum_name(header.cartridge_type), header.cartridge_type);
     fmt::format_to(os, "\told_licensee: 0x{:0>2x}\n", header.old_licensee);
     fmt::format_to(os, "\tnew_licensee: 0x{:0>2x}\n", header.new_licensee);
 
     return str + "}";
+}
+
+std::string dump(uint32_t begin, uint32_t end, uint8_t align, const std::vector<uint8_t>& memory)
+{
+    auto line_start = begin - (begin % align);
+
+    std::stringstream ss;
+
+    while (line_start < end)
+    {
+        ss << fmt::format("[0x{:0>8x}] ", line_start);
+
+        for (auto i = 0u; i < align; i++)
+        {
+            auto c = line_start + i;
+            if (begin <= c && c < end)
+            {
+                ss << fmt::format("{:0<2x} ", memory.at(c));
+            }
+            else
+            {
+                ss << "?? ";
+            }
+        }
+
+        line_start += align;
+        ss << std::endl;
+    }
+
+    return ss.str();
+
 }
 
 int main()
@@ -167,18 +214,15 @@ int main()
             throw std::runtime_error{ "Could not load rom file" };
         }
 
-        std::vector<uint8_t> memory;
-        std::istreambuf_iterator<char> begin ( romstream );
-        std::istreambuf_iterator<char> end;
-        auto back = std::back_inserter(memory);
-        std::copy(begin, end, back);
+        GbCpu cpu;
+        cpu.get_memory().load_rom(romstream);
 
-        romstream.seekg(0x134);
+        GBRomHeader header(cpu.get_memory());
+        std::cout << to_string_debug( header ) << std::endl;
 
-        GBRomHeader header(memory);
-
-        std::cout << header << std::endl;
-
+        while(true) cpu.cycle();
+        // std::cout << dump(GBRomHeader::rom_entrypoint_offset, GBRomHeader::rom_entrypoint_offset+4, 8, memory) << std::endl;
+        // std::cout << dump(header.rom_entrypoint, header.rom_entrypoint + 20, 8, memory) << std::endl;
 
     } catch (std::exception& e)
     {

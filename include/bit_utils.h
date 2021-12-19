@@ -33,3 +33,5 @@ T sign_extend(T x, const int bits) {
 }
 
 uint32_t sign_extend_24_32(uint32_t x);
+
+uint16_t order_bytes(const uint8_t* bytes);

@@ -30,3 +30,9 @@ uint32_t sign_extend_24_32(uint32_t x)
     uint32_t m = 1u << (bits - 1);
     return (x ^ m) - m;
 }
+
+uint16_t order_bytes(const uint8_t* bytes)
+{
+
+    return bytes[0] | bytes[1] << 8;
+}

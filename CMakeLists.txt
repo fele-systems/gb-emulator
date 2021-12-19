@@ -1,18 +1,25 @@
 project( gb-emulator )
+
 cmake_minimum_required( VERSION 2.8 )
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable( ${PROJECT_NAME}
-    main.cpp
+add_executable( gbe
+    src/main.cpp
+    src/gbmemory.cpp
+    src/gbcpu.cpp
+    src/opcodes.cpp
+    src/bit_utils.cpp
     )
 
-target_compile_options(${PROJECT_NAME} PRIVATE
+target_compile_options(gbe PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE third-party/magic_enum/include)
+target_include_directories(gbe PRIVATE
+    third-party/magic_enum/include
+    include)
 
 if (MSVC)
     #find_package(unofficial-sqlite3 CONFIG REQUIRED)
@@ -51,10 +58,10 @@ if (MSVC)
     #set_target_properties(CAPSTONE PROPERTIES LINKER_LANGUAGE C)
 
     find_package(fmt 7.1.3 CONFIG REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt CAPSTONE_LIBRARY)
+    target_link_libraries(gbe PRIVATE fmt::fmt CAPSTONE_LIBRARY)
 else ()
     find_package(fmt CONFIG REQUIRED)
 
-    target_link_libraries(${PROJECT_NAME} -lfmt)
+    target_link_libraries(gbe -lfmt)
 endif (MSVC)
 
