@@ -10,6 +10,8 @@ add_executable( gbe
     src/gbcpu.cpp
     src/opcodes.cpp
     src/bit_utils.cpp
+    src/instruction_trait.cpp
+    src/registers.cpp
     )
 
 target_compile_options(gbe PRIVATE

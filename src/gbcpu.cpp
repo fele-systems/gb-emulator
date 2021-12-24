@@ -6,14 +6,10 @@
 #include <stdexcept>
 #include <fmt/core.h>
 #include <fmt/color.h>
-
+#include <errno.h>
 GbCpu::GbCpu()
 {
-    inst_bytes.reserve(8);
-    reg(Register16::AF, 0x0001);
-    reg(Register16::BC, 0x0013);
-    reg(Register16::DE, 0x00D8);
-    reg(Register16::HL, 0x014D);
+    fetched_bytes.reserve ( 8 );
     memory[0xFF05] = 0x00; // TIMA
     memory[0xFF06] = 0x00; // TMA
     memory[0xFF07] = 0x00; // TAC
@@ -51,220 +47,801 @@ void GbCpu::cycle()
 {
 
     // const auto start = PC++;
-    inst_bytes.clear();
-    auto address = PC;
+    fetched_bytes.clear();
+    auto address = reg(R16::PC);
 
-    inst_bytes.push_back(memory.read_byte(PC++));
+    auto registerSetCopy = registerSet;
 
-    InstructionTrait flags = InstructionTrait::none;
-    R8 changed_8bit_reg = R8::A;
-    uint8_t previous_8bit_reg_value;
-    R16 changed_16bit_reg = R16::AF;
-    uint16_t previous_16bit_reg_value;
-    // bool pZ = Z, pN = N, pH = H, pC = C;
-    bool jumped = false;
+    auto traits = execute_next();
+    std::cout.flush();
 
-
-    switch(inst_bytes[0])
-    {
-    case Opcodes::Nop::opcode:
-    {
-        auto nop = Opcodes::Nop{};
-        std::cout << to_string_debug(nop) << std::endl;
-        break;
+    if ( disable_interrupts_at == reg(R16::PC) ) {
+        std::cout << "Interrups disabled" << std::endl;
+        disable_interrupts_at = 0x00;
     }
-    case Opcodes::Jump::opcode:
-    {
-        inst_bytes.push_back(memory.read_byte(PC++));
-        inst_bytes.push_back(memory.read_byte(PC++));
-        auto jmp = Opcodes::Jump::parse(inst_bytes);
-        std::cout << to_string_debug(jmp) << std::endl;
-        jmp.execute(*this);
-        break;
+
+    if ( enable_interrupts_at == reg(R16::PC) ) {
+        std::cout << "Interrupts enabled" << std::endl;
+        enable_interrupts_at = 0x00;
     }
+
+    fmt::print ( fmt::fg ( fmt::color::green ), "0x{:0<4x} | ", address );
+    for ( auto b : fetched_bytes ) {
+        fmt::print ( "{:0<2x} ", b );
+    }
+    fmt::print ( "\n" );
+
+    using namespace magic_enum::bitwise_operators;
+
+    if ( traits.has(InstructionTrait::modifies_8bit_register) ) {
+        fmt::print ( fmt::fg ( fmt::color::red ),
+                     "{}: {:0<2x} -> {:0<2x}\n",
+                     magic_enum::enum_name ( traits.get_modified_r8() ),
+                     registerSetCopy.r( traits.get_modified_r8() ),
+                     reg ( traits.get_modified_r8() ) );
+    }
+
+    if ( traits.has(InstructionTrait::modifies_16bit_register) ) {
+        fmt::print ( fmt::fg ( fmt::color::red ),
+                     "{}: {:0<4x} -> {:0<4x}\n",
+                     magic_enum::enum_name ( traits.get_modified_r16() ),
+                     registerSetCopy.r( traits.get_modified_r16() ),
+                     reg ( traits.get_modified_r16() ) );
+    }
+
+    if ( traits.has(InstructionTrait::modifies_flags) ) {
+        fmt::print ( fmt::fg ( fmt::color::burly_wood ),
+                     "Z {}, N {}, C {}, H {}\n",
+                     registerSet.Z ? "set" : "unset",
+                     registerSet.N ? "set" : "unset",
+                     registerSet.C ? "set" : "unset",
+                     registerSet.H ? "set" : "unset" );
+    }
+}
+
+GbMemory& GbCpu::get_memory()
+{
+    return memory;
+}
+
+InstructionTrait GbCpu::execute_next()
+{
+    auto instruction = static_cast<Opcode> ( next_pc_byte() );
+    switch ( instruction ) {
+    case Opcode::NOP:
+        // cycles 4
+        fmt::print("NOP\n");
+        return InstructionTrait::no_traits();
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////// 8-Bit Loads
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //---------------------------------------------------------------------------------
+    //---- LD r8, 8imm
+    // Put 8-Bit immediate value into 8-Bit register
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_A_8imm:
+        // 8 cycles
+        return LD_r8_8imm(R8::A);
+
+    case Opcode::LD_B_8imm:
+        // cycles 8
+        return LD_r8_8imm ( R8::B );
+
+    case Opcode::LD_C_8imm:
+        // cycles 8
+        return LD_r8_8imm ( R8::C );
+
+    case Opcode::LD_D_8imm:
+        // cycles 8
+        return LD_r8_8imm ( R8::D );
+
+    case Opcode::LD_E_8imm:
+        // cycles 8
+        return LD_r8_8imm ( R8::E );
+
+    case Opcode::LD_H_8imm:
+        // cycles 8
+        return LD_r8_8imm ( R8::H );
+
+    case Opcode::LD_L_8imm:
+        // cycles 8
+        return LD_r8_8imm ( R8::L );
+
+    //---------------------------------------------------------------------------------
+    //---- LD r8_out, r8_in
+    // Put 8-Bit register (in) into 8-Bit register (out)
+    //---------------------------------------------------------------------------------
+
+    //*********************************************************************************
+    //**** Load into A
+    //*********************************************************************************
+
+    case Opcode::LD_A_A:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::L);
+
+    case Opcode::LD_A_B:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::B);
+
+    case Opcode::LD_A_C:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::C);
+
+    case Opcode::LD_A_D:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::D);
+
+    case Opcode::LD_A_E:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::E);
+
+    case Opcode::LD_A_H:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::H);
+
+    case Opcode::LD_A_L:
+        // cycles 4
+        return LD_r8_r8(R8::A, R8::L);
+
+    //*********************************************************************************
+    //**** Load into B
+    //*********************************************************************************
+
+    case Opcode::LD_B_B:
+        // cycles 4
+        return LD_r8_r8(R8::B, R8::B);
+
+    case Opcode::LD_B_C:
+        // cycles 4
+        return LD_r8_r8(R8::B, R8::C);
+
+    case Opcode::LD_B_D:
+        // cycles 4
+        return LD_r8_r8(R8::B, R8::D);
+
+    case Opcode::LD_B_E:
+        // cycles 4
+        return LD_r8_r8(R8::B, R8::E);
+
+    case Opcode::LD_B_H:
+        // cycles 4
+        return LD_r8_r8(R8::B, R8::H);
+
+    case Opcode::LD_B_L:
+        // cycles 4
+        return LD_r8_r8(R8::B, R8::L);
+
+    //*********************************************************************************
+    //**** Load into C
+    //*********************************************************************************
+
+    case Opcode::LD_C_B:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::B);
+
+    case Opcode::LD_C_C:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::C);
+
+    case Opcode::LD_C_D:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::D);
+
+    case Opcode::LD_C_E:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::E);
+
+    case Opcode::LD_C_H:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::H);
+
+    case Opcode::LD_C_L:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::L);
+
+    //*********************************************************************************
+    //**** Load into D
+    //*********************************************************************************
+
+    case Opcode::LD_D_B:
+        // cycles 4
+        return LD_r8_r8(R8::D, R8::B);
+
+    case Opcode::LD_D_C:
+        // cycles 4
+        return LD_r8_r8(R8::D, R8::C);
+
+    case Opcode::LD_D_D:
+        // cycles 4
+        return LD_r8_r8(R8::D, R8::D);
+
+    case Opcode::LD_D_E:
+        // cycles 4
+        return LD_r8_r8(R8::D, R8::E);
+
+    case Opcode::LD_D_H:
+        // cycles 4
+        return LD_r8_r8(R8::D, R8::H);
+
+    case Opcode::LD_D_L:
+        // cycles 4
+        return LD_r8_r8(R8::D, R8::L);
+
+    //*********************************************************************************
+    //**** Load into E
+    //*********************************************************************************
+
+    case Opcode::LD_E_B:
+        // cycles 4
+        return LD_r8_r8(R8::E, R8::B);
+
+    case Opcode::LD_E_C:
+        // cycles 4
+        return LD_r8_r8(R8::E, R8::C);
+
+    case Opcode::LD_E_D:
+        // cycles 4
+        return LD_r8_r8(R8::E, R8::D);
+
+    case Opcode::LD_E_E:
+        // cycles 4
+        return LD_r8_r8(R8::E, R8::E);
+
+    case Opcode::LD_E_H:
+        // cycles 4
+        return LD_r8_r8(R8::E, R8::H);
+
+    case Opcode::LD_E_L:
+        // cycles 4
+        return LD_r8_r8(R8::E, R8::L);
+
+    //*********************************************************************************
+    //**** Load into L
+    //*********************************************************************************
+
+    case Opcode::LD_L_B:
+        // cycles 4
+        return LD_r8_r8(R8::L, R8::B);
+
+    case Opcode::LD_L_C:
+        // cycles 4
+        return LD_r8_r8(R8::L, R8::C);
+
+    case Opcode::LD_L_D:
+        // cycles 4
+        return LD_r8_r8(R8::L, R8::D);
+
+    case Opcode::LD_L_E:
+        // cycles 4
+        return LD_r8_r8(R8::L, R8::E);
+
+    case Opcode::LD_L_H:
+        // cycles 4
+        return LD_r8_r8(R8::L, R8::H);
+
+    case Opcode::LD_L_L:
+        // cycles 4
+        return LD_r8_r8(R8::L, R8::L);
+
+    //*********************************************************************************
+    //**** Load into H
+    //*********************************************************************************
+
+    case Opcode::LD_H_B:
+        // cycles 4
+        return LD_r8_r8(R8::H, R8::B);
+
+    case Opcode::LD_H_C:
+        // cycles 4
+        return LD_r8_r8(R8::H, R8::C);
+
+    case Opcode::LD_H_D:
+        // cycles 4
+        return LD_r8_r8(R8::H, R8::D);
+
+    case Opcode::LD_H_E:
+        // cycles 4
+        return LD_r8_r8(R8::H, R8::E);
+
+    case Opcode::LD_H_H:
+        // cycles 4
+        return LD_r8_r8(R8::H, R8::H);
+
+    case Opcode::LD_H_L:
+        // cycles 4
+        return LD_r8_r8(R8::H, R8::L);
+
+    //---------------------------------------------------------------------------------
+    //---- LD r8, (HL)
+    // Put value from memory at HL into 8-Bit register
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_A_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::A, R16::HL);
+
+    case Opcode::LD_B_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::B, R16::HL);
+
+    case Opcode::LD_C_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::C, R16::HL);
+
+    case Opcode::LD_D_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::D, R16::HL);
+
+    case Opcode::LD_E_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::E, R16::HL);
+
+    case Opcode::LD_H_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::H, R16::HL);
+
+    case Opcode::LD_L_pHL:
+        // cycles 8
+        return LD_r8_pr16(R8::L, R16::HL);
+
+    //---------------------------------------------------------------------------------
+    //---- LD A, (r16)
+    // Put value from memory at r16 into 8-Bit register
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_A_pBC:
+        // 8 cycles
+        return LD_r8_pr16(R8::A, R16::BC);
+
+    case Opcode::LD_A_pDE:
+        // 8 cycles
+        return LD_r8_pr16(R8::A, R16::DE);
+
+    case Opcode::LD_A_p16imm:
+        // 16 cycles
+        return LD_r8_p16imm(R8::A);
+
+    //---------------------------------------------------------------------------------
+    //---- LD (r16), A
+    // Put value from 8-Bit register into memory at r16
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_pBC_A:
+        // 8 cycles
+        return LD_pr16_r8(R16::BC, R8::A);
+
+    case Opcode::LD_pDE_A:
+        // 8 cycles
+        return LD_pr16_r8(R16::DE, R8::A);
+
+    case Opcode::LD_pHL_A:
+        // 8 cycles
+        return LD_pr16_r8(R16::HL, R8::A);
+
+    case Opcode::LD_p16imm_A:
+        // 16 cycles
+        return LD_p16imm_r8(R8::A);
+
+    //---------------------------------------------------------------------------------
+    //---- LD (0xFF00+8imm), A
+    // Put value from 8-Bit register into memory at 0xFF00 + 8-Bit immediate
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_p8imm_A:
+        // 12 cycles
+        return LD_p8imm_r8(R8::A);
+
+    //---------------------------------------------------------------------------------
+    //---- LD A, (0xFF00+8imm)
+    // Put value from memory at 0xFF00 + 8-Bit immediate into 8-Bit register
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_A_p8imm:
+        // 12 cycles
+        return LD_r8_p8imm(R8::A);
+
+    //---------------------------------------------------------------------------------
+    //---- LD (HL), r8
+    // Put value from 8-Bit register into memory at HL
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_pHL_B:
+        // cycles 8
+        return LD_pr16_r8(R16::HL, R8::B);
+
+    case Opcode::LD_pHL_C:
+        // cycles 8
+        return LD_pr16_r8(R16::HL, R8::C);
+
+    case Opcode::LD_pHL_D:
+        // cycles 8
+        return LD_pr16_r8(R16::HL, R8::D);
+
+    case Opcode::LD_pHL_E:
+        // cycles 8
+        return LD_pr16_r8(R16::HL, R8::E);
+
+    case Opcode::LD_pHL_H:
+        // cycles 8
+        return LD_pr16_r8(R16::HL, R8::H);
+
+    case Opcode::LD_pHL_L:
+        // cycles 8
+        return LD_pr16_r8(R16::HL, R8::L);
+
+    //---------------------------------------------------------------------------------
+    //---- LD (HL), 8imm
+    // Put value 8-Bit immediate value into memory at HL
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LD_pHL_8imm:
+        // cycles 12
+        return LD_pr16_8imm(R16::HL);
 
     ///////////////////////////////////////////////////////////////////////////////////
     ////// 16-Bit Loads
     ///////////////////////////////////////////////////////////////////////////////////
 
     //---------------------------------------------------------------------------------
-    //---- LD r, nn
-    // Loads immediate values into register r
+    //---- LD r16, 16imm
+    // Loads 16-Bit immediate value into 16-Bit register
     //---------------------------------------------------------------------------------
 
-    case 0x01:
-    {
+    case Opcode::LD_BC_16imm:
         // cycles 12
         // LD BC, 16imm
-        inst_bytes.push_back(memory.read_byte(PC++));
-        inst_bytes.push_back(memory.read_byte(PC++));
-        auto imm = order_bytes(inst_bytes.data() + 1);
+        return LD_r16_16imm ( R16::BC );
 
-        reg(R16::BC, imm);
-
-        changed_16bit_reg = R16::BC;
-
-        break;
-    }
-
-    case 0x11:
-    {
+    case Opcode::LD_DE_16imm:
         // cycles 12
         // LD DE, 16imm
-        break;
-    }
+        return LD_r16_16imm ( R16::DE );
 
-    case 0x21:
-    {
+    case Opcode::LD_HL_16imm:
         // cycles 12
         // LD HL, 16imm
-        break;
-    }
+        return LD_r16_16imm ( R16::HL );
 
-    case 0x31:
-    {
+    case Opcode::LD_SP_16imm:
         // cycles 12
         // LD SP, 16imm
-        break;
-    }
+        return LD_r16_16imm ( R16::SP );
 
-    case 0x3E:
-    {
-        // cycles 8
-        // LD A, #
-        previous_8bit_reg_value = reg(Register8::A);
-        flags = InstructionTrait::modifies_8bit_register;
-        changed_8bit_reg = Register8::A;
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////// Jumps
+    ///////////////////////////////////////////////////////////////////////////////////
 
-        uint8_t n = memory.read_byte(PC++);
-        inst_bytes.push_back(n);
-        reg(Register8::A) = n;
-        std::cout << fmt::format("LD A, {:0<2x}", static_cast<int>(n)) << std::endl;
-        break;
-    }
-    case 0xF3:
-    {
-        // cycles 4
-        // DI
-        disable_interrupts_at = PC + 1;
-        std::cout << "DI" << std::endl;
-        break;
-    }
-    case 0xE0:
-    {
+    case Opcode::JP_16imm:
         // cycles 12
-        // LDH (n), A
-        auto imm = memory.read_byte(PC++);
-        inst_bytes.push_back(imm);
-        memory[0xFF00+imm] = reg(Register8::A);
-        std::cout << fmt::format("LD ({:0<4x}), A", 0xFF00+imm) << std::endl;
-        flags = InstructionTrait::writes_to_memory;
-        break;
-    }
-    case 0xF0:
-    {
-        // cycles 12
-        // LDH A, (n)
-        auto imm = memory.read_byte(PC++);
-        inst_bytes.push_back(imm);
-        reg(Register8::A) = memory[0xFF00+imm];
-        std::cout << fmt::format("LD A, ({:0<4x})", 0xFF00+imm) << std::endl;
-        flags = InstructionTrait::modifies_8bit_register;
-        break;
-    
-    }
-    case 0xAF:
-    {
+        // JP 16imm
+        return JP_16imm( );
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////// 8-Bit ALU
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //---------------------------------------------------------------------------------
+    //---- XOR r8
+    // XORs A with 8-Bit register, store in A
+    //---------------------------------------------------------------------------------
+
+    case Opcode::XOR_A:
         // cycles 4
-        // XOR A
-        reg(Register8::A) = reg(Register8::A) ^ reg(Register8::A);
-        std::cout << "XOR A" << std::endl;
-        flags = InstructionTrait::modifies_8bit_register;
+        return XOR_r8(R8::A);
         break;
-    }
-    case 0xFE:
-    {
-        // cycles 8
-        // CP n
-        uint8_t imm = memory.read_byte(PC++);
-        inst_bytes.push_back(imm);
-        auto result = reg(Register8::A) - imm;
-        Z = result == 0;
-        N = true;
-        H = ((0x0F & reg(Register8::A)) - (0x0F & imm)) < 0;
-        C = result < 0;
-        std::cout << fmt::format("CP {} ; A({}) - {}", imm, reg(R8::A), imm) << std::endl;
-        flags = InstructionTrait::modifies_flags;
+    case Opcode::XOR_B:
+        // cycles 4
+        return XOR_r8(R8::B);
         break;
-    }
-    case 0x20:
-    {
-        // cycles 8
-        // J n
-        uint8_t imm = memory.read_byte(PC++);
-        inst_bytes.push_back(imm);
-        auto result = reg(Register8::A) - imm;
-        Z = result == 0;
-        N = true;
-        H = ((0x0F & reg(Register8::A)) - (0x0F & imm)) < 0;
-        C = result < 0;
-        std::cout << fmt::format("CP {} ; A({}) - {}", imm, reg(R8::A), imm) << std::endl;
-        flags = InstructionTrait::modifies_flags;
+    case Opcode::XOR_C:
+        // cycles 4
+        return XOR_r8(R8::C);
         break;
-    }
+    case Opcode::XOR_D:
+        // cycles 4
+        return XOR_r8(R8::D);
+        break;
+    case Opcode::XOR_E:
+        // cycles 4
+        return XOR_r8(R8::E);
+        break;
+    case Opcode::XOR_H:
+        // cycles 4
+        return XOR_r8(R8::H);
+        break;
+    case Opcode::XOR_L:
+        // cycles 4
+        return XOR_r8(R8::L);
+        break;
+    case Opcode::XOR_pHL:
+        // cycles 4
+        return XOR_pr16(R16::HL);
+        break;
+    case Opcode::XOR_p8imm:
+        // cycles 4
+        return XOR_8imm();
+        break;
+
+    //---------------------------------------------------------------------------------
+    //---- CP r8
+    // Compares A with 8-Bit register. Modifies flags
+    // Z = A - r8 == 0
+    // N = true
+    // H = A4bit - r84bit < 0
+    // C = A - r8 < 0
+    //---------------------------------------------------------------------------------
+
+    case Opcode::CP_A:
+        // 4 cycles
+        return CP_r8(R8::A);
+
+    case Opcode::CP_B:
+        // 4 cycles
+        return CP_r8(R8::B);
+
+    case Opcode::CP_C:
+        // 4 cycles
+        return CP_r8(R8::C);
+
+    case Opcode::CP_D:
+        // 4 cycles
+        return CP_r8(R8::D);
+
+    case Opcode::CP_E:
+        // 4 cycles
+        return CP_r8(R8::E);
+
+    case Opcode::CP_H:
+        // 4 cycles
+        return CP_r8(R8::H);
+
+    case Opcode::CP_L:
+        // 4 cycles
+        return CP_r8(R8::L);
+
+    case Opcode::CP_pHL:
+        // 8 cycles
+        return CP_pr16(R16::HL);
+
+    case Opcode::CP_8imm:
+        // 8 cycles
+        return CP_8imm();
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////// Misc
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    case Opcode::DI:
+        // cycles 4
+        return DEI(false);
+    case Opcode::EI:
+        // cycles 4
+        return DEI(true);
+
     default:
-        throw std::runtime_error{ fmt::format("Unknown opcode: {:0<2x}", inst_bytes[0]) };
-    }
-
-    if (disable_interrupts_at == PC)
-    {
-        std::cout << "Interrups disabled" << std::endl;
-        disable_interrupts_at = 0x00;
-    }
-
-    fmt::print(fmt::fg(fmt::color::green), "0x{:0<4x} | ", address);
-    for (auto b : inst_bytes)
-    {
-        fmt::print("{:0<2x} ", b);
-    }
-    fmt::print("\n");
-
-    using namespace magic_enum::bitwise_operators;
-    if ( (flags & InstructionTrait::modifies_8bit_register) == InstructionTrait::modifies_8bit_register )
-    {
-        fmt::print(fmt::fg(fmt::color::red),
-                   "{}: {:0<2x} -> {:0<2x}\n",
-                   magic_enum::enum_name(changed_8bit_reg),
-                   previous_8bit_reg_value,
-                   reg(changed_8bit_reg));
-    }
-
-    if ( (flags & InstructionTrait::modifies_16bit_register) == InstructionTrait::modifies_16bit_register )
-    {
-        fmt::print(fmt::fg(fmt::color::blue),
-                   "{}: {:0<4x} -> {:0<4x}\n",
-                   magic_enum::enum_name(changed_16bit_reg),
-                   previous_16bit_reg_value,
-                   reg(changed_16bit_reg));
-    }
-
-    if ( (flags & InstructionTrait::modifies_flags) == InstructionTrait::modifies_flags )
-    {
-        fmt::print(fmt::fg(fmt::color::burly_wood),
-                   "Z {}, N {}, C {}, H {}\n",
-                   Z ? "set" : "unset",
-                   N ? "set" : "unset",
-                   C ? "set" : "unset",
-                   H ? "set" : "unset");
+        throw std::runtime_error{ fmt::format("Unkown opcode: {:0<2x}", static_cast<int>( instruction )) };
     }
 }
 
-void GbCpu::jump(uint16_t address)
+InstructionTrait GbCpu::LD_r8_r8 (R8 r8out, R8 r8in)
 {
-    PC = address;
+    reg (r8out, reg(r8in));
+
+    fmt::print ( "LD {}, {}\n", magic_enum::enum_name (r8out), magic_enum::enum_name (r8in) );
+
+    return InstructionTrait{ r8out };
 }
 
-GbMemory& GbCpu::get_memory()
+InstructionTrait GbCpu::LD_r8_8imm (R8 r8)
 {
-    return memory;
+    uint8_t imm = next_pc_byte();
+    reg ( r8, imm );
+
+    fmt::print ( "LD {}, 0x{:0<2x}\n", magic_enum::enum_name ( r8 ), imm );
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_r16_16imm ( R16 r16 )
+{
+    uint8_t imm = next_pc_word();
+    reg ( r16, imm );
+
+    fmt::print ( "LD {}, 0x{:0<4x}\n", magic_enum::enum_name ( r16 ), imm );
+
+    return InstructionTrait{ r16 };
+}
+
+InstructionTrait GbCpu::LD_p16imm_r8(R8 r8)
+{
+    uint16_t imm = next_pc_word();
+    memory[imm] = reg(r8);
+
+    fmt::print ( "LD ({:0<4x}), {}\n", imm, magic_enum::enum_name(r8) );
+
+    return InstructionTrait::no_traits();
+}
+
+
+InstructionTrait GbCpu::LD_r8_p16imm(R8 r8)
+{
+    uint16_t imm = next_pc_word();
+    reg( r8, imm );
+
+    fmt::print ( "LD {}, ({:0<4x})\n", magic_enum::enum_name(r8), imm );
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_r8_pr16(R8 r8, R16 r16)
+{
+    uint16_t addr = reg( r16 );
+    uint8_t byte = memory[addr];
+    reg ( r8, byte );
+
+    fmt::print ( "LD {}, ({}) = 0x{:0<4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (r16), addr );
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_pr16_r8(R16 r16, R8 r8)
+{
+    uint16_t addr = reg( r16 );
+    memory[addr] = reg (r8);
+
+    fmt::print ( "LD ({}), {} = 0x{:0<4x}\n", magic_enum::enum_name (r16), magic_enum::enum_name (r8), addr );
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_pr16_8imm(R16 r16)
+{
+    uint8_t imm = next_pc_byte();
+    uint16_t addr = reg ( r16 );
+
+    memory[addr] = imm;
+
+    fmt::print ( "LD ({}), 0x{:0<2x} = 0x{:0<4x}\n", magic_enum::enum_name (r16), imm, addr );
+
+    return InstructionTrait::no_traits();
+}
+
+InstructionTrait GbCpu::LD_p8imm_r8(GbCpu::R8 r8)
+{
+    uint8_t imm = next_pc_byte();
+    uint16_t addr = 0xFF00 + imm;
+
+    memory[addr] = reg(r8);
+
+    fmt::print ( "LD (0xFF00+{:0<2x}), {}\n", imm, magic_enum::enum_name(r8) );
+    return InstructionTrait::no_traits();
+}
+
+InstructionTrait GbCpu::LD_r8_p8imm(GbCpu::R8 r8)
+{
+    uint8_t imm = next_pc_byte();
+    uint16_t addr = 0xFF00 + imm;
+
+    reg(r8, memory[addr]);
+
+    fmt::print ( "LD {}, (0xFF00+{:0<2x})\n", magic_enum::enum_name(r8), imm );
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::XOR_8imm()
+{
+    uint8_t imm = next_pc_byte();
+
+    reg(R8::A, reg(R8::A) ^ imm);
+
+    fmt::print( "XOR {:0<2x}\n", imm);
+    return InstructionTrait{ R8::A };
+}
+
+InstructionTrait GbCpu::XOR_pr16(GbCpu::R16 r16)
+{
+    reg(R8::A, reg(R8::A) ^ memory[reg(r16)]);
+
+    fmt::print( "XOR ({}) = {:0<4x}\n", magic_enum::enum_name(r16), reg(r16));
+    return InstructionTrait{ R8::A };
+}
+
+InstructionTrait GbCpu::XOR_r8(GbCpu::R8 r8)
+{
+    reg(R8::A, reg(R8::A) ^ reg(r8));
+
+    fmt::print( "XOR {}\n", magic_enum::enum_name(r8));
+    return InstructionTrait{ R8::A };
+}
+
+InstructionTrait GbCpu::CP_8imm()
+{
+    uint8_t imm = next_pc_byte();
+    int8_t r = reg(R8::A) - imm;
+
+    registerSet.Z = r == 0;
+    registerSet.N = true;
+    registerSet.H = (reg(R8::A) & 0x0F) - (imm & 0x0F) < 0;
+    registerSet.C = r < 0;
+
+    fmt::print( "CP 0x{:0<2x}\n", imm);
+    return InstructionTrait::affects_flags();
+}
+
+InstructionTrait GbCpu::CP_pr16(GbCpu::R16 r16)
+{
+    int8_t r = reg(R8::A) - memory[reg(r16)];
+
+    registerSet.Z = r == 0;
+    registerSet.N = true;
+    registerSet.H = (reg(R8::A) & 0x0F) - (memory[reg(r16)] & 0x0F) < 0;
+    registerSet.C = r < 0;
+
+
+    fmt::print( "CP ({}) = 0x{:0<4x}\n", magic_enum::enum_name(r16), reg(r16));
+    return InstructionTrait::affects_flags();
+}
+
+InstructionTrait GbCpu::CP_r8(GbCpu::R8 r8)
+{
+    int8_t r = reg(R8::A) - reg(r8);
+
+    registerSet.Z = r == 0;
+    registerSet.N = true;
+    registerSet.H = (reg(R8::A) & 0x0F) - (reg(r8) & 0x0F) < 0;
+    registerSet.C = r < 0;
+
+    fmt::print( "CP {}\n", magic_enum::enum_name(r8));
+    return InstructionTrait::affects_flags();
+}
+
+InstructionTrait GbCpu::JP_16imm()
+{
+    uint16_t imm = next_pc_word();
+    reg ( R16::PC, imm );
+
+    fmt::print ( "JP 0x{:0<4x}\n", imm );
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::DEI(bool enable)
+{
+    if (enable)
+    {
+        enable_interrupts_at = reg(R16::PC) + 1;
+        fmt::print ( "EI\n" );
+    }
+    else
+    {
+        disable_interrupts_at = reg(R16::PC) + 1;
+        fmt::print ( "DI\n" );
+    }
+
+    return InstructionTrait::no_traits();
+}
+
+uint8_t GbCpu::next_pc_byte()
+{
+    uint16_t PC = registerSet.r ( R16::PC );
+    uint8_t byte = memory.read_byte ( PC++ );
+    registerSet.r ( R16::PC, PC );
+    fetched_bytes.push_back ( byte );
+    return byte;
+}
+
+uint16_t GbCpu::next_pc_word()
+{
+    uint16_t PC = registerSet.r ( R16::PC );
+
+    fetched_bytes.push_back ( memory.read_byte ( PC++ ) );
+    fetched_bytes.push_back ( memory.read_byte ( PC++ ) );
+
+    registerSet.r ( R16::PC, PC );
+
+    return order_bytes ( fetched_bytes.data() + fetched_bytes.size() - 2 );
 }

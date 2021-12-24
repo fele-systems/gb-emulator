@@ -203,8 +203,8 @@ std::string dump(uint32_t begin, uint32_t end, uint8_t align, const std::vector<
 
 int main()
 {    
-    try
-    {
+    //try
+    //{
 
         std::string base_path = "../";
         std::string roms_path = base_path + "roms/";
@@ -220,15 +220,14 @@ int main()
         GBRomHeader header(cpu.get_memory());
         std::cout << to_string_debug( header ) << std::endl;
 
-        while(true) cpu.cycle();
+        for(int i = 0; i < 100; i++) cpu.cycle();
         // std::cout << dump(GBRomHeader::rom_entrypoint_offset, GBRomHeader::rom_entrypoint_offset+4, 8, memory) << std::endl;
         // std::cout << dump(header.rom_entrypoint, header.rom_entrypoint + 20, 8, memory) << std::endl;
 
-    } catch (std::exception& e)
-    {
-
-        std::cout << e.what() << std::endl;
-    }
+    //} catch (std::exception& e)
+    //{
+    //    std::cout << e.what() << std::endl;
+    //}
 
     std::cout << std::endl;
     return 0;

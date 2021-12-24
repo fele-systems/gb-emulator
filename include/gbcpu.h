@@ -1,31 +1,12 @@
 #pragma once
 
-#include "gbmemory.h"
-#include "magic_enum.hpp"
+#include <gbmemory.h>
+#include <magic_enum.hpp>
 #include <array>
 #include <stdexcept>
+#include <registers.h>
+#include <instruction_trait.h>
 
-enum class Register16
-{
-    AF,
-    BC,
-    DE,
-    HL
-};
-
-enum class Register8
-{
-    A, F, B, C, D, E, H, L
-};
-
-enum class InstructionTrait
-{
-    none                        = 0,
-    modifies_8bit_register      = 1 << 0,
-    modifies_16bit_register     = 1 << 1,
-    modifies_flags              = 1 << 2,
-    writes_to_memory            = 1 << 3
-};
 
 class GbCpu
 {
@@ -33,65 +14,113 @@ public:
     using R8 = Register8;
     using R16 = Register16;
     GbCpu();
-    uint8_t& reg(Register8 num)
-    {
-        return r8bit[magic_enum::enum_integer(num)];
-    }
-    void reg(Register16 num, uint16_t value)
-    {
-        switch (num)
-        {
-            case Register16::AF:
-                reg(Register8::F) = value & 0xFF;
-                reg(Register8::A) = (value >> 8) & 0xFF;
-                break;
-            case Register16::BC:
-                reg(Register8::C) = value & 0xFF;
-                reg(Register8::B) = (value >> 8) & 0xFF;
-                break;
-            case Register16::DE:
-                reg(Register8::E) = value & 0xFF;
-                reg(Register8::D) = (value >> 8) & 0xFF;
-                break;
-            case Register16::HL:
-                reg(Register8::L) = value & 0xFF;
-                reg(Register8::H) = (value >> 8) & 0xFF;
-                break;
-            default:
-                throw std::runtime_error{ "Invalid register" };
-        }
-    }
-    uint16_t reg(Register16 num)
-    {
-        switch (num)
-        {
-            case Register16::AF:
-                return (reg(Register8::A) << 8) | reg(Register8::F);
-                break;
-            case Register16::BC:
-                return (reg(Register8::B) << 8) | reg(Register8::C);
-                break;
-            case Register16::DE:
-                return (reg(Register8::D) << 8) | reg(Register8::E);
-                break;
-            case Register16::HL:
-                return (reg(Register8::H) << 8) | reg(Register8::L);
-                break;
-            default:
-                throw std::runtime_error{ "Invalid register" };
-        }
-    }
+
+    uint8_t reg(Register8 num) const { return registerSet.r(num); }
+    void reg(Register8 num, uint8_t value) { return registerSet.r(num, value); }
+    void reg(Register16 num, uint16_t value) { registerSet.r(num, value); }
+    uint16_t reg(Register16 num) const { return registerSet.r(num); }
+
     void cycle();
     GbMemory& get_memory();
-    void jump(uint16_t address);
-private:
 
 private:
+    InstructionTrait execute_next();
+
+    /**
+     * Loads the 16-Bit immediate value into the specified 16-Bit register.
+     * i.e. r16 = 16imm
+     * @param r16 The target register
+     */
+    InstructionTrait LD_r16_16imm (R16 r16);
+    /**
+     * Loads the 8-Bit immediate value into the specified 8-Bit register.
+     * i.e. r8 = LD_pr16_8imm
+     * @param r8 The target register
+     *
+     */
+    InstructionTrait LD_r8_8imm (R8 r8);
+    /**
+     * Loads the value from a 8-Bit register into another.
+     * i.e. r8out = r8in
+     * @param r8out The target register
+     * @param r8in The source register
+     */
+    InstructionTrait LD_r8_r8 (R8 r8out, R8 r8in);
+    /**
+     * Loads the 8-Bit value from the memory pointed by 16-Bit register into 8-Bit register.
+     * i.e. r8 = (r16)
+     * @param r8 The target register
+     * @param r16 The source pointer register
+     */
+    InstructionTrait LD_r8_pr16(R8 r8, R16 r16);
+    /**
+     * Loads the 8-Bit register into the memory pointed by 16-Bit register.
+     * i.e. (r16) = r8
+     * @param r16 The target pointer register
+     * @param r8 The source register
+     */
+    InstructionTrait LD_pr16_r8(R16 r16, R8 r8);
+    /**
+     * Loads the 8-Bit immediate value into memory pointed by 16-bit register.
+     * i.e. (r16) = 8imm
+     * @param r16 The target pointer register
+     *
+     */
+    InstructionTrait LD_pr16_8imm(R16 r16);
+    /**
+     * Loads the memory pointed by 16-bit immediate value into 8-Bit register.
+     * i.e. (16imm) = r8
+     * @param r8 The source register
+     *
+     */
+    InstructionTrait LD_p16imm_r8(R8 r8);
+    /**
+     * Loads the value from memory at 16-Bit immediate into 8-Bit register
+     *
+     * i.e. r8 = (16imm)
+     * @param r8 The target register
+     */
+    InstructionTrait LD_r8_p16imm(R8 r8);
+    /**
+     * Loads the value at 0xFF00 + 8-Bit immediate into 8-Bit register
+     * @param r8 The target register
+     */
+    InstructionTrait LD_r8_p8imm(R8 r8);
+    /**
+     * Loads the 8-Bit register into memory at 0xFF00 + 8-Bit immediate
+     * @param r8 The source register
+     */
+    InstructionTrait LD_p8imm_r8(R8 r8);
+
+    InstructionTrait JP_16imm();
+
+    InstructionTrait XOR_r8(R8 r8);
+
+    InstructionTrait XOR_pr16(R16 r16);
+
+    InstructionTrait XOR_8imm();
+
+    InstructionTrait CP_r8(R8 r8);
+
+    InstructionTrait CP_pr16(R16 r16);
+
+    InstructionTrait CP_8imm();
+
+    InstructionTrait DEI(bool enable);
+
+    /**
+     * Fetches the next byte from PC. Increment PC by 1.
+     */
+    uint8_t next_pc_byte();
+    /**
+     * Fetches the next word from PC. Increment PC by 2.
+     */
+    uint16_t next_pc_word();
+private:
+    RegisterSet registerSet { 0x0001, 0x0013, 0x00D8, 0x014D, 0xFFFE, 0x0100 };
     GbMemory memory;
-    std::array<uint8_t, 8> r8bit;
-    uint16_t SP = 0xFFFE;
-    uint16_t PC = 0x0100;
-    std::vector<uint8_t> inst_bytes;
+    std::vector<uint8_t> fetched_bytes;
     int disable_interrupts_at = 0;
-    bool Z = false, N = false, H = false, C = false;
+    int enable_interrupts_at = 0;
 };
+
