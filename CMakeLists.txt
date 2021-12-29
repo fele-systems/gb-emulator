@@ -4,28 +4,31 @@ cmake_minimum_required( VERSION 2.8 )
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable( gbe
-    src/main.cpp
+add_subdirectory(third-party/Catch2)
+
+#### Libgbe
+
+add_library( libgbe
     src/gbmemory.cpp
     src/gbcpu.cpp
     src/opcodes.cpp
     src/bit_utils.cpp
     src/instruction_trait.cpp
-    src/registers.cpp
-    )
+    src/registers.cpp)
 
-target_compile_options(gbe PRIVATE
+target_include_directories(libgbe PRIVATE
+    third-party/magic_enum/include
+    include)
+
+#### Add warning configurations
+
+target_compile_options(libgbe PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
 )
 
-target_include_directories(gbe PRIVATE
-    third-party/magic_enum/include
-    include)
-
 if (MSVC)
     #find_package(unofficial-sqlite3 CONFIG REQUIRED)
-    #target_link_libraries(pokelib PRIVATE unofficial::sqlite3::sqlite3)
 
     set(CAPSTONE_LIBRARY "C:/vcpkg-master/installed/x64-windows/debug/lib")
     set(CAPSTONE_INCLUDE_DIR "C:/vcpkg-master/installed/x64-windows/include/capstone")
@@ -60,10 +63,29 @@ if (MSVC)
     #set_target_properties(CAPSTONE PROPERTIES LINKER_LANGUAGE C)
 
     find_package(fmt 7.1.3 CONFIG REQUIRED)
-    target_link_libraries(gbe PRIVATE fmt::fmt CAPSTONE_LIBRARY)
+    target_link_libraries(libgbe PRIVATE fmt::fmt CAPSTONE_LIBRARY)
 else ()
     find_package(fmt CONFIG REQUIRED)
 
-    target_link_libraries(gbe -lfmt)
+    target_link_libraries(libgbe -lfmt)
 endif (MSVC)
 
+#### Main executable
+
+add_executable( gbe src/main.cpp )
+
+target_include_directories(gbe PRIVATE
+    third-party/magic_enum/include
+    include)
+
+target_link_libraries( gbe PRIVATE libgbe )
+
+#### Tests
+
+add_executable( tests tests/test.cpp )
+
+target_include_directories(tests PRIVATE
+    third-party/magic_enum/include
+    include)
+
+target_link_libraries( tests PRIVATE Catch2::Catch2WithMain libgbe )

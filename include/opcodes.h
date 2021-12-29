@@ -33,11 +33,14 @@ enum class Opcode : uint8_t
     LD_A_p16imm = 0xFA,
     LD_A_8imm = 0x3E,
 
+    LDI_A_pHL = 0x2A,
+
     LD_pBC_A = 0x02,
     LD_pDE_A = 0x12,
     LD_pHL_A = 0x77,
     LD_p16imm_A = 0xEA,
 
+    LD_B_A = 0x47,
     LD_B_B = 0x40,
     LD_B_C = 0x41,
     LD_B_D = 0x42,
@@ -45,6 +48,7 @@ enum class Opcode : uint8_t
     LD_B_H = 0x44,
     LD_B_L = 0x45,
 
+    LD_C_A = 0x4F,
     LD_C_B = 0x48,
     LD_C_C = 0x49,
     LD_C_D = 0x4A,
@@ -111,6 +115,15 @@ enum class Opcode : uint8_t
     JP_NC_16imm = 0xD2,
     JP_C_16imm = 0xDA,
 
+    ADD_A_A = 0x87,
+    ADD_A_B = 0x80,
+    ADD_A_C = 0x81,
+    ADD_A_D = 0x82,
+    ADD_A_E = 0x83,
+    ADD_A_H = 0x84,
+    ADD_A_L = 0x85,
+    ADD_A_pHL = 0x86,
+    ADD_A_8imm = 0xC6,
 
     XOR_A = 0xAF,
     XOR_B = 0xA8,

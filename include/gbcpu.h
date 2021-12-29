@@ -33,6 +33,13 @@ private:
      */
     InstructionTrait LD_r16_16imm (R16 r16);
     /**
+     * Loads the value at 16-Bit register into the specified 8-Bit register. Increments 16-Bit register afterwards.
+     * i.e. r8 = (r16++)
+     * @param r8 The target register
+     * @param r16 The source pointer register
+     */
+    InstructionTrait LDI_r8_p16r (R8 r8, R16 r16);
+    /**
      * Loads the 8-Bit immediate value into the specified 8-Bit register.
      * i.e. r8 = LD_pr16_8imm
      * @param r8 The target register
@@ -99,6 +106,10 @@ private:
     InstructionTrait XOR_pr16(R16 r16);
 
     InstructionTrait XOR_8imm();
+
+    InstructionTrait ADD_r8_r8(R8 r8out, R8 r8in);
+    InstructionTrait ADD_r8_pr16(R8 r8, R16 r16);
+    InstructionTrait ADD_r8_8imm(R8 r8);
 
     InstructionTrait CP_r8(R8 r8);
 

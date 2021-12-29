@@ -191,6 +191,10 @@ InstructionTrait GbCpu::execute_next()
     //**** Load into B
     //*********************************************************************************
 
+    case Opcode::LD_B_A:
+        // 4 cycles
+        return LD_r8_r8(R8::B, R8::A);
+
     case Opcode::LD_B_B:
         // cycles 4
         return LD_r8_r8(R8::B, R8::B);
@@ -218,6 +222,10 @@ InstructionTrait GbCpu::execute_next()
     //*********************************************************************************
     //**** Load into C
     //*********************************************************************************
+
+    case Opcode::LD_C_A:
+        // cycles 4
+        return LD_r8_r8(R8::C, R8::A);
 
     case Opcode::LD_C_B:
         // cycles 4
@@ -482,6 +490,15 @@ InstructionTrait GbCpu::execute_next()
         // cycles 12
         return LD_pr16_8imm(R16::HL);
 
+    //---------------------------------------------------------------------------------
+    //---- LDI A, (HL)
+    // Put value pointed by HL into A. Increment HL.
+    //---------------------------------------------------------------------------------
+
+    case Opcode::LDI_A_pHL:
+        // 8 cycles
+        return LDI_r8_p16r(R8::A, R16::HL);
+
     ///////////////////////////////////////////////////////////////////////////////////
     ////// 16-Bit Loads
     ///////////////////////////////////////////////////////////////////////////////////
@@ -523,6 +540,47 @@ InstructionTrait GbCpu::execute_next()
     ///////////////////////////////////////////////////////////////////////////////////
     ////// 8-Bit ALU
     ///////////////////////////////////////////////////////////////////////////////////
+
+    //---------------------------------------------------------------------------------
+    //---- ADD r8, r8
+    // Add 8-Bit register into 8-Bit register
+    //---------------------------------------------------------------------------------
+
+    case Opcode::ADD_A_A:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::A);
+
+    case Opcode::ADD_A_B:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::B);
+
+    case Opcode::ADD_A_C:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::C);
+
+    case Opcode::ADD_A_D:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::D);
+
+    case Opcode::ADD_A_E:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::E);
+
+    case Opcode::ADD_A_H:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::H);
+
+    case Opcode::ADD_A_L:
+        // 4 cycles
+        return ADD_r8_r8(R8::A, R8::L);
+
+    case Opcode::ADD_A_pHL:
+        // 8 cycles
+        return ADD_r8_pr16(R8::A, R16::HL);
+
+    case Opcode::ADD_A_8imm:
+        // 8 cycles
+        return ADD_r8_8imm(R8::A);
 
     //---------------------------------------------------------------------------------
     //---- XOR r8
@@ -648,13 +706,25 @@ InstructionTrait GbCpu::LD_r8_8imm (R8 r8)
 
 InstructionTrait GbCpu::LD_r16_16imm ( R16 r16 )
 {
-    uint8_t imm = next_pc_word();
+    uint16_t imm = next_pc_word();
     reg ( r16, imm );
 
     fmt::print ( "LD {}, 0x{:0<4x}\n", magic_enum::enum_name ( r16 ), imm );
 
     return InstructionTrait{ r16 };
 }
+
+InstructionTrait GbCpu::LDI_r8_p16r(GbCpu::R8 r8, GbCpu::R16 r16)
+{
+    uint16_t addr = reg (r16);
+    reg ( r8, memory[addr] );
+    reg ( r16, addr + 1 );
+
+    fmt::print ( "LDI {}, ({}) = 0x{:0<4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(r16), addr);
+
+    return InstructionTrait{ r8 };
+}
+
 
 InstructionTrait GbCpu::LD_p16imm_r8(R8 r8)
 {
@@ -798,6 +868,59 @@ InstructionTrait GbCpu::CP_r8(GbCpu::R8 r8)
     fmt::print( "CP {}\n", magic_enum::enum_name(r8));
     return InstructionTrait::affects_flags();
 }
+
+InstructionTrait GbCpu::ADD_r8_r8(GbCpu::R8 r8out, GbCpu::R8 r8in)
+{
+    uint8_t v0 = reg(r8out);
+    uint8_t v1 = reg(r8in);
+
+    uint16_t v2 = v0 + v1;
+    reg(r8out, static_cast<uint8_t>(v2));
+
+    registerSet.Z = v2 == 0;
+    registerSet.N = 0;
+    registerSet.H = (v0 & 0x0F) + (v1 & 0x0F) > 0x0F;
+    registerSet.C = v2 > 0xFF;
+
+    fmt::print( "ADD {}, {}\n", magic_enum::enum_name(r8out), magic_enum::enum_name(r8in));
+    return InstructionTrait{ r8out };
+}
+
+InstructionTrait GbCpu::ADD_r8_8imm(GbCpu::R8 r8)
+{
+    uint8_t v0 = reg(r8);
+    uint8_t v1 = next_pc_byte();
+
+    uint16_t v2 = v0 + v1;
+    reg(r8, static_cast<uint8_t>(v2));
+
+    registerSet.Z = v2 == 0;
+    registerSet.N = 0;
+    registerSet.H = (v0 & 0x0F) + (v1 & 0x0F) > 0x0F;
+    registerSet.C = v2 > 0xFF;
+
+    fmt::print( "ADD {}, 0x{:0<2x}\n", magic_enum::enum_name(r8), v1);
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::ADD_r8_pr16(GbCpu::R8 r8, GbCpu::R16 r16)
+{
+    uint8_t v0 = reg(r8);
+    uint16_t addr = reg(r16);
+    uint8_t v1 = memory[addr];
+
+    uint16_t v2 = v0 + v1;
+    reg(r8, static_cast<uint8_t>(v2));
+
+    registerSet.Z = v2 == 0;
+    registerSet.N = 0;
+    registerSet.H = (v0 & 0x0F) + (v1 & 0x0F) > 0x0F;
+    registerSet.C = v2 > 0xFF;
+
+    fmt::print( "ADD {}, ({}) = 0x{:<4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(r16), addr);
+    return InstructionTrait{ r8 };
+}
+
 
 InstructionTrait GbCpu::JP_16imm()
 {
