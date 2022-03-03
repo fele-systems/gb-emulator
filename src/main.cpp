@@ -1,6 +1,8 @@
 #include "gbcpu.h"
 #include "gbmemory.h"
+#ifndef _MSC_VER
 #include <bits/stdint-uintn.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <vector>

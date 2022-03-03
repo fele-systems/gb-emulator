@@ -83,7 +83,7 @@ target_link_libraries( gbe PRIVATE libgbe )
 #### Tests
 
 add_executable( tests tests/test.cpp )
-
+add_compile_definitions( ROOT_DIR="${CMAKE_SOURCE_DIR}" )
 target_include_directories(tests PRIVATE
     third-party/magic_enum/include
     include)
