@@ -10,6 +10,7 @@
 GbCpu::GbCpu()
 {
     fetched_bytes.reserve ( 8 );
+    
     memory[0xFF05] = 0x00; // TIMA
     memory[0xFF06] = 0x00; // TMA
     memory[0xFF07] = 0x00; // TAC
@@ -740,7 +741,7 @@ InstructionTrait GbCpu::LD_p16imm_r8(R8 r8)
 InstructionTrait GbCpu::LD_r8_p16imm(R8 r8)
 {
     uint16_t imm = next_pc_word();
-    reg( r8, imm );
+    reg( r8, memory.read_byte(imm) );
 
     fmt::print ( "LD {}, ({:0<4x})\n", magic_enum::enum_name(r8), imm );
 

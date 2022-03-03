@@ -5,7 +5,7 @@
 #include <fmt/core.h>
 
 GbMemory::GbMemory()
-    : memory_buffer(0x0FFFF, 0u)
+    : memory_buffer(0x0FFFF + 1, 0u)
 {
 }
 
@@ -57,7 +57,7 @@ std::string GbMemory::dump(uint16_t align, uint16_t begin, uint16_t end)
             auto c = line_start + i;
             if (begin <= c && c < end)
             {
-                ss << fmt::format("{:0<2x} ", read_byte(c));
+                ss << fmt::format("{:0<2x} ", read_byte(static_cast<uint16_t>(c)));
             }
             else
             {
