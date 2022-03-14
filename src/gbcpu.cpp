@@ -44,6 +44,24 @@ GbCpu::GbCpu()
     memory[0xFFFF] = 0x00; // IE
 }
 
+void GbCpu::push_word(uint16_t word)
+{
+    uint16_t sp = reg(R16::SP);
+    memory.write_word(sp, word);
+    sp += 2;
+    reg(R16::SP, sp);
+}
+
+
+uint16_t GbCpu::pop_word()
+{
+    uint16_t sp = reg(R16::SP);
+    sp -= 2;
+    auto word = memory.read_word(sp);
+    reg(R16::SP, sp);
+    return word;
+}
+
 void GbCpu::cycle()
 {
 
@@ -66,9 +84,9 @@ void GbCpu::cycle()
         enable_interrupts_at = 0x00;
     }
 
-    fmt::print ( fmt::fg ( fmt::color::green ), "0x{:0<4x} | ", address );
+    fmt::print ( fmt::fg ( fmt::color::green ), "0x{:0>4x} | ", address );
     for ( auto b : fetched_bytes ) {
-        fmt::print ( "{:0<2x} ", b );
+        fmt::print ( "{:0>2x} ", static_cast<int>(b) );
     }
     fmt::print ( "\n" );
 
@@ -76,7 +94,7 @@ void GbCpu::cycle()
 
     if ( traits.has(InstructionTrait::modifies_8bit_register) ) {
         fmt::print ( fmt::fg ( fmt::color::red ),
-                     "{}: {:0<2x} -> {:0<2x}\n",
+                     "{}: {:0>2x} -> {:0>2x}\n",
                      magic_enum::enum_name ( traits.get_modified_r8() ),
                      registerSetCopy.r( traits.get_modified_r8() ),
                      reg ( traits.get_modified_r8() ) );
@@ -84,7 +102,7 @@ void GbCpu::cycle()
 
     if ( traits.has(InstructionTrait::modifies_16bit_register) ) {
         fmt::print ( fmt::fg ( fmt::color::red ),
-                     "{}: {:0<4x} -> {:0<4x}\n",
+                     "{}: {:0>4x} -> {:0>4x}\n",
                      magic_enum::enum_name ( traits.get_modified_r16() ),
                      registerSetCopy.r( traits.get_modified_r16() ),
                      reg ( traits.get_modified_r16() ) );
@@ -125,7 +143,7 @@ InstructionTrait GbCpu::execute_next()
 
     case Opcode::LD_A_8imm:
         // 8 cycles
-        return LD_r8_8imm(R8::A);
+        return LD_r8_8imm( R8::A );
 
     case Opcode::LD_B_8imm:
         // cycles 8
@@ -162,7 +180,7 @@ InstructionTrait GbCpu::execute_next()
 
     case Opcode::LD_A_A:
         // cycles 4
-        return LD_r8_r8(R8::A, R8::L);
+        return LD_r8_r8(R8::A, R8::A);
 
     case Opcode::LD_A_B:
         // cycles 4
@@ -538,6 +556,100 @@ InstructionTrait GbCpu::execute_next()
         // JP 16imm
         return JP_16imm( );
 
+    case Opcode::JP_C_16imm:
+        // cycles 12
+        // JP C 16imm
+        return JP_C_16imm( );
+
+    case Opcode::JP_NC_16imm:
+        // cycles 12
+        // JP NC 16imm
+        return JP_NC_16imm( );
+
+    case Opcode::JP_Z_16imm:
+        // cycles 12
+        // JP Z 16imm
+        return JP_Z_16imm( );
+
+    case Opcode::JP_NZ_16imm:
+        // cycles 12
+        // JP NZ 16imm
+        return JP_NZ_16imm( );
+
+    case Opcode::JR_8imm:
+        // cycles 8
+        // JR 8imm
+        return JR_8imm( );
+
+    case Opcode::JR_C_8imm:
+        // cycles 8
+        // JR C 8imm
+        return JR_C_8imm( );
+
+    case Opcode::JR_NC_8imm:
+        // cycles 8
+        // JR NC 8imm
+        return JR_NC_8imm( );
+
+    case Opcode::JR_Z_8imm:
+        // cycles 8
+        // JR Z 8imm
+        return JR_Z_8imm( );
+
+    case Opcode::JR_NZ_8imm:
+        // cycles 8
+        // JR NZ 8imm
+        return JR_NZ_8imm( );
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////// Pop
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    case Opcode::POP_AF:
+        // cycles 12
+        // POP AF
+        return POP_r16( R16::AF );
+
+    case Opcode::POP_BC:
+        // cycles 12
+        // POP BC
+        return POP_r16( R16::BC );
+
+    case Opcode::POP_DE:
+        // cycles 12
+        // POP DE
+        return POP_r16( R16::DE );
+
+    case Opcode::POP_HL:
+        // cycles 12
+        // POP HL
+        return POP_r16( R16::HL );
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////// Push
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    case Opcode::PUSH_AF:
+        // cycles 12
+        // PUSH AF
+        return PUSH_r16( R16::AF );
+
+    case Opcode::PUSH_BC:
+        // cycles 12
+        // PUSH BC
+        return PUSH_r16( R16::BC );
+
+    case Opcode::PUSH_DE:
+        // cycles 12
+        // PUSH DE
+        return PUSH_r16( R16::DE );
+
+    case Opcode::PUSH_HL:
+        // cycles 12
+        // PUSH HL
+        return PUSH_r16( R16::HL );
+
+
     ///////////////////////////////////////////////////////////////////////////////////
     ////// 8-Bit ALU
     ///////////////////////////////////////////////////////////////////////////////////
@@ -671,6 +783,52 @@ InstructionTrait GbCpu::execute_next()
         return CP_8imm();
 
     ///////////////////////////////////////////////////////////////////////////////////
+    ////// 16-Bit ALU
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //---------------------------------------------------------------------------------
+    //---- INC r16
+    // Increments 16-Bit register
+    //---------------------------------------------------------------------------------
+
+    case Opcode::INC_BC:
+        // 8 cycles
+        return INC_r16(R16::BC);
+
+    case Opcode::INC_DE:
+        // 8 cycles
+        return INC_r16(R16::DE);
+
+    case Opcode::INC_HL:
+        // 8 cycles
+        return INC_r16(R16::HL);
+
+    case Opcode::INC_SP:
+        // 8 cycles
+        return INC_r16(R16::SP);
+
+    //---------------------------------------------------------------------------------
+    //---- ADD HL, r16
+    // Adds a 16-Bit register into HL
+    //---------------------------------------------------------------------------------
+
+    case Opcode::ADD_HL_BC:
+        // 8 cycles
+        return ADD_HL_r16(R16::BC);
+
+    case Opcode::ADD_HL_DE:
+        // 8 cycles
+        return ADD_HL_r16(R16::DE);
+
+    case Opcode::ADD_HL_HL:
+        // 8 cycles
+        return ADD_HL_r16(R16::HL);
+
+    case Opcode::ADD_HL_SP:
+        // 8 cycles
+        return ADD_HL_r16(R16::SP);
+
+    ///////////////////////////////////////////////////////////////////////////////////
     ////// Misc
     ///////////////////////////////////////////////////////////////////////////////////
 
@@ -682,7 +840,29 @@ InstructionTrait GbCpu::execute_next()
         return DEI(true);
 
     default:
-        throw std::runtime_error{ fmt::format("Unkown opcode: {:0<2x}", static_cast<int>( instruction )) };
+        const char* msg = "Unkown opcode: {:0>2x}\n\n"
+            "Registers:\n"
+            "\tAF = {:0>4x}  HL = {:0>4x}\n"
+            "\tBC = {:0>4x}  SP = {:0>4x}\n"
+            "\tDE = {:0>4x}  PC = {:0>4x}\n"
+            "Flags:\n"
+            "\tC = {} Z = {} N = {} H = {}\n";
+
+
+
+        throw std::runtime_error { fmt::format(msg,
+                                               static_cast<int>( instruction ),
+                                               reg(R16::AF),
+                                               reg(R16::HL),
+                                               reg(R16::BC),
+                                               reg(R16::SP),
+                                               reg(R16::DE),
+                                               reg(R16::PC),
+                                               registerSet.C,
+                                               registerSet.Z,
+                                               registerSet.N,
+                                               registerSet.H
+                                              ) };
     }
 }
 
@@ -700,7 +880,7 @@ InstructionTrait GbCpu::LD_r8_8imm (R8 r8)
     uint8_t imm = next_pc_byte();
     reg ( r8, imm );
 
-    fmt::print ( "LD {}, 0x{:0<2x}\n", magic_enum::enum_name ( r8 ), imm );
+    fmt::print ( "LD {}, 0x{:0>2x}\n", magic_enum::enum_name ( r8 ), imm );
 
     return InstructionTrait{ r8 };
 }
@@ -710,7 +890,7 @@ InstructionTrait GbCpu::LD_r16_16imm ( R16 r16 )
     uint16_t imm = next_pc_word();
     reg ( r16, imm );
 
-    fmt::print ( "LD {}, 0x{:0<4x}\n", magic_enum::enum_name ( r16 ), imm );
+    fmt::print ( "LD {}, 0x{:0>4x}\n", magic_enum::enum_name ( r16 ), imm );
 
     return InstructionTrait{ r16 };
 }
@@ -721,7 +901,7 @@ InstructionTrait GbCpu::LDI_r8_p16r(GbCpu::R8 r8, GbCpu::R16 r16)
     reg ( r8, memory[addr] );
     reg ( r16, addr + 1 );
 
-    fmt::print ( "LDI {}, ({}) = 0x{:0<4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(r16), addr);
+    fmt::print ( "LDI {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(r16), addr);
 
     return InstructionTrait{ r8 };
 }
@@ -732,7 +912,7 @@ InstructionTrait GbCpu::LD_p16imm_r8(R8 r8)
     uint16_t imm = next_pc_word();
     memory[imm] = reg(r8);
 
-    fmt::print ( "LD ({:0<4x}), {}\n", imm, magic_enum::enum_name(r8) );
+    fmt::print ( "LD ({:0>4x}), {}\n", imm, magic_enum::enum_name(r8) );
 
     return InstructionTrait::no_traits();
 }
@@ -743,7 +923,7 @@ InstructionTrait GbCpu::LD_r8_p16imm(R8 r8)
     uint16_t imm = next_pc_word();
     reg( r8, memory.read_byte(imm) );
 
-    fmt::print ( "LD {}, ({:0<4x})\n", magic_enum::enum_name(r8), imm );
+    fmt::print ( "LD {}, ({:0>4x})\n", magic_enum::enum_name(r8), imm );
 
     return InstructionTrait{ r8 };
 }
@@ -754,7 +934,7 @@ InstructionTrait GbCpu::LD_r8_pr16(R8 r8, R16 r16)
     uint8_t byte = memory[addr];
     reg ( r8, byte );
 
-    fmt::print ( "LD {}, ({}) = 0x{:0<4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (r16), addr );
+    fmt::print ( "LD {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (r16), addr );
 
     return InstructionTrait{ r8 };
 }
@@ -764,7 +944,7 @@ InstructionTrait GbCpu::LD_pr16_r8(R16 r16, R8 r8)
     uint16_t addr = reg( r16 );
     memory[addr] = reg (r8);
 
-    fmt::print ( "LD ({}), {} = 0x{:0<4x}\n", magic_enum::enum_name (r16), magic_enum::enum_name (r8), addr );
+    fmt::print ( "LD ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name (r16), magic_enum::enum_name (r8), addr );
 
     return InstructionTrait{ r8 };
 }
@@ -776,7 +956,7 @@ InstructionTrait GbCpu::LD_pr16_8imm(R16 r16)
 
     memory[addr] = imm;
 
-    fmt::print ( "LD ({}), 0x{:0<2x} = 0x{:0<4x}\n", magic_enum::enum_name (r16), imm, addr );
+    fmt::print ( "LD ({}), 0x{:0>2x} = 0x{:0>4x}\n", magic_enum::enum_name (r16), imm, addr );
 
     return InstructionTrait::no_traits();
 }
@@ -788,7 +968,7 @@ InstructionTrait GbCpu::LD_p8imm_r8(GbCpu::R8 r8)
 
     memory[addr] = reg(r8);
 
-    fmt::print ( "LD (0xFF00+{:0<2x}), {}\n", imm, magic_enum::enum_name(r8) );
+    fmt::print ( "LD (0xFF00+{:0>2x}), {}\n", imm, magic_enum::enum_name(r8) );
     return InstructionTrait::no_traits();
 }
 
@@ -799,7 +979,7 @@ InstructionTrait GbCpu::LD_r8_p8imm(GbCpu::R8 r8)
 
     reg(r8, memory[addr]);
 
-    fmt::print ( "LD {}, (0xFF00+{:0<2x})\n", magic_enum::enum_name(r8), imm );
+    fmt::print ( "LD {}, (0xFF00+{:0>2x})\n", magic_enum::enum_name(r8), imm );
     return InstructionTrait{ r8 };
 }
 
@@ -809,7 +989,7 @@ InstructionTrait GbCpu::XOR_8imm()
 
     reg(R8::A, reg(R8::A) ^ imm);
 
-    fmt::print( "XOR {:0<2x}\n", imm);
+    fmt::print( "XOR {:0>2x}\n", imm);
     return InstructionTrait{ R8::A };
 }
 
@@ -817,7 +997,7 @@ InstructionTrait GbCpu::XOR_pr16(GbCpu::R16 r16)
 {
     reg(R8::A, reg(R8::A) ^ memory[reg(r16)]);
 
-    fmt::print( "XOR ({}) = {:0<4x}\n", magic_enum::enum_name(r16), reg(r16));
+    fmt::print( "XOR ({}) = {:0>4x}\n", magic_enum::enum_name(r16), reg(r16));
     return InstructionTrait{ R8::A };
 }
 
@@ -839,7 +1019,7 @@ InstructionTrait GbCpu::CP_8imm()
     registerSet.H = (reg(R8::A) & 0x0F) - (imm & 0x0F) < 0;
     registerSet.C = r < 0;
 
-    fmt::print( "CP 0x{:0<2x}\n", imm);
+    fmt::print( "CP 0x{:0>2x}\n", imm);
     return InstructionTrait::affects_flags();
 }
 
@@ -853,7 +1033,7 @@ InstructionTrait GbCpu::CP_pr16(GbCpu::R16 r16)
     registerSet.C = r < 0;
 
 
-    fmt::print( "CP ({}) = 0x{:0<4x}\n", magic_enum::enum_name(r16), reg(r16));
+    fmt::print( "CP ({}) = 0x{:0>4x}\n", magic_enum::enum_name(r16), reg(r16));
     return InstructionTrait::affects_flags();
 }
 
@@ -900,7 +1080,7 @@ InstructionTrait GbCpu::ADD_r8_8imm(GbCpu::R8 r8)
     registerSet.H = (v0 & 0x0F) + (v1 & 0x0F) > 0x0F;
     registerSet.C = v2 > 0xFF;
 
-    fmt::print( "ADD {}, 0x{:0<2x}\n", magic_enum::enum_name(r8), v1);
+    fmt::print( "ADD {}, 0x{:0>2x}\n", magic_enum::enum_name(r8), v1);
     return InstructionTrait{ r8 };
 }
 
@@ -918,17 +1098,182 @@ InstructionTrait GbCpu::ADD_r8_pr16(GbCpu::R8 r8, GbCpu::R16 r16)
     registerSet.H = (v0 & 0x0F) + (v1 & 0x0F) > 0x0F;
     registerSet.C = v2 > 0xFF;
 
-    fmt::print( "ADD {}, ({}) = 0x{:<4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(r16), addr);
+    fmt::print( "ADD {}, ({}) = 0x{:>4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(r16), addr);
     return InstructionTrait{ r8 };
 }
 
+InstructionTrait GbCpu::ADD_HL_r16(GbCpu::R16 r16)
+{
+    uint16_t v0 = reg(R16::HL);
+    uint16_t v1 = reg(r16);
+
+    uint32_t v2 = v0 + v1;
+    reg(R16::HL, static_cast<uint16_t>(v2));
+
+    registerSet.N = 0;
+    registerSet.H = (v0 & 0x0FFF) + (v1 & 0x0FFF) > 0x0FFF;
+    registerSet.C = v2 > 0xFFFF;
+
+    fmt::print( "ADD HL, {}", magic_enum::enum_name(r16) );
+    return InstructionTrait{ r16 };
+}
+
+InstructionTrait GbCpu::INC_r16(GbCpu::R16 r16)
+{
+    uint16_t v0 = reg(r16);
+    v0++;
+    reg(r16, v0);
+
+    fmt::print( "INC {}\n", magic_enum::enum_name(r16) );
+    return InstructionTrait{ r16 };
+}
 
 InstructionTrait GbCpu::JP_16imm()
 {
     uint16_t imm = next_pc_word();
     reg ( R16::PC, imm );
 
-    fmt::print ( "JP 0x{:0<4x}\n", imm );
+    fmt::print ( "JP 0x{:0>4x}\n", imm );
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JP_C_16imm()
+{
+    uint16_t imm = next_pc_word();
+    if (registerSet.C)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JP C 0x{:0>4x} (jumped)\n", imm );
+    }
+    else
+    {
+        fmt::print ( "JP C 0x{:0>4x} (didn't jumped)\n", imm );
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JP_NC_16imm()
+{
+    uint16_t imm = next_pc_word();
+    if (!registerSet.C)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JP NC 0x{:0>4x} (jumped)\n", imm );
+    }
+    else
+    {
+        fmt::print ( "JP NC 0x{:0>4x} (didn't jumped)\n", imm );
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JP_NZ_16imm()
+{
+    uint16_t imm = next_pc_word();
+    if (!registerSet.Z)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JP NZ 0x{:0>4x} (jumped)\n", imm );
+    }
+    else
+    {
+        fmt::print ( "JP NZ 0x{:0>4x} (didn't jumped)\n", imm );
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JP_Z_16imm()
+{
+    uint16_t imm = next_pc_word();
+    if (registerSet.Z)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JP Z 0x{:0>4x} (jumped)\n", imm );
+    }
+    else
+    {
+        fmt::print ( "JP Z 0x{:0>4x} (didn't jumped)\n", imm );
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JR_8imm()
+{
+    uint8_t imm = next_pc_byte();
+    auto current_pc = reg(R16::PC);
+    reg ( R16::PC, current_pc + imm );
+
+    fmt::print ( "JR 0x{:0>2x} = ({:0>4x})\n", imm, reg (R16::PC));
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JR_C_8imm()
+{
+    uint8_t imm = next_pc_byte();
+    if (registerSet.C)
+    {
+        auto current_pc = reg(R16::PC);
+        reg ( R16::PC, current_pc + imm );
+        fmt::print ( "JR C 0x{:0>2x} = ({:0>4x}) (jumped)\n", imm, reg (R16::PC));
+    }
+    else
+    {
+        fmt::print ( "JR C 0x{:0>2x} = ({:0>4x}) (didn't jumped)\n", imm, reg (R16::PC));
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JR_NC_8imm()
+{
+    uint8_t imm = next_pc_byte();
+    if (!registerSet.C)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JR NC 0x{:0>2x} = ({:0>4x}) (jumped)\n", imm, reg (R16::PC));
+    }
+    else
+    {
+        fmt::print ( "JR NC 0x{:0>2x} = ({:0>4x}) (didn't jumped)\n", imm, reg (R16::PC) );
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JR_NZ_8imm()
+{
+    uint8_t imm = next_pc_byte();
+    if (!registerSet.Z)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JR NZ 0x{:0>2x} = ({:0>4x}) (jumped)\n", imm, reg (R16::PC));
+    }
+    else
+    {
+        fmt::print ( "JR NZ 0x{:0>2x} = ({:0>4x}) (didn't jumped)\n", imm, reg (R16::PC) );
+    }
+
+    return InstructionTrait::jump();
+}
+
+InstructionTrait GbCpu::JR_Z_8imm()
+{
+    uint8_t imm = next_pc_byte();
+    if (registerSet.Z)
+    {
+        reg ( R16::PC, imm );
+        fmt::print ( "JR Z 0x{:0>2x} = ({:0>4x}) (jumped)\n", imm, reg (R16::PC));
+    }
+    else
+    {
+        fmt::print ( "JR Z 0x{:0>2x} = ({:0>4x}) (didn't jumped)\n", imm, reg (R16::PC) );
+    }
 
     return InstructionTrait::jump();
 }
@@ -948,6 +1293,25 @@ InstructionTrait GbCpu::DEI(bool enable)
 
     return InstructionTrait::no_traits();
 }
+
+InstructionTrait GbCpu::POP_r16(GbCpu::R16 r16)
+{
+    uint16_t word = pop_word();
+    reg(r16, word);
+
+    fmt::print ( "POP {}\n", magic_enum::enum_name(r16) );
+    return InstructionTrait{ r16 };
+}
+
+InstructionTrait GbCpu::PUSH_r16(GbCpu::R16 r16)
+{
+    uint16_t word = reg(r16);
+    push_word(word);
+
+    fmt::print ( "PUSH {}\n", magic_enum::enum_name(r16) );
+    return InstructionTrait::no_traits();
+}
+
 
 uint8_t GbCpu::next_pc_byte()
 {

@@ -20,6 +20,10 @@ public:
     void reg(Register16 num, uint16_t value) { registerSet.r(num, value); }
     uint16_t reg(Register16 num) const { return registerSet.r(num); }
 
+
+    void push_word(uint16_t word);
+    uint16_t pop_word();
+
     void cycle();
     GbMemory& get_memory();
 
@@ -101,6 +105,18 @@ private:
 
     InstructionTrait JP_16imm();
 
+    InstructionTrait JP_NZ_16imm();
+    InstructionTrait JP_Z_16imm();
+    InstructionTrait JP_NC_16imm();
+    InstructionTrait JP_C_16imm();
+
+    InstructionTrait JR_8imm();
+
+    InstructionTrait JR_NZ_8imm();
+    InstructionTrait JR_Z_8imm();
+    InstructionTrait JR_NC_8imm();
+    InstructionTrait JR_C_8imm();
+
     InstructionTrait XOR_r8(R8 r8);
 
     InstructionTrait XOR_pr16(R16 r16);
@@ -111,6 +127,10 @@ private:
     InstructionTrait ADD_r8_pr16(R8 r8, R16 r16);
     InstructionTrait ADD_r8_8imm(R8 r8);
 
+    InstructionTrait ADD_HL_r16(R16 r16);
+
+    InstructionTrait INC_r16(R16 r16);
+
     InstructionTrait CP_r8(R8 r8);
 
     InstructionTrait CP_pr16(R16 r16);
@@ -118,6 +138,9 @@ private:
     InstructionTrait CP_8imm();
 
     InstructionTrait DEI(bool enable);
+
+    InstructionTrait POP_r16(R16 r16);
+    InstructionTrait PUSH_r16(R16 r16);
 
     /**
      * Fetches the next byte from PC. Increment PC by 1.

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<categories>
+    <category name="Miscellaneous">
+        <opcode instruction="NOP">
+            <value>0x00</value>
+            <cycles>4</cycles>
+            <format>NOP</format>
+        </opcode>
+    </category>
+    <category name="8-Bit Loads">
+        <opcode instruction="LD_{r8}_8imm">
+            <cycles>8</cycles>
+            <format>LD {r8}, {8imm}</format>
+            <size>2</size>
+            <repeats>
+                <register8bit>
+                    A=0x3E, B=0x06, C=0x0E, D=0x16, E=0x1E, H=0x26, L=0x2E
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_A_{r8}">
+            <cycles>4</cycles>
+            <format>LD A, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x7F, B=0x78, C=0x79, D=0x7A, E=0x7B, H=0x7C, L=0x7D
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_B_{r8}">
+            <cycles>4</cycles>
+            <format>LD B, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x47, B=0x40, C=0x41, D=0x42, E=0x43, H=0x44, L=0x43
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_C_{r8}">
+            <cycles>4</cycles>
+            <format>LD C, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x4F, B=0x48, C=0x49, D=0x4A, E=0x4B, H=0x4C, L=0x4D
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_D_{r8}">
+            <cycles>4</cycles>
+            <format>LD D, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x57, B=0x50, C=0x51, D=0x52, E=0x53, H=0x54, L=0x55
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_E_{r8}">
+            <cycles>4</cycles>
+            <format>LD E, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x5F, B=0x58, C=0x59, D=0x5A, E=0x5B, H=0x5C, L=0x5D
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_H_{r8}">
+            <cycles>4</cycles>
+            <format>LD H, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x67, B=0x60, C=0x61, D=0x62, E=0x63, H=0x64, L=0x65
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_L_{r8}">
+            <cycles>4</cycles>
+            <format>LD L, {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    A=0x6F, B=0x68, C=0x69, D=0x6A, E=0x6B, H=0x6C, L=0x6D
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_{r8}_pHL">
+            <cycles>8</cycles>
+            <format>LD {r8}, (HL)</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    B=0x46, C=0x4E, D=0x56, E=0x5E, H=0x66, L=0x6E
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_pHL_{r8}">
+            <cycles>8</cycles>
+            <format>LD (HL), {r8}</format>
+            <size>1</size>
+            <repeats>
+                <register8bit>
+                    B=0x70, C=0x71, D=0x72, E=0x73, H=0x74, L=0x75
+                </register8bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_pHL_8imm">
+            <cycles>12</cycles>
+            <format>LD (HL), {8imm}</format>
+            <size>2</size>
+            <value>0x36</value>
+        </opcode>
+        <opcode instruction="LD_A_p{r16}">
+            <cycles>8</cycles>
+            <format>LD A, ({r16})</format>
+            <size>1</size>
+            <repeats>
+                <register16bit>
+                    BC=0x0A, DE=0x1A, HL=0x7E
+                </register16bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_p{r16}_A">
+            <cycles>8</cycles>
+            <format>LD ({r16}), A</format>
+            <size>1</size>
+            <repeats>
+                <register16bit>
+                    BC=0x02, DE=0x12, HL=0x77
+                </register16bit>
+            </repeats>
+        </opcode>
+        <opcode instruction="LD_A_p16imm">
+            <cycles>16</cycles>
+            <format>LD A, ({16imm})</format>
+            <size>3</size>
+            <value>0xFA</value>
+        </opcode>
+        <opcode instruction="LD_p16imm_A">
+            <cycles>16</cycles>
+            <format>LD ({16imm}), A</format>
+            <size>3</size>
+            <value>0xEA</value>
+        </opcode>
+
+    </category>
+</categories>

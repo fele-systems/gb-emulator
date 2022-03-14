@@ -21,10 +21,11 @@ uint8_t& GbMemory::operator[](uint16_t address)
 
 void GbMemory::load_rom(std::ifstream& gba_file)
 {
-    gba_file.seekg(0);    
-    std::copy(std::istreambuf_iterator<char>(gba_file),
-              std::istreambuf_iterator<char>(),
-              memory_buffer.begin());
+    gba_file.seekg(0);
+
+    memory_buffer.insert(memory_buffer.begin(),
+                         std::istreambuf_iterator<char>(gba_file),
+                         std::istreambuf_iterator<char>());
 }
 
 uint8_t GbMemory::read_byte(uint16_t address) const
@@ -100,4 +101,19 @@ std::vector<uint8_t> GbMemory::get_bytes(uint16_t start, uint16_t end) const
         bytes.push_back(read_byte(start));
     }
     return bytes;
+}
+
+std::string GbMemory::read_string(uint16_t address, size_t size) const
+{
+    return std::string{ reinterpret_cast<const char*>(memory_buffer.data() + address), size };
+}
+
+
+void GbMemory::write_string(uint16_t address, const std::string& str)
+{
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        (*this)[address+i] = str[i];
+    }
+    (*this)[address+str.size()] = '\0';
 }

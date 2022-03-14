@@ -38,6 +38,9 @@ public:
 
     const uint8_t& operator[](uint16_t address) const;
     uint8_t& operator[](uint16_t address);
+
+    std::string read_string(uint16_t address, size_t size) const;
+    void write_string(uint16_t address, const std::string& str);
 public:
     static constexpr uint32_t rom_base = 0x08000000;
     static constexpr uint32_t word_size = 4;
