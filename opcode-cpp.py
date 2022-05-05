@@ -1,17 +1,154 @@
+#!/usr/bin/python
 import xml.etree.ElementTree as ET
 import string
 import sys
+import copy
+
+kinds = {
+    "8BitRegister": "r8",
+    "8BitImmediate": "8imm",
+    "16BitImmediate": "16imm",
+    "16BitRegisterPointer": "pr16"
+}
+
+def kind_isimmediate(kind):
+    return kind == "8BitImmediate" or kind == "16BitImmediate"
+
+def kind_isregister(kind):
+    return kind == "8BitRegister" or kind == "16BitRegisterPointer"
+
+class NonExaustiveFormatter(string.Formatter):
+    def __init__(self, default='{{{0}}}'):
+        self.default=default
+
+    def get_value(self, key, args, kwds):
+        if isinstance(key, str):
+            return kwds.get(key, self.default.format(key))
+        else:
+            return string.Formatter.get_value(key, args, kwds)
 
 class Category:
+    @staticmethod
+    def parse(category):
+        subcats = []
+        for subcategory in category.findall('sub-category'):
+            subcats.append(SubCategory.parse(subcategory))
+        return Category(category.get('name'), subcats)
+
+    def __init__(self, name, subcat):
+        self.name = name
+        self.subcat = subcat
+
+class SubCategory:
+    @staticmethod
+    def parse(subcat):
+        opcodes=[]
+        for opcode in subcat.findall('opcode'):
+            opcodes = opcodes + Opcode.parse(opcode)
+        return SubCategory(subcat.get('name'), opcodes)
+
     def __init__(self, name, opcodes):
         self.name = name
         self.opcodes = opcodes
+
+class Arguments:
+    @staticmethod
+    def parse(args):
+        a = []
+        for arg in args.findall('arg'):
+            a.append(Argument(arg.get('name'), arg.get('kind'), arg.get('default')))
+        return Arguments(a)
+
+    def __init__(self, args):
+        self.args = args
+
+    def resolvearg(self, name, value):
+        for arg in self.args:
+            if arg.name == name:
+                arg.value = value
+                break
+
+    def rename(self, oldname, newname):
+        for arg in self.args:
+            if arg.name == oldname:
+                arg.name = newname
+                break
+
+    def resolveargs(self):
+        for i, arg in enumerate(self.args, start=0):
+            arg.resolvedefault()
+            if arg.name is None:
+                raise Exception("Argument {} could not be resolved".format(i))
+
+    def toStr(self):
+        return list(map(lambda arg: arg.toStr(), self.args))
+
+class Argument:
+    def __init__(self, name, kind, default):
+        self.name = name
+        self.kind = kind
+        self.default = default
+        self.value = None
+
+    def resolvedefault(self):
+        if self.value is None:
+            self.value = self.default
+
+    def toStr(self):
+        return "name: {}; kind: {}; value: {};".format(self.name, self.kind, self.value)
+
 class Opcode:
-    def __init__(self, instruction, value, cycles, fmt):
+    @staticmethod
+    def parse(opcodexml):
+        opcodes = []
+        opcodemap = {
+            "instruction":  opcodexml.get('instruction'),
+            "value":        opcodexml.get('value'),
+            "cycles":       int(opcodexml.get('cycles')),
+            "format":       opcodexml.get('format'),
+            "nargs":        int(opcodexml.get('nargs')),
+            "size":         int(opcodexml.get('size')),
+            "args":         Arguments.parse(opcodexml.find('args')) if opcodexml.find('args') is not None else Arguments([])
+        }
+
+        if opcodexml.get('template', default=False):
+            for repeat in opcodexml.find('repeats').findall('repeat'):
+                argtoreplace = repeat.get('argument')
+                if argtoreplace is None:
+                    raise Exception("argument is not defined: {}".format(ET.tostring(repeat)))
+
+                for on in repeat.findall('on'):
+                    tempmap = copy.copy(opcodemap)
+                    if on.get(argtoreplace) is None:
+                        raise Exception("argument '{}' does not exist in on-clause: {}".format(argtoreplace, ET.tostring(on)))
+                    tempmap["args"].resolvearg(argtoreplace, on.get(argtoreplace))
+                    for attr, val in on.attrib.items():
+                        tempmap[attr] = val
+                    opobject = Opcode(tempmap["instruction"], 
+                                      tempmap["value"], 
+                                      tempmap["cycles"], 
+                                      tempmap["format"], 
+                                      tempmap["nargs"],
+                                      tempmap["size"],
+                                      tempmap["args"])
+                    opobject.cannyformat()
+                    try:
+                        opobject.args.resolveargs()
+                    except Exception as e:
+                        raise Exception("While parsing {}: ".format(opobject.toStr()) + e.args[0])
+                    opcodes.append(opobject)
+        
+        return opcodes
+
+
+    def __init__(self, instruction, value, cycles, fmt, nargs, size, args):
         self.instruction = instruction
         self.value = value
         self.cycles = cycles
         self.fmt = fmt
+        self.nargs = nargs
+        self.size = size
+        self.args = args
 
     def assert_valid(self):
         if self.instruction is None:
@@ -23,15 +160,24 @@ class Opcode:
         elif self.fmt is None:
             raise Exception("format is None")
 
-class LazyFormatter(string.Formatter):
-    def __init__(self, default='{{{0}}}'):
-        self.default=default
+    def cannyformat(self):
+        format = NonExaustiveFormatter()
+        args = dict(map(lambda arg: (arg.name, arg.value), self.args.args))
+        print(args)
+        self.fmt = format.format(self.fmt, **args)
 
-    def get_value(self, key, args, kwds):
-        if isinstance(key, str):
-            return kwds.get(key, self.default.format(key))
-        else:
-            return string.Formatter.get_value(key, args, kwds)
+    def getenum(self):
+        parts = [ self.instruction ] + list(map(lambda arg: kinds[arg.kind], self.args.args))
+        return '_'.join(parts)
+
+    def toStr(self):
+        return "instruction: {}; value: {}; cycles: {}; format: {}, nargs: {}, size: {}; args: {};".format(self.instruction, self.value, self.cycles, self.fmt, self.nargs, self.size, self.args.toStr())
+
+
+
+def attrordefault(node, attr, default):
+    val = node.get(attr)
+    return (val if val is not None else default)
 
 def textornull(node):
     if node is None:
@@ -41,7 +187,7 @@ def textornull(node):
 
 def parse(root):
     list = []
-    formatter = LazyFormatter()
+    formatter = NonExaustiveFormatter()
     for category in root.findall("category"):
         c = Category(category.get("name"), [])
         for opcode in category.findall("opcode"):
@@ -136,7 +282,7 @@ def build_switch(fd, categories):
                 elif g0[1] is None and g1[1] is not None:
                     fd.write("{}".format(g1[1]))
 
-                fd.write(");\n")
+            fd.write(");\n")
 
 
     fd.write("};\n")
@@ -169,16 +315,29 @@ def tocppfunction(instruction):
                                  genericit(parts[1]),
                                  genericit(parts[2]))
 
+def parse_category(category):
+    print(category)
+
+def parse_subcategories(subcategory):
+    print(subcategory)
+
 def main():
     tree = ET.parse("opcodes.xml")
     root = tree.getroot()
-    categories = parse(root)
+
+    for e in root:
+        print(e)
+
+    for category in root:
+        for sc in Category.parse(category).subcat:
+            for i in sc.opcodes:
+                print(i.getenum())
 
     #fd = open("opcodes.h", "w")
     #build_enum(fd, categories)
     #fd.close()
 
-    build_switch(sys.stdout, categories)
+    #build_switch(sys.stdout, categories)
 
 
 
