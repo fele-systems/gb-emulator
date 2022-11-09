@@ -11,9 +11,9 @@ add_subdirectory(third-party/Catch2)
 add_library( libgbe
     src/gbmemory.cpp
     src/gbcpu.cpp
-    src/opcodes.cpp
     src/bit_utils.cpp
     src/instruction_trait.cpp
+    src/call_switch-autogen.cpp
     src/registers.cpp)
 
 target_include_directories(libgbe PRIVATE

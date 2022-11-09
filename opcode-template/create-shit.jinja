@@ -1,0 +1,8 @@
+
+{% for category in categories %}
+{% for subcat in category.subcat %}
+{% for opcode in subcat.opcodes if not opcode.extended %}
+data[static_cast<uint8_t(Opcode::{{ opcode.getenum() }})] = { "{{ opcode.fmt }}" };
+{%- endfor %}
+{% endfor %}
+{% endfor %}

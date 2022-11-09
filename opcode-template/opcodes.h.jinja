@@ -1,0 +1,28 @@
+#pragma once
+#include <cstdint>
+
+{{ notice }}
+
+enum class OpcodePrefix
+{
+    prefix0 = 0xCB,
+    prefix1 = 0x10,
+    none = 0x00
+};
+
+enum class Opcode : uint8_t
+{
+{% for category in categories %}
+    ////////////////////////////////////////////////////////////////////////
+    // {{ category.name }}
+    ////////////////////////////////////////////////////////////////////////
+    {% for subcat in category.subcat %}
+    //----------------------------------------------------------------------
+    // {{ subcat.name }}
+    //----------------------------------------------------------------------
+    {% for opcode in subcat.opcodes if not opcode.extended %}
+    {{ opcode.getenum() }} = {{ opcode.valueas8b() }}, // {{ opcode.fmt }}
+    {%- endfor %}
+    {% endfor %}
+{% endfor %}
+};

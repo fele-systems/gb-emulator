@@ -1,0 +1,442 @@
+
+
+
+
+data[static_cast<uint8_t(Opcode::LD_A_8imm)] = { "LD A, {}" };
+data[static_cast<uint8_t(Opcode::LD_B_8imm)] = { "LD B, {}" };
+data[static_cast<uint8_t(Opcode::LD_C_8imm)] = { "LD C, {}" };
+data[static_cast<uint8_t(Opcode::LD_D_8imm)] = { "LD D, {}" };
+data[static_cast<uint8_t(Opcode::LD_E_8imm)] = { "LD E, {}" };
+data[static_cast<uint8_t(Opcode::LD_H_8imm)] = { "LD H, {}" };
+data[static_cast<uint8_t(Opcode::LD_L_8imm)] = { "LD L, {}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_A_A)] = { "LD A, A" };
+data[static_cast<uint8_t(Opcode::LD_A_B)] = { "LD A, B" };
+data[static_cast<uint8_t(Opcode::LD_A_C)] = { "LD A, C" };
+data[static_cast<uint8_t(Opcode::LD_A_D)] = { "LD A, D" };
+data[static_cast<uint8_t(Opcode::LD_A_E)] = { "LD A, E" };
+data[static_cast<uint8_t(Opcode::LD_A_H)] = { "LD A, H" };
+data[static_cast<uint8_t(Opcode::LD_A_L)] = { "LD A, L" };
+data[static_cast<uint8_t(Opcode::LD_B_A)] = { "LD B, A" };
+data[static_cast<uint8_t(Opcode::LD_B_B)] = { "LD B, B" };
+data[static_cast<uint8_t(Opcode::LD_B_C)] = { "LD B, C" };
+data[static_cast<uint8_t(Opcode::LD_B_D)] = { "LD B, D" };
+data[static_cast<uint8_t(Opcode::LD_B_E)] = { "LD B, E" };
+data[static_cast<uint8_t(Opcode::LD_B_H)] = { "LD B, H" };
+data[static_cast<uint8_t(Opcode::LD_B_L)] = { "LD B, L" };
+data[static_cast<uint8_t(Opcode::LD_C_A)] = { "LD C, A" };
+data[static_cast<uint8_t(Opcode::LD_C_B)] = { "LD C, B" };
+data[static_cast<uint8_t(Opcode::LD_C_C)] = { "LD C, C" };
+data[static_cast<uint8_t(Opcode::LD_C_D)] = { "LD C, D" };
+data[static_cast<uint8_t(Opcode::LD_C_E)] = { "LD C, E" };
+data[static_cast<uint8_t(Opcode::LD_C_H)] = { "LD C, H" };
+data[static_cast<uint8_t(Opcode::LD_C_L)] = { "LD C, L" };
+data[static_cast<uint8_t(Opcode::LD_D_A)] = { "LD D, A" };
+data[static_cast<uint8_t(Opcode::LD_D_B)] = { "LD D, B" };
+data[static_cast<uint8_t(Opcode::LD_D_C)] = { "LD D, C" };
+data[static_cast<uint8_t(Opcode::LD_D_D)] = { "LD D, D" };
+data[static_cast<uint8_t(Opcode::LD_D_E)] = { "LD D, E" };
+data[static_cast<uint8_t(Opcode::LD_D_H)] = { "LD D, H" };
+data[static_cast<uint8_t(Opcode::LD_D_L)] = { "LD D, L" };
+data[static_cast<uint8_t(Opcode::LD_E_A)] = { "LD E, A" };
+data[static_cast<uint8_t(Opcode::LD_E_B)] = { "LD E, B" };
+data[static_cast<uint8_t(Opcode::LD_E_C)] = { "LD E, C" };
+data[static_cast<uint8_t(Opcode::LD_E_D)] = { "LD E, D" };
+data[static_cast<uint8_t(Opcode::LD_E_E)] = { "LD E, E" };
+data[static_cast<uint8_t(Opcode::LD_E_H)] = { "LD E, H" };
+data[static_cast<uint8_t(Opcode::LD_E_L)] = { "LD E, L" };
+data[static_cast<uint8_t(Opcode::LD_H_A)] = { "LD H, A" };
+data[static_cast<uint8_t(Opcode::LD_H_B)] = { "LD H, B" };
+data[static_cast<uint8_t(Opcode::LD_H_C)] = { "LD H, C" };
+data[static_cast<uint8_t(Opcode::LD_H_D)] = { "LD H, D" };
+data[static_cast<uint8_t(Opcode::LD_H_E)] = { "LD H, E" };
+data[static_cast<uint8_t(Opcode::LD_H_H)] = { "LD H, H" };
+data[static_cast<uint8_t(Opcode::LD_H_L)] = { "LD H, L" };
+data[static_cast<uint8_t(Opcode::LD_L_A)] = { "LD L, A" };
+data[static_cast<uint8_t(Opcode::LD_L_B)] = { "LD L, B" };
+data[static_cast<uint8_t(Opcode::LD_L_C)] = { "LD L, C" };
+data[static_cast<uint8_t(Opcode::LD_L_D)] = { "LD L, D" };
+data[static_cast<uint8_t(Opcode::LD_L_E)] = { "LD L, E" };
+data[static_cast<uint8_t(Opcode::LD_L_H)] = { "LD L, H" };
+data[static_cast<uint8_t(Opcode::LD_L_L)] = { "LD L, L" };
+
+
+data[static_cast<uint8_t(Opcode::LD_A_pHL)] = { "LD A, (HL)" };
+data[static_cast<uint8_t(Opcode::LD_B_pHL)] = { "LD B, (HL)" };
+data[static_cast<uint8_t(Opcode::LD_C_pHL)] = { "LD C, (HL)" };
+data[static_cast<uint8_t(Opcode::LD_D_pHL)] = { "LD D, (HL)" };
+data[static_cast<uint8_t(Opcode::LD_E_pHL)] = { "LD E, (HL)" };
+data[static_cast<uint8_t(Opcode::LD_H_pHL)] = { "LD H, (HL)" };
+data[static_cast<uint8_t(Opcode::LD_L_pHL)] = { "LD L, (HL)" };
+
+
+data[static_cast<uint8_t(Opcode::LD_pHL_B)] = { "LD (HL), B" };
+data[static_cast<uint8_t(Opcode::LD_pHL_C)] = { "LD (HL), C" };
+data[static_cast<uint8_t(Opcode::LD_pHL_D)] = { "LD (HL), D" };
+data[static_cast<uint8_t(Opcode::LD_pHL_E)] = { "LD (HL), E" };
+data[static_cast<uint8_t(Opcode::LD_pHL_H)] = { "LD (HL), H" };
+data[static_cast<uint8_t(Opcode::LD_pHL_L)] = { "LD (HL), L" };
+data[static_cast<uint8_t(Opcode::LD_pHL_8imm)] = { "LD (HL), {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_A_pBC)] = { "LD A, (BC)" };
+data[static_cast<uint8_t(Opcode::LD_A_pDE)] = { "LD A, (DE)" };
+
+
+data[static_cast<uint8_t(Opcode::LD_pBC_A)] = { "LD (BC), A" };
+data[static_cast<uint8_t(Opcode::LD_pDE_A)] = { "LD (DE), A" };
+data[static_cast<uint8_t(Opcode::LD_pHL_A)] = { "LD (HL), A" };
+
+
+data[static_cast<uint8_t(Opcode::LD_A_pp16imm)] = { "LD {r8}, ({p16imm})" };
+
+
+data[static_cast<uint8_t(Opcode::LD_pp16imm_A)] = { "LD ({16imm}), {r8}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_A_pC)] = { "LD {r8out}, ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::LD_pC_A)] = { "LD ({r8out}), {r8in}" };
+
+
+data[static_cast<uint8_t(Opcode::LDD_A_pHL)] = { "LDD {r8}, ({r16})" };
+
+
+data[static_cast<uint8_t(Opcode::LDD_pHL_A)] = { "LDD ({r16}), {r8}" };
+
+
+data[static_cast<uint8_t(Opcode::LDI_A_pHL)] = { "LDI {r8}, ({r16})" };
+
+
+data[static_cast<uint8_t(Opcode::LDI_pHL_A)] = { "LDI ({r16}), {r8}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_A_pp8imm)] = { "LD {r8}, ({8imm})" };
+
+
+data[static_cast<uint8_t(Opcode::LD_pp8imm_A)] = { "LDI ({8imm}), {r8}" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::LD_BC_16imm)] = { "LD BC, {}" };
+data[static_cast<uint8_t(Opcode::LD_DE_16imm)] = { "LD DE, {}" };
+data[static_cast<uint8_t(Opcode::LD_HL_16imm)] = { "LD HL, {}" };
+data[static_cast<uint8_t(Opcode::LD_SP_16imm)] = { "LD SP, {}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_SP_HL)] = { "LD {r16out}, {r16in}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_HL_SP_8imm)] = { "LD{r16out} {r16in}, {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::LD_16imm_SP)] = { "LD ({16imm}), {r16}" };
+
+
+data[static_cast<uint8_t(Opcode::PUSH_AF)] = { "PUSH AF" };
+data[static_cast<uint8_t(Opcode::PUSH_BC)] = { "PUSH BC" };
+data[static_cast<uint8_t(Opcode::PUSH_DE)] = { "PUSH DE" };
+data[static_cast<uint8_t(Opcode::PUSH_HL)] = { "PUSH HL" };
+
+
+data[static_cast<uint8_t(Opcode::POP_AF)] = { "POP AF" };
+data[static_cast<uint8_t(Opcode::POP_BC)] = { "POP BC" };
+data[static_cast<uint8_t(Opcode::POP_DE)] = { "POP DE" };
+data[static_cast<uint8_t(Opcode::POP_HL)] = { "POP HL" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::ADD_A_A)] = { "ADD {}, A" };
+data[static_cast<uint8_t(Opcode::ADD_A_B)] = { "ADD {}, B" };
+data[static_cast<uint8_t(Opcode::ADD_A_C)] = { "ADD {}, C" };
+data[static_cast<uint8_t(Opcode::ADD_A_D)] = { "ADD {}, D" };
+data[static_cast<uint8_t(Opcode::ADD_A_E)] = { "ADD {}, E" };
+data[static_cast<uint8_t(Opcode::ADD_A_H)] = { "ADD {}, H" };
+data[static_cast<uint8_t(Opcode::ADD_A_L)] = { "ADD {}, L" };
+
+
+data[static_cast<uint8_t(Opcode::ADD_A_pHL)] = { "ADD {r8out}, ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::ADD_A_8imm)] = { "ADD {r8}, {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::ADC_A_A)] = { "ADC {}, A" };
+data[static_cast<uint8_t(Opcode::ADC_A_B)] = { "ADC {}, B" };
+data[static_cast<uint8_t(Opcode::ADC_A_C)] = { "ADC {}, C" };
+data[static_cast<uint8_t(Opcode::ADC_A_D)] = { "ADC {}, D" };
+data[static_cast<uint8_t(Opcode::ADC_A_E)] = { "ADC {}, E" };
+data[static_cast<uint8_t(Opcode::ADC_A_H)] = { "ADC {}, H" };
+data[static_cast<uint8_t(Opcode::ADC_A_L)] = { "ADC {}, L" };
+
+
+data[static_cast<uint8_t(Opcode::ADC_A_pHL)] = { "ADC {r8out}, ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::ADC_A_8imm)] = { "ADC {r8}, {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::SUB_A_A)] = { "SUB {}, A" };
+data[static_cast<uint8_t(Opcode::SUB_A_B)] = { "SUB {}, B" };
+data[static_cast<uint8_t(Opcode::SUB_A_C)] = { "SUB {}, C" };
+data[static_cast<uint8_t(Opcode::SUB_A_D)] = { "SUB {}, D" };
+data[static_cast<uint8_t(Opcode::SUB_A_E)] = { "SUB {}, E" };
+data[static_cast<uint8_t(Opcode::SUB_A_H)] = { "SUB {}, H" };
+data[static_cast<uint8_t(Opcode::SUB_A_L)] = { "SUB {}, L" };
+
+
+data[static_cast<uint8_t(Opcode::SUB_A_pHL)] = { "SUB {r8out}, ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::SUB_A_8imm)] = { "SUB {r8}, {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::SBC_A_A)] = { "SBC {}, A" };
+data[static_cast<uint8_t(Opcode::SBC_A_B)] = { "SBC {}, B" };
+data[static_cast<uint8_t(Opcode::SBC_A_C)] = { "SBC {}, C" };
+data[static_cast<uint8_t(Opcode::SBC_A_D)] = { "SBC {}, D" };
+data[static_cast<uint8_t(Opcode::SBC_A_E)] = { "SBC {}, E" };
+data[static_cast<uint8_t(Opcode::SBC_A_H)] = { "SBC {}, H" };
+data[static_cast<uint8_t(Opcode::SBC_A_L)] = { "SBC {}, L" };
+
+
+data[static_cast<uint8_t(Opcode::SBC_A_pHL)] = { "SBC {r8out}, ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::SBC_A_8imm)] = { "SBC {r8}, {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::AND_A)] = { "AND A" };
+data[static_cast<uint8_t(Opcode::AND_B)] = { "AND B" };
+data[static_cast<uint8_t(Opcode::AND_C)] = { "AND C" };
+data[static_cast<uint8_t(Opcode::AND_D)] = { "AND D" };
+data[static_cast<uint8_t(Opcode::AND_E)] = { "AND E" };
+data[static_cast<uint8_t(Opcode::AND_H)] = { "AND H" };
+data[static_cast<uint8_t(Opcode::AND_L)] = { "AND L" };
+
+
+data[static_cast<uint8_t(Opcode::AND_HL)] = { "AND ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::AND_8imm)] = { "AND {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::OR_A)] = { "OR A" };
+data[static_cast<uint8_t(Opcode::OR_B)] = { "OR B" };
+data[static_cast<uint8_t(Opcode::OR_C)] = { "OR C" };
+data[static_cast<uint8_t(Opcode::OR_D)] = { "OR D" };
+data[static_cast<uint8_t(Opcode::OR_E)] = { "OR E" };
+data[static_cast<uint8_t(Opcode::OR_H)] = { "OR H" };
+data[static_cast<uint8_t(Opcode::OR_L)] = { "OR L" };
+
+
+data[static_cast<uint8_t(Opcode::OR_HL)] = { "OR ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::OR_8imm)] = { "OR {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::XOR_A)] = { "XOR A" };
+data[static_cast<uint8_t(Opcode::XOR_B)] = { "XOR B" };
+data[static_cast<uint8_t(Opcode::XOR_C)] = { "XOR C" };
+data[static_cast<uint8_t(Opcode::XOR_D)] = { "XOR D" };
+data[static_cast<uint8_t(Opcode::XOR_E)] = { "XOR E" };
+data[static_cast<uint8_t(Opcode::XOR_H)] = { "XOR H" };
+data[static_cast<uint8_t(Opcode::XOR_L)] = { "XOR L" };
+
+
+data[static_cast<uint8_t(Opcode::XOR_pHL)] = { "XOR ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::XOR_8imm)] = { "XOR {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::CP_A)] = { "CP A" };
+data[static_cast<uint8_t(Opcode::CP_B)] = { "CP B" };
+data[static_cast<uint8_t(Opcode::CP_C)] = { "CP C" };
+data[static_cast<uint8_t(Opcode::CP_D)] = { "CP D" };
+data[static_cast<uint8_t(Opcode::CP_E)] = { "CP E" };
+data[static_cast<uint8_t(Opcode::CP_H)] = { "CP H" };
+data[static_cast<uint8_t(Opcode::CP_L)] = { "CP L" };
+
+
+data[static_cast<uint8_t(Opcode::CP_HL)] = { "CP ({r16in})" };
+
+
+data[static_cast<uint8_t(Opcode::CP_8imm)] = { "CP {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::INC_A)] = { "INC A" };
+data[static_cast<uint8_t(Opcode::INC_B)] = { "INC B" };
+data[static_cast<uint8_t(Opcode::INC_C)] = { "INC C" };
+data[static_cast<uint8_t(Opcode::INC_D)] = { "INC D" };
+data[static_cast<uint8_t(Opcode::INC_E)] = { "INC E" };
+data[static_cast<uint8_t(Opcode::INC_H)] = { "INC H" };
+data[static_cast<uint8_t(Opcode::INC_L)] = { "INC L" };
+
+
+data[static_cast<uint8_t(Opcode::INC_pHL)] = { "INC ({r16})" };
+
+
+data[static_cast<uint8_t(Opcode::DEC_A)] = { "DEC A" };
+data[static_cast<uint8_t(Opcode::DEC_B)] = { "DEC B" };
+data[static_cast<uint8_t(Opcode::DEC_C)] = { "DEC C" };
+data[static_cast<uint8_t(Opcode::DEC_D)] = { "DEC D" };
+data[static_cast<uint8_t(Opcode::DEC_E)] = { "DEC E" };
+data[static_cast<uint8_t(Opcode::DEC_H)] = { "DEC H" };
+data[static_cast<uint8_t(Opcode::DEC_L)] = { "DEC L" };
+
+
+data[static_cast<uint8_t(Opcode::DEC_pHL)] = { "DEC ({r16})" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::ADD_HL_BC)] = { "ADD {}, BC" };
+data[static_cast<uint8_t(Opcode::ADD_HL_DE)] = { "ADD {}, DE" };
+data[static_cast<uint8_t(Opcode::ADD_HL_HL)] = { "ADD {}, HL" };
+data[static_cast<uint8_t(Opcode::ADD_HL_SP)] = { "ADD {}, SP" };
+
+
+data[static_cast<uint8_t(Opcode::ADD_SP_8imm)] = { "ADD {r16}, {8imm}" };
+
+
+data[static_cast<uint8_t(Opcode::INC_BC)] = { "INC BC" };
+data[static_cast<uint8_t(Opcode::INC_DE)] = { "INC DE" };
+data[static_cast<uint8_t(Opcode::INC_HL)] = { "INC HL" };
+data[static_cast<uint8_t(Opcode::INC_SP)] = { "INC SP" };
+
+
+data[static_cast<uint8_t(Opcode::DEC_BC)] = { "DEC BC" };
+data[static_cast<uint8_t(Opcode::DEC_DE)] = { "DEC DE" };
+data[static_cast<uint8_t(Opcode::DEC_HL)] = { "DEC HL" };
+data[static_cast<uint8_t(Opcode::DEC_SP)] = { "DEC SP" };
+
+
+
+
+
+
+
+
+data[static_cast<uint8_t(Opcode::DAA)] = { "DAA" };
+
+
+data[static_cast<uint8_t(Opcode::CPL)] = { "CPL" };
+
+
+data[static_cast<uint8_t(Opcode::CCF)] = { "CCF" };
+
+
+data[static_cast<uint8_t(Opcode::SCF)] = { "SCF" };
+
+
+data[static_cast<uint8_t(Opcode::NOP)] = { "NOP" };
+
+
+data[static_cast<uint8_t(Opcode::HALT)] = { "HALT" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::DI)] = { "DI" };
+
+
+data[static_cast<uint8_t(Opcode::EI)] = { "EI" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::RLCA)] = { "RLCA" };
+
+
+data[static_cast<uint8_t(Opcode::RLA)] = { "RLA" };
+
+
+data[static_cast<uint8_t(Opcode::RRCA)] = { "RRCA" };
+
+
+data[static_cast<uint8_t(Opcode::RRA)] = { "RRA" };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+data[static_cast<uint8_t(Opcode::JP_16imm)] = { "JP {16imm}" };
+data[static_cast<uint8_t(Opcode::JP_NZ_16imm)] = { "JP NZ, {}" };
+data[static_cast<uint8_t(Opcode::JP_Z_16imm)] = { "JP Z, {}" };
+data[static_cast<uint8_t(Opcode::JP_NC_16imm)] = { "JP NC, {}" };
+data[static_cast<uint8_t(Opcode::JP_C_16imm)] = { "JP C, {}" };
+data[static_cast<uint8_t(Opcode::JP_HL)] = { "JP ({r16})" };
+
+
+data[static_cast<uint8_t(Opcode::JP_8imm)] = { "JP {8imm}" };
+data[static_cast<uint8_t(Opcode::JP_NZ_8imm)] = { "JP NZ, {}" };
+data[static_cast<uint8_t(Opcode::JP_Z_8imm)] = { "JP Z, {}" };
+data[static_cast<uint8_t(Opcode::JP_NC_8imm)] = { "JP NC, {}" };
+data[static_cast<uint8_t(Opcode::JP_C_8imm)] = { "JP C, {}" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::CALL_16imm)] = { "CALL {16imm}" };
+data[static_cast<uint8_t(Opcode::CALL_NZ_16imm)] = { "CALL NZ, {8imm}" };
+data[static_cast<uint8_t(Opcode::CALL_Z_16imm)] = { "CALL Z, {8imm}" };
+data[static_cast<uint8_t(Opcode::CALL_NC_16imm)] = { "CALL NC, {8imm}" };
+data[static_cast<uint8_t(Opcode::CALL_C_16imm)] = { "CALL C, {8imm}" };
+
+
+
+
+data[static_cast<uint8_t(Opcode::RET)] = { "RET" };
+data[static_cast<uint8_t(Opcode::RETI)] = { "RETI" };
+data[static_cast<uint8_t(Opcode::RET_NZ)] = { "RET NZ" };
+data[static_cast<uint8_t(Opcode::RET_Z)] = { "RET Z" };
+data[static_cast<uint8_t(Opcode::RET_NC)] = { "RET NC" };
+data[static_cast<uint8_t(Opcode::RET_C)] = { "RET C" };
+

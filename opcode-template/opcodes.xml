@@ -1,0 +1,1162 @@
+<?xml version="1.0"?>
+<categories>
+    <category name="8-Bit Loads">
+        <sub-category name="Load 8-Bit Immediate to 8-Bit register">
+            <opcode instruction="LD" template="1" format="LD {r8}, {8imm}" nargs="2" size="2" cycles="8">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0x3E" />
+                        <on r8="B" value="0x06" />
+                        <on r8="C" value="0x0E" />
+                        <on r8="D" value="0x16" />
+                        <on r8="E" value="0x1E" />
+                        <on r8="H" value="0x26" />
+                        <on r8="L" value="0x2E" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Load 8-Bit register into 8-Bit register" >
+            <opcode instruction="LD" template="1" format="LD {r8out}, {r8in}" nargs="2" size="2" cycles="4">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" />
+                    <arg name="r8in" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8out">
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="A" r8in="A" value="0x7F" />
+                            <on r8out="A" r8in="B" value="0x78" />
+                            <on r8out="A" r8in="C" value="0x79" />
+                            <on r8out="A" r8in="D" value="0x7A" />
+                            <on r8out="A" r8in="E" value="0x7B" />
+                            <on r8out="A" r8in="H" value="0x7C" />
+                            <on r8out="A" r8in="L" value="0x7D" />
+                        </repeat>
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="B" r8in="A" value="0x47" />
+                            <on r8out="B" r8in="B" value="0x40" />
+                            <on r8out="B" r8in="C" value="0x41" />
+                            <on r8out="B" r8in="D" value="0x42" />
+                            <on r8out="B" r8in="E" value="0x43" />
+                            <on r8out="B" r8in="H" value="0x44" />
+                            <on r8out="B" r8in="L" value="0x45" />
+                        </repeat>
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="C" r8in="A" value="0x4F" />
+                            <on r8out="C" r8in="B" value="0x48" />
+                            <on r8out="C" r8in="C" value="0x49" />
+                            <on r8out="C" r8in="D" value="0x4A" />
+                            <on r8out="C" r8in="E" value="0x4B" />
+                            <on r8out="C" r8in="H" value="0x4C" />
+                            <on r8out="C" r8in="L" value="0x4D" />
+                        </repeat>
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="D" r8in="A" value="0x57" />
+                            <on r8out="D" r8in="B" value="0x50" />
+                            <on r8out="D" r8in="C" value="0x51" />
+                            <on r8out="D" r8in="D" value="0x52" />
+                            <on r8out="D" r8in="E" value="0x53" />
+                            <on r8out="D" r8in="H" value="0x54" />
+                            <on r8out="D" r8in="L" value="0x55" />
+                        </repeat>
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="E" r8in="A" value="0x5F" />
+                            <on r8out="E" r8in="B" value="0x58" />
+                            <on r8out="E" r8in="C" value="0x59" />
+                            <on r8out="E" r8in="D" value="0x5A" />
+                            <on r8out="E" r8in="E" value="0x5B" />
+                            <on r8out="E" r8in="H" value="0x5C" />
+                            <on r8out="E" r8in="L" value="0x5D" />
+                        </repeat>
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="H" r8in="A" value="0x67" />
+                            <on r8out="H" r8in="B" value="0x60" />
+                            <on r8out="H" r8in="C" value="0x61" />
+                            <on r8out="H" r8in="D" value="0x62" />
+                            <on r8out="H" r8in="E" value="0x63" />
+                            <on r8out="H" r8in="H" value="0x64" />
+                            <on r8out="H" r8in="L" value="0x65" />
+                        </repeat>
+                        <repeat kind="8BitRegister" argument="r8in">
+                            <on r8out="L" r8in="A" value="0x6F" />
+                            <on r8out="L" r8in="B" value="0x68" />
+                            <on r8out="L" r8in="C" value="0x69" />
+                            <on r8out="L" r8in="D" value="0x6A" />
+                            <on r8out="L" r8in="E" value="0x6B" />
+                            <on r8out="L" r8in="H" value="0x6C" />
+                            <on r8out="L" r8in="L" value="0x6D" />
+                        </repeat>
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Load byte at HL into 8-Bit register" >
+            <opcode instruction="LD" template="1" format="LD {r8}, (HL)" nargs="2" size="1" cycles="8" >
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0x7E" />
+                        <on r8="B" value="0x46" />
+                        <on r8="C" value="0x4E" />
+                        <on r8="D" value="0x56" />
+                        <on r8="E" value="0x5E" />
+                        <on r8="H" value="0x66" />
+                        <on r8="L" value="0x6E" />
+                    </repeat>
+                </repeats>
+            </opcode> 
+        </sub-category>
+
+        <sub-category name="Load 8-Bit value into byte at HL" >
+            <opcode instruction="LD" template="1" format="LD (HL), {r8}" nargs="2" size="1" cycles="8" >
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="B" value="0x70" />
+                        <on r8="C" value="0x71" />
+                        <on r8="D" value="0x72" />
+                        <on r8="E" value="0x73" />
+                        <on r8="H" value="0x74" />
+                        <on r8="L" value="0x75" />
+                    </repeat>
+                </repeats>
+            </opcode>
+            <opcode instruction="LD" format="LD (HL), {8imm}" nargs="2" size="2" cycles="12" value="0x36" >
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads byte at 16-Bit Register into 8-Bit register">
+            <opcode instruction="LD" template="1" format="LD A, ({r16})" nargs="2" size="1" cycles="8" >
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="r16" kind="16BitRegisterPointer" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16" >
+                        <on r16="BC" value="0x0A" />
+                        <on r16="DE" value="0x1A" />
+                        <!-- <on r16="HL" value="0x7E" /> Already defined -->
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 8-Bit register into byte at 16-Bit Register">
+            <opcode instruction="LD" template="1" format="LD ({r16}), A" nargs="2" size="1" cycles="8" >
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" />
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16" >
+                        <on r16="BC" value="0x02" />
+                        <on r16="DE" value="0x12" />
+                        <on r16="HL" value="0x77" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads byte at 16-Bit Immediate into 8-Bit Register">
+            <opcode instruction="LD" cycles="16" size="3" format="LD {r8}, ({p16imm})" value="0xFA" nargs="2">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="p16imm" kind="16BitImmediatePointer" />
+                </args>
+            </opcode>  
+        </sub-category>
+
+        <sub-category name="Loads 8-Bit Register into byte at 16-Bit Register">
+            <opcode instruction="LD" cycles="16" size="3" format="LD ({16imm}), {r8}" value="0xEA" nargs="2">
+                <args>
+                    <arg name="16imm" kind="16BitImmediatePointer" />
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads byte at (0xFF00 + 8-Bit Register) into 8-Bit Register">
+            <opcode instruction="LD" cycles="8" size="1" format="LD {r8out}, ({r16in})" value="0xF2" nargs="2">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r8in" kind="8BitRegisterPointer" defaults="C" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 8-Bit register into byte at (0xFF00 + 8-Bit Register)">
+            <opcode instruction="LD" cycles="8" size="1" format="LD ({r8out}), {r8in}" value="0xE2" nargs="2">
+                <args>
+                    <arg name="r8out" kind="8BitRegisterPointer" defaults="C" />
+                    <arg name="r8in" kind="8BitRegister" defaults="A" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads byte at 16-Bit Register into 8-Bit register. Decrement 16-Bit register">
+            <opcode instruction="LDD" cycles="8" size="1" format="LDD {r8}, ({r16})" value="0x3A" nargs="2">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 8-Bit register into byte at 16-Bit Register Decrement 16-Bit register">
+            <opcode instruction="LDD" cycles="8" size="1" format="LDD ({r16}), {r8}" value="0x32" nargs="2">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads byte at 16-Bit Register into 8-Bit register. Increment 16-Bit register">
+            <opcode instruction="LDI" cycles="8" size="1" format="LDI {r8}, ({r16})" value="0x2A" nargs="2">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 8-Bit register into byte at 16-Bit Register Increment 16-Bit register">
+            <opcode instruction="LDI" cycles="8" size="1" format="LDI ({r16}), {r8}" value="0x22" nargs="2">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads byte at (0xFF00 + 8-Bit immediate) into 8-Bit register">
+            <opcode instruction="LD" cycles="12" size="2" format="LD {r8}, ({8imm})" value="0xF0" nargs="2">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="8imm" kind="8BitImmediatePointer" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 8-Bit register into byte at (0xFF00 + 8-Bit Immediate)">
+            <opcode instruction="LD" cycles="12" size="2" format="LDI ({8imm}), {r8}" value="0xE0" nargs="2">
+                <args>
+                    <arg name="8imm" kind="8BitImmediatePointer" />
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                </args>
+            </opcode>
+        </sub-category>
+    </category>
+    <category name="16-Bit Loads">
+        <sub-category name="Loads 16-Bit immediate into 16-Bit register">
+            <opcode instruction="LD" template="1" cycles="12" size="3" format="LD {r16}, {16imm}" nargs="2">
+                <args>
+                    <arg name="r16" kind="16BitRegister" />
+                    <arg name="16imm" kind="16BitImmediate" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16" >
+                        <on r16="BC" value="0x01" />
+                        <on r16="DE" value="0x11" />
+                        <on r16="HL" value="0x21" />
+                        <on r16="SP" value="0x31" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 16-Bit register into 16-Bit register">
+            <opcode instruction="LD" cycles="8" size="1" format="LD {r16out}, {r16in}" nargs="2" value="0xF9">
+                <args>
+                    <arg name="r16out" kind="16BitRegister" defaults="SP"/>
+                    <arg name="r16in" kind="16BitRegister" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 16-Bit register + 8-Bit immediate into 16-Bit register">
+            <opcode instruction="LD" cycles="12" size="2" format="LD{r16out} {r16in}, {8imm}" nargs="3" value="0xF8">
+                <args>
+                    <arg name="r16out" kind="16BitRegister" defaults="HL"/>
+                    <arg name="r16in" kind="16BitRegister" defaults="SP"/>
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Loads 16-Bit register into memory at 16-Bit immediate">
+            <opcode instruction="LD" cycles="20" size="3" format="LD ({16imm}), {r16}" nargs="3" value="0x08">
+                <args>
+                    <arg name="16imm" kind="16BitImmediatePointer" />
+                    <arg name="r16" kind="16BitRegister" defaults="SP"/>
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Push 16-Bit register onto stack. Decrememt SP twice">
+            <opcode instruction="PUSH" cycles="16" size="1" format="PUSH {r16}" nargs="1" template="1">
+                <args>
+                    <arg name="r16" kind="16BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16" >
+                        <on r16="AF" value="0xF5" />
+                        <on r16="BC" value="0xC5" />
+                        <on r16="DE" value="0xD5" />
+                        <on r16="HL" value="0xE5" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Pop 16-Bit off stack into 16-Bit register. Incrememt SP twice">
+            <opcode instruction="POP" cycles="12" size="1" format="POP {r16}" nargs="1" template="1">
+                <args>
+                    <arg name="r16" kind="16BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16" >
+                        <on r16="AF" value="0xF1" />
+                        <on r16="BC" value="0xC1" />
+                        <on r16="DE" value="0xD1" />
+                        <on r16="HL" value="0xE1" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+    </category>
+
+
+    <category name="8-Bit ALU">
+        <sub-category name="Add 8-Bit register into 8-Bit register">
+            <opcode instruction="ADD" cycles="4" size="1" format="ADD {r8out}, {r8in}" nargs="2" template="1">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r8in" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8in" >
+                        <on r8in="A" value="0x87" />
+                        <on r8in="B" value="0x80" />
+                        <on r8in="C" value="0x81" />
+                        <on r8in="D" value="0x82" />
+                        <on r8in="E" value="0x83" />
+                        <on r8in="H" value="0x84" />
+                        <on r8in="L" value="0x85" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Add 8-Bit at 16-Bit register into 8-Bit register">
+            <opcode instruction="ADD" cycles="8" size="1" format="ADD {r8out}, ({r16in})" nargs="2" value="0x86">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r16in" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Add 8-Bit immediate into 8-Bit register">
+            <opcode instruction="ADD" cycles="8" size="1" format="ADD {r8}, {8imm}" nargs="2" value="0xC6">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+
+        <sub-category name="Add 8-Bit register + carry flag into 8-Bit register">
+            <opcode instruction="ADC" cycles="4" size="1" format="ADC {r8out}, {r8in}" nargs="2" template="1">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r8in" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8in" >
+                        <on r8in="A" value="0x8F" />
+                        <on r8in="B" value="0x88" />
+                        <on r8in="C" value="0x89" />
+                        <on r8in="D" value="0x8A" />
+                        <on r8in="E" value="0x8B" />
+                        <on r8in="H" value="0x8C" />
+                        <on r8in="L" value="0x8D" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Add 8-Bit + carry flag at 16-Bit register into 8-Bit register">
+            <opcode instruction="ADC" cycles="8" size="1" format="ADC {r8out}, ({r16in})" nargs="2" value="0x8E">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r16in" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Add 8-Bit immediate + carry flag into 8-Bit register">
+            <opcode instruction="ADC" cycles="8" size="1" format="ADC {r8}, {8imm}" nargs="2" value="0xCE">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Subtracts 8-Bit register into 8-Bit register">
+            <opcode instruction="SUB" cycles="4" size="1" format="SUB {r8out}, {r8in}" nargs="2" template="1">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r8in" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8in" >
+                        <on r8in="A" value="0x97" />
+                        <on r8in="B" value="0x90" />
+                        <on r8in="C" value="0x91" />
+                        <on r8in="D" value="0x92" />
+                        <on r8in="E" value="0x93" />
+                        <on r8in="H" value="0x94" />
+                        <on r8in="L" value="0x95" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Subtracts 8-Bit at 16-Bit register into 8-Bit register">
+            <opcode instruction="SUB" cycles="8" size="1" format="SUB {r8out}, ({r16in})" nargs="2" value="0x96">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r16in" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Subtracts 8-Bit immediate into 8-Bit register">
+            <opcode instruction="SUB" cycles="8" size="1" format="SUB {r8}, {8imm}" nargs="2" value="0xD6">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+        
+        <sub-category name="Subtracts 8-Bit register + carry flag into 8-Bit register">
+            <opcode instruction="SBC" cycles="4" size="1" format="SBC {r8out}, {r8in}" nargs="2" template="1">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r8in" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8in" >
+                        <on r8in="A" value="0x9F" />
+                        <on r8in="B" value="0x98" />
+                        <on r8in="C" value="0x99" />
+                        <on r8in="D" value="0x9A" />
+                        <on r8in="E" value="0x9B" />
+                        <on r8in="H" value="0x9C" />
+                        <on r8in="L" value="0x9D" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Subtracts 8-Bit + carry flag at 16-Bit register into 8-Bit register">
+            <opcode instruction="SBC" cycles="8" size="1" format="SBC {r8out}, ({r16in})" nargs="2" value="0x9E">
+                <args>
+                    <arg name="r8out" kind="8BitRegister" defaults="A" />
+                    <arg name="r16in" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Subtracts 8-Bit immediate + carry flag into 8-Bit register">
+            <opcode instruction="SBC" cycles="8" size="1" format="SBC {r8}, {8imm}" nargs="2" value="0xDE">
+                <args>
+                    <arg name="r8" kind="8BitRegister" defaults="A" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Logically ANDs 8-Bit register into 8-Bit register">
+            <opcode instruction="AND" cycles="4" size="1" format="AND {r8}" nargs="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8" >
+                        <on r8="A" value="0xA7" />
+                        <on r8="B" value="0xA0" />
+                        <on r8="C" value="0xA1" />
+                        <on r8="D" value="0xA2" />
+                        <on r8="E" value="0xA3" />
+                        <on r8="H" value="0xA4" />
+                        <on r8="L" value="0xA5" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Logically ANDs 8-Bit at 16-Bit register into 8-Bit register">
+            <opcode instruction="AND" cycles="8" size="1" format="AND ({r16})" nargs="1" value="0xA6">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Logically ANDs 8-Bit immediate into 8-Bit register">
+            <opcode instruction="AND" cycles="8" size="1" format="AND {8imm}" nargs="1" value="0xE6">
+                <args>
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Logically ORs 8-Bit register into 8-Bit register">
+            <opcode instruction="OR" cycles="4" size="1" format="OR {r8}" nargs="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8" >
+                        <on r8="A" value="0xB7" />
+                        <on r8="B" value="0xB0" />
+                        <on r8="C" value="0xB1" />
+                        <on r8="D" value="0xB2" />
+                        <on r8="E" value="0xB3" />
+                        <on r8="H" value="0xB4" />
+                        <on r8="L" value="0xB5" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Logically ORs 8-Bit at 16-Bit register into 8-Bit register">
+            <opcode instruction="OR" cycles="8" size="1" format="OR ({r16})" nargs="1" value="0xB6">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Logically ORs 8-Bit immediate into 8-Bit register">
+            <opcode instruction="OR" cycles="8" size="1" format="OR {8imm}" nargs="1" value="0xF6">
+                <args>
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Logically XORs 8-Bit register into 8-Bit register">
+            <opcode instruction="XOR" cycles="4" size="1" format="XOR {r8}" nargs="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8" >
+                        <on r8="A" value="0xAF" />
+                        <on r8="B" value="0xA8" />
+                        <on r8="C" value="0xA9" />
+                        <on r8="D" value="0xAA" />
+                        <on r8="E" value="0xAB" />
+                        <on r8="H" value="0xAC" />
+                        <on r8="L" value="0xAD" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Logically XORs 8-Bit at 16-Bit register into 8-Bit register">
+            <opcode instruction="XOR" cycles="8" size="1" format="XOR ({r16})" nargs="1" value="0xAE">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Logically XORs 8-Bit immediate into 8-Bit register">
+            <opcode instruction="XOR" cycles="8" size="1" format="XOR {8imm}" nargs="1" value="0xEE">
+                <args>
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Compares 8-Bit register into 8-Bit register">
+            <opcode instruction="CP" cycles="4" size="1" format="CP {r8}" nargs="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8" >
+                        <on r8="A" value="0xBF" />
+                        <on r8="B" value="0xB8" />
+                        <on r8="C" value="0xB9" />
+                        <on r8="D" value="0xBA" />
+                        <on r8="E" value="0xBB" />
+                        <on r8="H" value="0xBC" />
+                        <on r8="L" value="0xBD" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Compares 8-Bit at 16-Bit register into 8-Bit register">
+            <opcode instruction="CP" cycles="8" size="1" format="CP ({r16})" nargs="1" value="0xBE">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Compares 8-Bit immediate into 8-Bit register">
+            <opcode instruction="CP" cycles="8" size="1" format="CP {8imm}" nargs="1" value="0xFE">
+                <args>
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Increments 8-Bit register">
+            <opcode instruction="INC" cycles="4" size="1" format="INC {r8}" nargs="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8" >
+                        <on r8="A" value="0x3C" />
+                        <on r8="B" value="0x04" />
+                        <on r8="C" value="0x0C" />
+                        <on r8="D" value="0x14" />
+                        <on r8="E" value="0x1C" />
+                        <on r8="H" value="0x24" />
+                        <on r8="L" value="0x2C" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Increments value at 16-Bit register">
+            <opcode instruction="INC" cycles="12" size="1" format="INC ({r16})" nargs="1" value="0x34">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Decrements 8-Bit register">
+            <opcode instruction="DEC" cycles="4" size="1" format="DEC {r8}" nargs="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8" >
+                        <on r8="A" value="0x3D" />
+                        <on r8="B" value="0x05" />
+                        <on r8="C" value="0x0D" />
+                        <on r8="D" value="0x15" />
+                        <on r8="E" value="0x1D" />
+                        <on r8="H" value="0x25" />
+                        <on r8="L" value="0x2D" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Decrements value at 16-Bit register">
+            <opcode instruction="DEC" cycles="12" size="1" format="DEC ({r16})" nargs="1" value="0x35">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+    </category>
+    <category name="16-Bit ALU">
+        <sub-category name="Add two 16-Bit Registers">
+            <opcode instruction="ADD" cycles="8" size="1" format="ADD {r16out}, {r16in}" nargs="2" template="1">
+                <args>
+                    <arg name="r16out" kind="16BitRegister" defaults="HL" />
+                    <arg name="r16in" kind="16BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16in">
+                        <on r16in="BC" value="0x09" />
+                        <on r16in="DE" value="0x19" />
+                        <on r16in="HL" value="0x29" />
+                        <on r16in="SP" value="0x39" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Add 8-Bit immediate to 16-Bit register">
+            <opcode instruction="ADD" cycles="16" size="2" format="ADD {r16}, {8imm}" nargs="2" value="0xE8">
+                <args>
+                    <arg name="r16" kind="16BitRegister" defaults="SP" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+        </sub-category>
+
+         <sub-category name="Increments 16-Bit Registers">
+            <opcode instruction="INC" cycles="8" size="1" format="INC {r16}" nargs="1" template="1">
+                <args>
+                    <arg name="r16" kind="16BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16">
+                        <on r16="BC" value="0x03" />
+                        <on r16="DE" value="0x13" />
+                        <on r16="HL" value="0x23" />
+                        <on r16="SP" value="0x33" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+       
+         <sub-category name="Decrements 16-Bit Registers">
+            <opcode instruction="DEC" cycles="8" size="1" format="DEC {r16}" nargs="1" template="1">
+                <args>
+                    <arg name="r16" kind="16BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="16BitRegister" argument="r16">
+                        <on r16="BC" value="0x0B" />
+                        <on r16="DE" value="0x1B" />
+                        <on r16="HL" value="0x2B" />
+                        <on r16="SP" value="0x3B" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+    </category>
+
+    <category name="Miscellaneous">
+        <sub-category name="Swap upper and lower nibles of 8-Bit register">
+             <opcode instruction="SWAP" cycles="8" size="2" format="SWAP {r8}" nargs="1" template="1" extended="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x37" />
+                        <on r8="B" value="0xCB 0X30" />
+                        <on r8="C" value="0xCB 0X31" />
+                        <on r8="D" value="0xCB 0X32" />
+                        <on r8="E" value="0xCB 0X33" />
+                        <on r8="H" value="0xCB 0X34" />
+                        <on r8="L" value="0xCB 0X35" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Swap upper and lower nibles of memory at 16-Bit register">
+             <opcode instruction="SWAP" cycles="16" size="2" format="SWAP ({r16})" nargs="1" value="0xCB 0x36" extended="1">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL" />
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Decimal adjust register A so that the correct BCD is obtained">
+            <opcode instruction="DAA" cycles="4" size="1" format="DAA" nargs="0" value="0x27" />
+        </sub-category>
+        <sub-category name="Complement A register (flip all bits)">
+            <opcode instruction="CPL" cycles="4" size="1" format="CPL" nargs="0" value="0x2F" />
+        </sub-category>
+        <sub-category name="Complement carry flag (C = !C)">
+            <opcode instruction="CCF" cycles="4" size="1" format="CCF" nargs="0" value="0x3F" />
+        </sub-category>
+        <sub-category name="Set carry flag">
+            <opcode instruction="SCF" cycles="4" size="1" format="SCF" nargs="0" value="0x37" />
+        </sub-category>
+        <sub-category name="No operation">
+            <opcode instruction="NOP" value="0x00" cycles="4" format="NOP" nargs="0" size="1" />
+        </sub-category>
+        <sub-category name="Halt CPU until interrupt">
+            <opcode instruction="HALT" value="0x76" cycles="4" format="HALT" nargs="0" size="1" />
+        </sub-category>
+        <sub-category name="Halt CPU and LCD Display until button pressed">
+            <opcode instruction="STOP" value="0x10 0x00" cycles="4" format="STOP" nargs="0" size="1" extended="1" />
+        </sub-category>
+        <sub-category name="Disable interrupt">
+            <opcode instruction="DI" value="0xF3" cycles="4" format="DI" nargs="0" size="1" />
+        </sub-category>
+        <sub-category name="Enable interrupt">
+            <opcode instruction="EI" value="0xFB" cycles="4" format="EI" nargs="0" size="1" />
+        </sub-category>
+    </category>
+
+    <category name="Rotates and Shifts">
+        <sub-category name="Rotate A left. Old bit 7 to Carry flag">
+            <opcode instruction="RLCA" value="0x07" cycles="4" format="RLCA" nargs="0" size="1" />
+        </sub-category>
+        <sub-category name="Rotate A left through Carry Flag">
+            <opcode instruction="RLA" value="0x17" cycles="4" format="RLA" nargs="0" size="1" />
+        </sub-category>
+         <sub-category name="Rotate A right. Old bit 7 to Carry flag">
+            <opcode instruction="RRCA" value="0x0F" cycles="4" format="RRCA" nargs="0" size="1" />
+        </sub-category>
+        <sub-category name="Rotate A right through Carry Flag">
+            <opcode instruction="RRA" value="0x1F" cycles="4" format="RRA" nargs="0" size="1" />
+        </sub-category>
+     
+        <sub-category name="Rotate 8-Bit register left. Old bit 7 to Carry Flag">
+            <opcode instruction="RLC" cycles="8" format="RLC {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x07" />
+                        <on r8="B" value="0xCB 0X00" />
+                        <on r8="C" value="0xCB 0X01" />
+                        <on r8="D" value="0xCB 0X02" />
+                        <on r8="E" value="0xCB 0X03" />
+                        <on r8="H" value="0xCB 0X04" />
+                        <on r8="L" value="0xCB 0X05" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Rotate memory at 16-Bit register left. Old bit 7 to Carry Flag">
+            <opcode instruction="RLC" cycles="16" format="RLC ({r16})" nargs="1" size="2" extended="1" value="0xCB 0X06">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Rotate 8-Bit register left through Carry Flag">
+            <opcode instruction="RL" cycles="8" format="RL {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x17" />
+                        <on r8="B" value="0xCB 0X10" />
+                        <on r8="C" value="0xCB 0X11" />
+                        <on r8="D" value="0xCB 0X12" />
+                        <on r8="E" value="0xCB 0X13" />
+                        <on r8="H" value="0xCB 0X14" />
+                        <on r8="L" value="0xCB 0X15" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Rotate memory at 16-Bit register left through Carry Flag">
+            <opcode instruction="RL" cycles="16" format="RL ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x16">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Rotate 8-Bit register right. Old bit 7 to Carry Flag">
+            <opcode instruction="RRC" cycles="8" format="RRC {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x0f" />
+                        <on r8="B" value="0xCB 0X08" />
+                        <on r8="C" value="0xCB 0X09" />
+                        <on r8="D" value="0xCB 0X0a" />
+                        <on r8="E" value="0xCB 0X0b" />
+                        <on r8="H" value="0xCB 0X0c" />
+                        <on r8="L" value="0xCB 0X0d" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Rotate memory at 16-Bit register right. Old bit 7 to Carry Flag">
+            <opcode instruction="RRC" cycles="16" format="RRC ({r16})" nargs="1" size="2" extended="1" value="0xCB 0X0E">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Rotate 8-Bit register right through Carry Flag">
+            <opcode instruction="RR" cycles="8" format="RR {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x1f" />
+                        <on r8="B" value="0xCB 0X18" />
+                        <on r8="C" value="0xCB 0X19" />
+                        <on r8="D" value="0xCB 0X1a" />
+                        <on r8="E" value="0xCB 0X1b" />
+                        <on r8="H" value="0xCB 0X1c" />
+                        <on r8="L" value="0xCB 0X1d" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Rotate memory at 16-Bit register right through Carry Flag">
+            <opcode instruction="RR" cycles="16" format="RR ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x16">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Shift 8-Bit register left into Carry Flag. LSB set to 0">
+            <opcode instruction="SLA" cycles="8" format="SLA {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x27" />
+                        <on r8="B" value="0xCB 0X20" />
+                        <on r8="C" value="0xCB 0X21" />
+                        <on r8="D" value="0xCB 0X22" />
+                        <on r8="E" value="0xCB 0X23" />
+                        <on r8="H" value="0xCB 0X24" />
+                        <on r8="L" value="0xCB 0X25" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Shift memory at 16-Bit register left into Carry Flag. LSB set to 0">
+            <opcode instruction="SLA" cycles="16" format="SLA ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x26">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+
+        <sub-category name="Shift 8-Bit register right into Carry Flag. MSB doesn't change">
+            <opcode instruction="SRA" cycles="8" format="SRA {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x2f" />
+                        <on r8="B" value="0xCB 0X28" />
+                        <on r8="C" value="0xCB 0X29" />
+                        <on r8="D" value="0xCB 0X2a" />
+                        <on r8="E" value="0xCB 0X2b" />
+                        <on r8="H" value="0xCB 0X2c" />
+                        <on r8="L" value="0xCB 0X2d" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Shift memory at 16-Bit register right into Carry Flag. MSB doesn't change">
+            <opcode instruction="SRA" cycles="16" format="SRA ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x2e">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Shift 8-Bit register right into Carry Flag. MSB set to 0">
+            <opcode instruction="SRL" cycles="8" format="SRL {r8}" nargs="1" size="2" extended="1" template="1">
+                <args>
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x3f" />
+                        <on r8="B" value="0xCB 0X38" />
+                        <on r8="C" value="0xCB 0X39" />
+                        <on r8="D" value="0xCB 0X3a" />
+                        <on r8="E" value="0xCB 0X3b" />
+                        <on r8="H" value="0xCB 0X3c" />
+                        <on r8="L" value="0xCB 0X3d" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Shift memory at 16-Bit register right into Carry Flag. MSB set to 0">
+            <opcode instruction="SRL" cycles="16" format="SRL ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x3e">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+    </category>
+    <category name="Bit Opcodes">
+        <sub-category name="Test bit b in 8-Bit register">
+            <opcode instruction="BIT" cycles="8" format="BIT {b}, {r8}" nargs="2" size="3" extended="1" template="1">
+                <args>
+                    <arg name="b" kind="8BitImmediate" />
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x47" />
+                        <on r8="B" value="0xCB 0X40" />
+                        <on r8="C" value="0xCB 0X41" />
+                        <on r8="D" value="0xCB 0X42" />
+                        <on r8="E" value="0xCB 0X43" />
+                        <on r8="H" value="0xCB 0X44" />
+                        <on r8="L" value="0xCB 0X45" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Test bit b in memory at 16-Bit register">
+            <opcode instruction="SRL" cycles="16" format="SRL ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x36">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Set bit b in 8-Bit register">
+            <opcode instruction="SET" cycles="8" format="SET {b}, {r8}" nargs="2" size="3" extended="1" template="1">
+                <args>
+                    <arg name="b" kind="8BitImmediate" />
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0xC7" />
+                        <on r8="B" value="0xCB 0XC0" />
+                        <on r8="C" value="0xCB 0XC1" />
+                        <on r8="D" value="0xCB 0XC2" />
+                        <on r8="E" value="0xCB 0XC3" />
+                        <on r8="H" value="0xCB 0XC4" />
+                        <on r8="L" value="0xCB 0XC5" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="set bit b in memory at 16-Bit register">
+            <opcode instruction="SET" cycles="16" format="SET ({r16})" nargs="1" size="2" extended="1" value="0xCB 0xC6">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+        <sub-category name="Reset bit b in 8-Bit register">
+            <opcode instruction="RES" cycles="8" format="RES {b}, {r8}" nargs="2" size="3" extended="1" template="1">
+                <args>
+                    <arg name="b" kind="8BitImmediate" />
+                    <arg name="r8" kind="8BitRegister" />
+                </args>
+                <repeats>
+                    <repeat kind="8BitRegister" argument="r8">
+                        <on r8="A" value="0xCB 0x87" />
+                        <on r8="B" value="0xCB 0X80" />
+                        <on r8="C" value="0xCB 0X81" />
+                        <on r8="D" value="0xCB 0X82" />
+                        <on r8="E" value="0xCB 0X83" />
+                        <on r8="H" value="0xCB 0X84" />
+                        <on r8="L" value="0xCB 0X85" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+        <sub-category name="Reset bit b in memory at 16-Bit register">
+            <opcode instruction="RES" cycles="16" format="RES ({r16})" nargs="1" size="2" extended="1" value="0xCB 0x86">
+                <args>
+                    <arg name="r16" kind="16BitRegisterPointer" defaults="HL"/>
+                </args>
+            </opcode>
+        </sub-category>
+    </category>
+    <category name="Jumps">
+        <sub-category name="Jump to address in 16-Bit immediate">
+            <opcode instruction="JP" cycles="12" format="JP {16imm}" nargs="1" size="3" value="0xC3">
+                <args>
+                    <arg name="16imm" kind="16BitImmediate" />
+                </args>
+            </opcode>
+            <opcode instruction="JP" cycles="12" format="JP {c}, {16imm}" nargs="2" size="3" template="1">
+                <args>
+                    <arg name="c" kind="JumpCondition" />
+                    <arg name="16imm" kind="16BitImmediate" />
+                </args>
+                <repeats>
+                    <repeat kind="JumpCondition" argument="c">
+                        <on c="NZ" value="0xC2" />
+                        <on c="Z"  value="0xCA" />
+                        <on c="NC" value="0xD2" />
+                        <on c="C"  value="0xDA" />
+                    </repeat>
+                </repeats>
+
+            </opcode>
+            <opcode instruction="JP" cycles="4" format="JP ({r16})" nargs="1" size="1" value="0xE9">
+                <args>
+                    <arg name="r16" kind="16BitRegister" defaults="HL" />
+                </args>
+            </opcode>
+
+        </sub-category>
+        <sub-category name="Jump to address relative to current address">
+            <opcode instruction="JP" cycles="8" format="JP {8imm}" nargs="1" size="2" value="0x18">
+                <args>
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+            </opcode>
+            <opcode instruction="JP" cycles="12" format="JP {c}, {8imm}" nargs="2" size="3" template="1">
+                <args>
+                    <arg name="c" kind="JumpCondition" />
+                    <arg name="8imm" kind="8BitImmediate" />
+                </args>
+                <repeats>
+                    <repeat kind="JumpCondition" argument="c">
+                        <on c="NZ" value="0x20" />
+                        <on c="Z"  value="0x28" />
+                        <on c="NC" value="0x30" />
+                        <on c="C"  value="0x38" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+    </category>
+    <category name="Calls">
+        <sub-category name="Push address of nexus instruction onto stack and then jump to address">
+             <opcode instruction="CALL" cycles="12" format="CALL {16imm}" nargs="1" size="3" value="0xCD">
+                <args>
+                    <arg name="16imm" kind="16BitImmediate" />
+                </args>
+            </opcode>
+            <opcode instruction="CALL" cycles="12" format="CALL {c}, {8imm}" nargs="2" size="3" template="1">
+                <args>
+                    <arg name="c" kind="JumpCondition" />
+                    <arg name="16imm" kind="16BitImmediate" />
+                </args>
+                <repeats>
+                    <repeat kind="JumpCondition" argument="c">
+                        <on c="NZ" value="0xC4" />
+                        <on c="Z"  value="0xCC" />
+                        <on c="NC" value="0xD4" />
+                        <on c="C"  value="0xDC" />
+                    </repeat>
+                </repeats>
+            </opcode>
+        </sub-category>
+    </category>
+    <category name="Returns">
+        <sub-category name="Pop two bytes from stack and jump to that address">
+            <opcode instruction="RET" cycles="8" format="RET" nargs="0" size="1" value="0xC9">
+            </opcode>
+            <opcode instruction="RETI" cycles="8" format="RETI" nargs="0" size="1" value="0xD9">
+            </opcode>
+            <opcode instruction="RET" cycles="8" format="RET {c}" nargs="1" size="1" template="1">
+                <args>
+                    <arg name="c" kind="JumpCondition" />
+                </args>
+                <repeats>
+                    <repeat kind="JumpCondition" argument="c">
+                        <on c="NZ" value="0xC0" />
+                        <on c="Z"  value="0xC8" />
+                        <on c="NC" value="0xD0" />
+                        <on c="C"  value="0xD8" />
+                    </repeat>
+                </repeats>
+            </opcode>
+           
+        </sub-category>
+    </category>
+</categories>
