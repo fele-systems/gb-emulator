@@ -134,6 +134,46 @@ InstructionTrait GbCpu::LD_r8_r8 (R8 r8out, R8 r8in)
     return InstructionTrait{ r8out };
 }
 
+InstructionTrait GbCpu::LD_r8_pr8 (R8 r8, R8 pr8)
+{
+    uint16_t addr = 0xFF00 + reg(pr8);
+    reg (r8, memory.read_byte(addr));
+
+    fmt::print ( "LD {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(pr8), addr);
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_pr8_r8 (R8 pr8, R8 r8)
+{
+    uint16_t addr = 0xFF00 + reg(pr8);
+    memory[addr] = reg(r8);
+
+    fmt::print ( "LD ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name(pr8), magic_enum::enum_name(r8), addr);
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_r8_pr16 (R8 r8, R16 pr16)
+{
+    uint16_t addr = reg(pr16);
+    reg (r8, memory.read_byte(addr));
+
+    fmt::print ( "LD {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name(r8), magic_enum::enum_name(pr16), addr);
+
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LD_pr16_r8 (R16 pr16, R8 r8)
+{
+    uint16_t addr = reg(pr16);
+    memory[addr] = reg(r8);
+
+    fmt::print ( "LD ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name(pr16), magic_enum::enum_name(r8), addr);
+
+    return InstructionTrait{ r8 };
+}
+
 InstructionTrait GbCpu::LD_r8_8imm (R8 r8)
 {
     uint8_t imm = next_pc_byte();
@@ -195,26 +235,26 @@ InstructionTrait GbCpu::LD_r8_p16imm(R8 r8)
     return InstructionTrait{ r8 };
 }
 
-InstructionTrait GbCpu::LD_r8_pr16(R8 r8, R16 r16)
-{
-    uint16_t addr = reg( r16 );
-    uint8_t byte = memory[addr];
-    reg ( r8, byte );
+// InstructionTrait GbCpu::LD_r8_pr16(R8 r8, R16 r16)
+// {
+//     uint16_t addr = reg( r16 );
+//     uint8_t byte = memory[addr];
+//     reg ( r8, byte );
 
-    fmt::print ( "LD {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (r16), addr );
+//     fmt::print ( "LD {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (r16), addr );
 
-    return InstructionTrait{ r8 };
-}
+//     return InstructionTrait{ r8 };
+// }
 
-InstructionTrait GbCpu::LD_pr16_r8(R16 r16, R8 r8)
-{
-    uint16_t addr = reg( r16 );
-    memory[addr] = reg (r8);
+// InstructionTrait GbCpu::LD_pr16_r8(R16 r16, R8 r8)
+// {
+//     uint16_t addr = reg( r16 );
+//     memory[addr] = reg (r8);
 
-    fmt::print ( "LD ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name (r16), magic_enum::enum_name (r8), addr );
+//     fmt::print ( "LD ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name (r16), magic_enum::enum_name (r8), addr );
 
-    return InstructionTrait{ r8 };
-}
+//     return InstructionTrait{ r8 };
+// }
 
 InstructionTrait GbCpu::LD_pr16_8imm(R16 r16)
 {
@@ -226,6 +266,42 @@ InstructionTrait GbCpu::LD_pr16_8imm(R16 r16)
     fmt::print ( "LD ({}), 0x{:0>2x} = 0x{:0>4x}\n", magic_enum::enum_name (r16), imm, addr );
 
     return InstructionTrait::no_traits();
+}
+
+InstructionTrait GbCpu::LDD_r8_pr16(R8 r8, R16 pr16)
+{
+    uint16_t addr = reg (pr16);
+    reg (r8, memory[addr]);
+    reg (pr16, addr - 1);
+    fmt::print ( "LDD {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (pr16), addr );
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LDD_pr16_r8(R16 pr16, R8 r8)
+{
+    uint16_t addr = reg (pr16);
+    memory[addr] = reg (r8);
+    reg (pr16, addr - 1);
+    fmt::print ( "LDD ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name (pr16), magic_enum::enum_name (r8), addr );
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LDI_r8_pr16(R8 r8, R16 pr16)
+{
+    uint16_t addr = reg (pr16);
+    reg (r8, memory[addr]);
+    reg (pr16, addr + 1);
+    fmt::print ( "LDI {}, ({}) = 0x{:0>4x}\n", magic_enum::enum_name (r8), magic_enum::enum_name (pr16), addr );
+    return InstructionTrait{ r8 };
+}
+
+InstructionTrait GbCpu::LDI_pr16_r8(R16 pr16, R8 r8)
+{
+    uint16_t addr = reg (pr16);
+    memory[addr] = reg (r8);
+    reg (pr16, addr + 1);
+    fmt::print ( "LDI ({}), {} = 0x{:0>4x}\n", magic_enum::enum_name (pr16), magic_enum::enum_name (r8), addr );
+    return InstructionTrait{ r8 };
 }
 
 InstructionTrait GbCpu::LD_p8imm_r8(GbCpu::R8 r8)

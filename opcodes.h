@@ -2,90 +2,516 @@
 #include <cstdint>
 enum class Opcode : uint8_t
 {
+
     ////////////////////////////////////////////////////
     //Miscellaneous
     ////////////////////////////////////////////////////
 
-    NOP = 0x00, // 4 cycles 
+
+    //--------------------------------------------------
+    //Miscellaneous
+    //--------------------------------------------------
+
+    NOP = 0x00,
+
     ////////////////////////////////////////////////////
     //8-Bit Loads
     ////////////////////////////////////////////////////
 
-    LD_A_8imm = 0x3E, // 8 cycles 
-    LD_B_8imm = 0x06, // 8 cycles 
-    LD_C_8imm = 0x0E, // 8 cycles 
-    LD_D_8imm = 0x16, // 8 cycles 
-    LD_E_8imm = 0x1E, // 8 cycles 
-    LD_H_8imm = 0x26, // 8 cycles 
-    LD_L_8imm = 0x2E, // 8 cycles 
-    LD_A_A = 0x7F, // 4 cycles 
-    LD_A_B = 0x78, // 4 cycles 
-    LD_A_C = 0x79, // 4 cycles
-    LD_A_D = 0x7A, // 4 cycles 
-    LD_A_E = 0x7B, // 4 cycles 
-    LD_A_H = 0x7C, // 4 cycles 
-    LD_A_L = 0x7D, // 4 cycles 
-    LD_B_A = 0x47, // 4 cycles 
-    LD_B_B = 0x40, // 4 cycles 
-    LD_B_C = 0x41, // 4 cycles 
-    LD_B_D = 0x42, // 4 cycles 
-    LD_B_E = 0x43, // 4 cycles 
-    LD_B_H = 0x44, // 4 cycles 
-    LD_B_L = 0x43, // 4 cycles 
-    LD_C_A = 0x4F, // 4 cycles 
-    LD_C_B = 0x48, // 4 cycles 
-    LD_C_C = 0x49, // 4 cycles 
-    LD_C_D = 0x4A, // 4 cycles 
-    LD_C_E = 0x4B, // 4 cycles 
-    LD_C_H = 0x4C, // 4 cycles 
-    LD_C_L = 0x4D, // 4 cycles 
-    LD_D_A = 0x57, // 4 cycles 
-    LD_D_B = 0x50, // 4 cycles 
-    LD_D_C = 0x51, // 4 cycles 
-    LD_D_D = 0x52, // 4 cycles 
-    LD_D_E = 0x53, // 4 cycles 
-    LD_D_H = 0x54, // 4 cycles 
-    LD_D_L = 0x55, // 4 cycles 
-    LD_E_A = 0x5F, // 4 cycles 
-    LD_E_B = 0x58, // 4 cycles 
-    LD_E_C = 0x59, // 4 cycles 
-    LD_E_D = 0x5A, // 4 cycles 
-    LD_E_E = 0x5B, // 4 cycles 
-    LD_E_H = 0x5C, // 4 cycles 
-    LD_E_L = 0x5D, // 4 cycles 
-    LD_H_A = 0x67, // 4 cycles 
-    LD_H_B = 0x60, // 4 cycles 
-    LD_H_C = 0x61, // 4 cycles 
-    LD_H_D = 0x62, // 4 cycles 
-    LD_H_E = 0x63, // 4 cycles 
-    LD_H_H = 0x64, // 4 cycles 
-    LD_H_L = 0x65, // 4 cycles 
-    LD_L_A = 0x6F, // 4 cycles 
-    LD_L_B = 0x68, // 4 cycles 
-    LD_L_C = 0x69, // 4 cycles 
-    LD_L_D = 0x6A, // 4 cycles 
-    LD_L_E = 0x6B, // 4 cycles 
-    LD_L_H = 0x6C, // 4 cycles 
-    LD_L_L = 0x6D, // 4 cycles 
-    LD_B_pHL = 0x46, // 8 cycles 
-    LD_C_pHL = 0x4E, // 8 cycles 
-    LD_D_pHL = 0x56, // 8 cycles 
-    LD_E_pHL = 0x5E, // 8 cycles 
-    LD_H_pHL = 0x66, // 8 cycles 
-    LD_L_pHL = 0x6E, // 8 cycles 
-    LD_pHL_B = 0x70, // 8 cycles 
-    LD_pHL_C = 0x71, // 8 cycles 
-    LD_pHL_D = 0x72, // 8 cycles 
-    LD_pHL_E = 0x73, // 8 cycles 
-    LD_pHL_H = 0x74, // 8 cycles 
-    LD_pHL_L = 0x75, // 8 cycles 
-    LD_pHL_8imm = 0x36, // 12 cycles 
-    LD_A_pBC = 0x0A, // 8 cycles 
-    LD_A_pDE = 0x1A, // 8 cycles 
-    LD_A_pHL = 0x7E, // 8 cycles 
-    LD_pBC_A = 0x02, // 8 cycles 
-    LD_pDE_A = 0x12, // 8 cycles 
-    LD_pHL_A = 0x77, // 8 cycles 
-    LD_A_p16imm = 0xFA, // 16 cycles 
-    LD_p16imm_A = 0xEA, // 16 cycles 
+
+    //--------------------------------------------------
+    //Load 8-Bit Immediate to 8-Bit register
+    //--------------------------------------------------
+
+    LD_A_8imm = 0x3E,
+    LD_B_8imm = 0x06,
+    LD_C_8imm = 0x0E,
+    LD_D_8imm = 0x16,
+    LD_E_8imm = 0x1E,
+    LD_H_8imm = 0x26,
+    LD_L_8imm = 0x2E,
+
+    //--------------------------------------------------
+    //Load 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    LD_A_A = 0x7F,
+    LD_A_B = 0x78,
+    LD_A_C = 0x79,
+    LD_A_D = 0x7A,
+    LD_A_E = 0x7B,
+    LD_A_H = 0x7C,
+    LD_A_L = 0x7D,
+    LD_B_A = 0x47,
+    LD_B_B = 0x40,
+    LD_B_C = 0x41,
+    LD_B_D = 0x42,
+    LD_B_E = 0x43,
+    LD_B_H = 0x44,
+    LD_B_L = 0x45,
+    LD_C_A = 0x4F,
+    LD_C_B = 0x48,
+    LD_C_C = 0x49,
+    LD_C_D = 0x4A,
+    LD_C_E = 0x4B,
+    LD_C_H = 0x4C,
+    LD_C_L = 0x4D,
+    LD_D_A = 0x57,
+    LD_D_B = 0x50,
+    LD_D_C = 0x51,
+    LD_D_D = 0x52,
+    LD_D_E = 0x53,
+    LD_D_H = 0x54,
+    LD_D_L = 0x55,
+    LD_E_A = 0x5F,
+    LD_E_B = 0x58,
+    LD_E_C = 0x59,
+    LD_E_D = 0x5A,
+    LD_E_E = 0x5B,
+    LD_E_H = 0x5C,
+    LD_E_L = 0x5D,
+    LD_H_A = 0x67,
+    LD_H_B = 0x60,
+    LD_H_C = 0x61,
+    LD_H_D = 0x62,
+    LD_H_E = 0x63,
+    LD_H_H = 0x64,
+    LD_H_L = 0x65,
+    LD_L_A = 0x6F,
+    LD_L_B = 0x68,
+    LD_L_C = 0x69,
+    LD_L_D = 0x6A,
+    LD_L_E = 0x6B,
+    LD_L_H = 0x6C,
+    LD_L_L = 0x6D,
+
+    //--------------------------------------------------
+    //Load byte at HL into 8-Bit register
+    //--------------------------------------------------
+
+    LD_A_pHL = 0x7E,
+    LD_B_pHL = 0x46,
+    LD_C_pHL = 0x4E,
+    LD_D_pHL = 0x56,
+    LD_E_pHL = 0x5E,
+    LD_H_pHL = 0x66,
+    LD_L_pHL = 0x6E,
+
+    //--------------------------------------------------
+    //Load 8-Bit value into byte at HL
+    //--------------------------------------------------
+
+    LD_pHL_B = 0x70,
+    LD_pHL_C = 0x71,
+    LD_pHL_D = 0x72,
+    LD_pHL_E = 0x73,
+    LD_pHL_H = 0x74,
+    LD_pHL_L = 0x75,
+    LD_pHL_8imm = 0x36,
+
+    //--------------------------------------------------
+    //Loads byte at 16-Bit Register into 8-Bit register
+    //--------------------------------------------------
+
+    LD_A_pBC = 0x0A,
+    LD_A_pDE = 0x1A,
+
+    //--------------------------------------------------
+    //Loads 8-Bit register into byte at 16-Bit Register
+    //--------------------------------------------------
+
+    LD_pBC_A = 0x02,
+    LD_pDE_A = 0x12,
+    LD_pHL_A = 0x77,
+
+    //--------------------------------------------------
+    //Loads byte at 16-Bit Immediate into 8-Bit Register
+    //--------------------------------------------------
+
+    LD_A_pp16imm = 0xFA,
+
+    //--------------------------------------------------
+    //Loads 8-Bit Register into byte at 16-Bit Register
+    //--------------------------------------------------
+
+    LD_pp16imm_A = 0xEA,
+
+    //--------------------------------------------------
+    //Loads byte at (0xFF00 + 8-Bit Register) into 8-Bit Register
+    //--------------------------------------------------
+
+    LD_A_pC = 0xF2,
+
+    //--------------------------------------------------
+    //Loads 8-Bit register into byte at (0xFF00 + 8-Bit Register)
+    //--------------------------------------------------
+
+    LD_pC_A = 0xE2,
+
+    //--------------------------------------------------
+    //Loads byte at 16-Bit Register into 8-Bit register. Decrement 16-Bit register
+    //--------------------------------------------------
+
+    LDD_A_pHL = 0x3A,
+
+    //--------------------------------------------------
+    //Loads 8-Bit register into byte at 16-Bit Register Decrement 16-Bit register
+    //--------------------------------------------------
+
+    LDD_pHL_A = 0x32,
+
+    //--------------------------------------------------
+    //Loads byte at 16-Bit Register into 8-Bit register. Increment 16-Bit register
+    //--------------------------------------------------
+
+    LDI_A_pHL = 0x2A,
+
+    //--------------------------------------------------
+    //Loads 8-Bit register into byte at 16-Bit Register Increment 16-Bit register
+    //--------------------------------------------------
+
+    LDI_pHL_A = 0x22,
+
+    //--------------------------------------------------
+    //Loads byte at (0xFF00 + 8-Bit immediate) into 8-Bit register
+    //--------------------------------------------------
+
+    LD_pA_8imm = 0xF0,
+
+    //--------------------------------------------------
+    //Loads 8-Bit register into byte at (0xFF00 + 8-Bit Immediate)
+    //--------------------------------------------------
+
+    LD_8imm_pA = 0xE0,
+
+    ////////////////////////////////////////////////////
+    //16-Bit Loads
+    ////////////////////////////////////////////////////
+
+
+    //--------------------------------------------------
+    //Loads 16-Bit immediate into 16-Bit register
+    //--------------------------------------------------
+
+    LD_BC_16imm = 0x01,
+    LD_DE_16imm = 0x11,
+    LD_HL_16imm = 0x21,
+    LD_SP_16imm = 0x31,
+
+    //--------------------------------------------------
+    //Loads 16-Bit register into 16-Bit register
+    //--------------------------------------------------
+
+    LD_SP_HL = 0xF9,
+
+    //--------------------------------------------------
+    //Loads 16-Bit register + 8-Bit immediate into 16-Bit register
+    //--------------------------------------------------
+
+    LD_HL_SP_8imm = 0xF8,
+
+    //--------------------------------------------------
+    //Loads 16-Bit register into memory at 16-Bit immediate
+    //--------------------------------------------------
+
+    LD_16imm_SP = 0x08,
+
+    //--------------------------------------------------
+    //Push 16-Bit register onto stack. Decrememt SP twice
+    //--------------------------------------------------
+
+    PUSH_AF = 0xF5,
+    PUSH_BC = 0xC5,
+    PUSH_DE = 0xD5,
+    PUSH_HL = 0xE5,
+
+    //--------------------------------------------------
+    //Pop 16-Bit off stack into 16-Bit register. Incrememt SP twice
+    //--------------------------------------------------
+
+    POP_AF = 0xF1,
+    POP_BC = 0xC1,
+    POP_DE = 0xD1,
+    POP_HL = 0xE1,
+
+    ////////////////////////////////////////////////////
+    //8-Bit ALU
+    ////////////////////////////////////////////////////
+
+
+    //--------------------------------------------------
+    //Add 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    ADD_A_A = 0x87,
+    ADD_A_B = 0x80,
+    ADD_A_C = 0x81,
+    ADD_A_D = 0x82,
+    ADD_A_E = 0x83,
+    ADD_A_H = 0x84,
+    ADD_A_L = 0x85,
+
+    //--------------------------------------------------
+    //Add 8-Bit at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    ADD_A_pHL = 0x86,
+
+    //--------------------------------------------------
+    //Add 8-Bit immediate into 8-Bit register
+    //--------------------------------------------------
+
+    ADD_A_8imm = 0xC6,
+
+    //--------------------------------------------------
+    //Add 8-Bit register + carry flag into 8-Bit register
+    //--------------------------------------------------
+
+    ADC_A_A = 0x8F,
+    ADC_A_B = 0x88,
+    ADC_A_C = 0x89,
+    ADC_A_D = 0x8A,
+    ADC_A_E = 0x8B,
+    ADC_A_H = 0x8C,
+    ADC_A_L = 0x8D,
+
+    //--------------------------------------------------
+    //Add 8-Bit + carry flag at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    ADC_A_pHL = 0x8E,
+
+    //--------------------------------------------------
+    //Add 8-Bit immediate + carry flag into 8-Bit register
+    //--------------------------------------------------
+
+    ADC_A_8imm = 0xCE,
+
+    //--------------------------------------------------
+    //Subtracts 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    SUB_A_A = 0x97,
+    SUB_A_B = 0x90,
+    SUB_A_C = 0x91,
+    SUB_A_D = 0x92,
+    SUB_A_E = 0x93,
+    SUB_A_H = 0x94,
+    SUB_A_L = 0x95,
+
+    //--------------------------------------------------
+    //Subtracts 8-Bit at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    SUB_A_pHL = 0x96,
+
+    //--------------------------------------------------
+    //Subtracts 8-Bit immediate into 8-Bit register
+    //--------------------------------------------------
+
+    SUB_A_8imm = 0xD6,
+
+    //--------------------------------------------------
+    //Subtracts 8-Bit register + carry flag into 8-Bit register
+    //--------------------------------------------------
+
+    SBC_A_A = 0x9F,
+    SBC_A_B = 0x98,
+    SBC_A_C = 0x99,
+    SBC_A_D = 0x9A,
+    SBC_A_E = 0x9B,
+    SBC_A_H = 0x9C,
+    SBC_A_L = 0x9D,
+
+    //--------------------------------------------------
+    //Subtracts 8-Bit + carry flag at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    SBC_A_pHL = 0x9E,
+
+    //--------------------------------------------------
+    //Subtracts 8-Bit immediate + carry flag into 8-Bit register
+    //--------------------------------------------------
+
+    SBC_A_8imm = 0xDE,
+
+    //--------------------------------------------------
+    //Logically ANDs 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    AND_A = 0xA7,
+    AND_B = 0xA0,
+    AND_C = 0xA1,
+    AND_D = 0xA2,
+    AND_E = 0xA3,
+    AND_H = 0xA4,
+    AND_L = 0xA5,
+
+    //--------------------------------------------------
+    //Logically ANDs 8-Bit at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    AND_HL = 0xA6,
+
+    //--------------------------------------------------
+    //Logically ANDs 8-Bit immediate into 8-Bit register
+    //--------------------------------------------------
+
+    AND_8imm = 0xE6,
+
+    //--------------------------------------------------
+    //Logically ORs 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    OR_A = 0xB7,
+    OR_B = 0xB0,
+    OR_C = 0xB1,
+    OR_D = 0xB2,
+    OR_E = 0xB3,
+    OR_H = 0xB4,
+    OR_L = 0xB5,
+
+    //--------------------------------------------------
+    //Logically ORs 8-Bit at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    OR_HL = 0xB6,
+
+    //--------------------------------------------------
+    //Logically ORs 8-Bit immediate into 8-Bit register
+    //--------------------------------------------------
+
+    OR_8imm = 0xF6,
+
+    //--------------------------------------------------
+    //Logically XORs 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    XOR_A = 0xAF,
+    XOR_B = 0xA8,
+    XOR_C = 0xA9,
+    XOR_D = 0xAA,
+    XOR_E = 0xAB,
+    XOR_H = 0xAC,
+    XOR_L = 0xAD,
+
+    //--------------------------------------------------
+    //Logically XORs 8-Bit at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    XOR_HL = 0xAE,
+
+    //--------------------------------------------------
+    //Logically XORs 8-Bit immediate into 8-Bit register
+    //--------------------------------------------------
+
+    XOR_8imm = 0xEE,
+
+    //--------------------------------------------------
+    //Compares 8-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    CP_A = 0xBF,
+    CP_B = 0xB8,
+    CP_C = 0xB9,
+    CP_D = 0xBA,
+    CP_E = 0xBB,
+    CP_H = 0xBC,
+    CP_L = 0xBD,
+
+    //--------------------------------------------------
+    //Compares 8-Bit at 16-Bit register into 8-Bit register
+    //--------------------------------------------------
+
+    CP_HL = 0xBE,
+
+    //--------------------------------------------------
+    //Compares 8-Bit immediate into 8-Bit register
+    //--------------------------------------------------
+
+    CP_8imm = 0xFE,
+
+    //--------------------------------------------------
+    //Increments 8-Bit register
+    //--------------------------------------------------
+
+    INC_A = 0x3C,
+    INC_B = 0x04,
+    INC_C = 0x0C,
+    INC_D = 0x14,
+    INC_E = 0x1C,
+    INC_H = 0x24,
+    INC_L = 0x2C,
+
+    //--------------------------------------------------
+    //Increments value at 16-Bit register
+    //--------------------------------------------------
+
+    INC_pHL = 0x34,
+
+    //--------------------------------------------------
+    //Decrements 8-Bit register
+    //--------------------------------------------------
+
+    DEC_A = 0x3D,
+    DEC_B = 0x05,
+    DEC_C = 0x0D,
+    DEC_D = 0x15,
+    DEC_E = 0x1D,
+    DEC_H = 0x25,
+    DEC_L = 0x2D,
+
+    //--------------------------------------------------
+    //Decrements value at 16-Bit register
+    //--------------------------------------------------
+
+    DEC_pHL = 0x35,
+
+    ////////////////////////////////////////////////////
+    //16-Bit ALU
+    ////////////////////////////////////////////////////
+
+
+    //--------------------------------------------------
+    //Add two 16-Bit Registers
+    //--------------------------------------------------
+
+    ADD_HL_BC = 0x09,
+    ADD_HL_DE = 0x19,
+    ADD_HL_HL = 0x29,
+    ADD_HL_SP = 0x39,
+
+    //--------------------------------------------------
+    //Add 8-Bit immediate to 16-Bit register
+    //--------------------------------------------------
+
+    ADD_SP_8imm = 0xE8,
+
+    //--------------------------------------------------
+    //Increments 16-Bit Registers
+    //--------------------------------------------------
+
+    INC_BC = 0x03,
+    INC_DE = 0x13,
+    INC_HL = 0x23,
+    INC_SP = 0x33,
+
+    //--------------------------------------------------
+    //Decrements 16-Bit Registers
+    //--------------------------------------------------
+
+    DEC_BC = 0x0B,
+    DEC_DE = 0x1B,
+    DEC_HL = 0x2B,
+    DEC_SP = 0x3B,
+
+    ////////////////////////////////////////////////////
+    //Miscellaneous
+    ////////////////////////////////////////////////////
+
+
+    //--------------------------------------------------
+    //Swap upper and lower nibles of 8-Bit register
+    //--------------------------------------------------
+
 };

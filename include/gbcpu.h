@@ -69,15 +69,15 @@ private:
      */
     InstructionTrait LD_r8_r8 (R8 r8out, R8 r8in);
     /**
-     * Loads the value at 8-Bit register pointer into another 8-Bit register
-     * i.e. r8out = (r8in)
+     * Loads the value at 0xFF00 + plus 8-Bit register pointer into another 8-Bit register
+     * i.e. r8out = (0xFF00 + r8in)
      * @param r8 The target register
      * @param pr8 The source register pointer
      */
     InstructionTrait LD_r8_pr8 (R8 r8, R8 pr8);
     /**
-     * Loads the value from 8-Bit register into memory at 8-Bit register pointer
-     * i.e. r8out = (r8in)
+     * Loads the value from 8-Bit register into memory at 0xFF00 + 8-Bit register pointer
+     * i.e. (0xFF00 + pr8) = r8
      * @param pr8 The target register pointer
      * @param r8 The source register
      */

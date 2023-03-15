@@ -164,8 +164,8 @@ std::string to_string_debug(const GBRomHeader& header)
     fmt::format_to(os, "\tglobal_checksum: 0x{:0>2x}\n", header.global_checksum);
     fmt::format_to(os, "\tversion_number: 0x{:0>2x}\n", header.version_number);
     fmt::format_to(os, "\tram_size: 0x{:0>2x}\n", header.ram_size);
-    fmt::format_to(os, "\trom_size: {}(0x{:0>2x})\n", magic_enum::enum_name(header.rom_size), header.rom_size);
-    fmt::format_to(os, "\tcartridge_type: {}(0x{:0>2x})\n", magic_enum::enum_name(header.cartridge_type), header.cartridge_type);
+    fmt::format_to(os, "\trom_size: {}(0x{:0>2x})\n", magic_enum::enum_name(header.rom_size), static_cast<uint8_t>(header.rom_size));
+    fmt::format_to(os, "\tcartridge_type: {}(0x{:0>2x})\n", magic_enum::enum_name(header.cartridge_type), static_cast<uint8_t>(header.cartridge_type))  ;
     fmt::format_to(os, "\told_licensee: 0x{:0>2x}\n", header.old_licensee);
     fmt::format_to(os, "\tnew_licensee: 0x{:0>2x}\n", header.new_licensee);
 
