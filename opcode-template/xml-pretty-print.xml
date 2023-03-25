@@ -1,0 +1,1329 @@
+<opcodes>
+	<function-category category="LD_r8_8imm" brief="Loads 8-Bit immediate into 8-Bit register">
+		<opcode instruction="LD" value="0x3E" cycles="8" format="LD A, {}" size="2" cenum="LD_A_8imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x06" cycles="8" format="LD B, {}" size="2" cenum="LD_B_8imm">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x0E" cycles="8" format="LD C, {}" size="2" cenum="LD_C_8imm">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x16" cycles="8" format="LD D, {}" size="2" cenum="LD_D_8imm">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x1E" cycles="8" format="LD E, {}" size="2" cenum="LD_E_8imm">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x26" cycles="8" format="LD H, {}" size="2" cenum="LD_H_8imm">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x2E" cycles="8" format="LD L, {}" size="2" cenum="LD_L_8imm">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r8_r8" brief="Loads 8-Bit register into another 8-Bit register">
+		<opcode instruction="LD" value="0x7F" cycles="4" format="LD A, A" size="2" cenum="LD_A_A">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x78" cycles="4" format="LD A, B" size="2" cenum="LD_A_B">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x79" cycles="4" format="LD A, C" size="2" cenum="LD_A_C">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x7A" cycles="4" format="LD A, D" size="2" cenum="LD_A_D">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x7B" cycles="4" format="LD A, E" size="2" cenum="LD_A_E">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x7C" cycles="4" format="LD A, H" size="2" cenum="LD_A_H">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x7D" cycles="4" format="LD A, L" size="2" cenum="LD_A_L">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x47" cycles="4" format="LD B, A" size="2" cenum="LD_B_A">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x40" cycles="4" format="LD B, B" size="2" cenum="LD_B_B">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x41" cycles="4" format="LD B, C" size="2" cenum="LD_B_C">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x42" cycles="4" format="LD B, D" size="2" cenum="LD_B_D">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x43" cycles="4" format="LD B, E" size="2" cenum="LD_B_E">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x44" cycles="4" format="LD B, H" size="2" cenum="LD_B_H">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x45" cycles="4" format="LD B, L" size="2" cenum="LD_B_L">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x4F" cycles="4" format="LD C, A" size="2" cenum="LD_C_A">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x48" cycles="4" format="LD C, B" size="2" cenum="LD_C_B">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x49" cycles="4" format="LD C, C" size="2" cenum="LD_C_C">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x4A" cycles="4" format="LD C, D" size="2" cenum="LD_C_D">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x4B" cycles="4" format="LD C, E" size="2" cenum="LD_C_E">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x4C" cycles="4" format="LD C, H" size="2" cenum="LD_C_H">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x4D" cycles="4" format="LD C, L" size="2" cenum="LD_C_L">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x57" cycles="4" format="LD D, A" size="2" cenum="LD_D_A">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x50" cycles="4" format="LD D, B" size="2" cenum="LD_D_B">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x51" cycles="4" format="LD D, C" size="2" cenum="LD_D_C">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x52" cycles="4" format="LD D, D" size="2" cenum="LD_D_D">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x53" cycles="4" format="LD D, E" size="2" cenum="LD_D_E">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x54" cycles="4" format="LD D, H" size="2" cenum="LD_D_H">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x55" cycles="4" format="LD D, L" size="2" cenum="LD_D_L">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x5F" cycles="4" format="LD E, A" size="2" cenum="LD_E_A">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x58" cycles="4" format="LD E, B" size="2" cenum="LD_E_B">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x59" cycles="4" format="LD E, C" size="2" cenum="LD_E_C">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x5A" cycles="4" format="LD E, D" size="2" cenum="LD_E_D">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x5B" cycles="4" format="LD E, E" size="2" cenum="LD_E_E">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x5C" cycles="4" format="LD E, H" size="2" cenum="LD_E_H">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x5D" cycles="4" format="LD E, L" size="2" cenum="LD_E_L">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x67" cycles="4" format="LD H, A" size="2" cenum="LD_H_A">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x60" cycles="4" format="LD H, B" size="2" cenum="LD_H_B">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x61" cycles="4" format="LD H, C" size="2" cenum="LD_H_C">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x62" cycles="4" format="LD H, D" size="2" cenum="LD_H_D">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x63" cycles="4" format="LD H, E" size="2" cenum="LD_H_E">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x64" cycles="4" format="LD H, H" size="2" cenum="LD_H_H">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x65" cycles="4" format="LD H, L" size="2" cenum="LD_H_L">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x6F" cycles="4" format="LD L, A" size="2" cenum="LD_L_A">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x68" cycles="4" format="LD L, B" size="2" cenum="LD_L_B">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x69" cycles="4" format="LD L, C" size="2" cenum="LD_L_C">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x6A" cycles="4" format="LD L, D" size="2" cenum="LD_L_D">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x6B" cycles="4" format="LD L, E" size="2" cenum="LD_L_E">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x6C" cycles="4" format="LD L, H" size="2" cenum="LD_L_H">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x6D" cycles="4" format="LD L, L" size="2" cenum="LD_L_L">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r8_pr16" brief="Loads value in memory pointed by a 16-Bit register into a 8-Bit register">
+		<opcode instruction="LD" value="0x7E" cycles="8" format="LD A, (HL)" size="1" cenum="LD_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x46" cycles="8" format="LD B, (HL)" size="1" cenum="LD_B_pHL">
+			<argument name="B" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x4E" cycles="8" format="LD C, (HL)" size="1" cenum="LD_C_pHL">
+			<argument name="C" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x56" cycles="8" format="LD D, (HL)" size="1" cenum="LD_D_pHL">
+			<argument name="D" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x5E" cycles="8" format="LD E, (HL)" size="1" cenum="LD_E_pHL">
+			<argument name="E" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x66" cycles="8" format="LD H, (HL)" size="1" cenum="LD_H_pHL">
+			<argument name="H" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x6E" cycles="8" format="LD L, (HL)" size="1" cenum="LD_L_pHL">
+			<argument name="L" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x0A" cycles="8" format="LD A, (BC)" size="1" cenum="LD_A_pBC">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="BC" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x1A" cycles="8" format="LD A, (DE)" size="1" cenum="LD_A_pDE">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="DE" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_pr16_r8" brief="Loads 8-Bit register into memory pointed by a 16-Bit register">
+		<opcode instruction="LD" value="0x70" cycles="8" format="LD (HL), B" size="1" cenum="LD_pHL_B">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x71" cycles="8" format="LD (HL), C" size="1" cenum="LD_pHL_C">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x72" cycles="8" format="LD (HL), D" size="1" cenum="LD_pHL_D">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x73" cycles="8" format="LD (HL), E" size="1" cenum="LD_pHL_E">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x74" cycles="8" format="LD (HL), H" size="1" cenum="LD_pHL_H">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x75" cycles="8" format="LD (HL), L" size="1" cenum="LD_pHL_L">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x02" cycles="8" format="LD (BC), A" size="1" cenum="LD_pBC_A">
+			<argument name="BC" kind="RegisterPointer" size="2" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x12" cycles="8" format="LD (DE), A" size="1" cenum="LD_pDE_A">
+			<argument name="DE" kind="RegisterPointer" size="2" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="LD" value="0x77" cycles="8" format="LD (HL), A" size="1" cenum="LD_pHL_A">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_pr16_8imm" brief="Loads 8-Bit immediate into memory pointed by a 16-Bit register">
+		<opcode instruction="LD" value="0x36" cycles="12" format="LD (HL), {8imm}" size="2" cenum="LD_pHL_8imm">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r8_p16imm" brief="Loads 8-Bit value from memory pointed by a 16-Bit register">
+		<opcode instruction="LD" value="0xFA" cycles="16" format="LD {r8}, ({p16imm})" size="3" cenum="LD_A_pp16imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="p16imm" kind="ImmediatePointer" size="2" />
+		</opcode>
+	</function-category>
+        <function-category category="LD_p16imm_r8" brief="Loads value from 8-Bit register into memory pointed by a 16-Bit register">
+		<opcode instruction="LD" value="0xEA" cycles="16" format="LD ({16imm}), {r8}" size="3" cenum="LD_pp16imm_A">
+			<argument name="p16imm" kind="ImmediatePointer" size="2" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r8_pr8" brief="Loads value from memory at 0xFF00 + 8-Bit register into another 8-Bit register">
+		<opcode instruction="LD" value="0xF2" cycles="8" format="LD {r8out}, ({r16in})" size="1" cenum="LD_A_pC">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="C" kind="RegisterPointer" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_pr8_r8" brief="Loads value from 8-Bit register into memory at 0xFF00 + 8-Bit register">
+		<opcode instruction="LD" value="0xE2" cycles="8" format="LD ({r8out}), {r8in}" size="1" cenum="LD_pC_A">
+			<argument name="C" kind="RegisterPointer" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LDD_r8_pr16" brief="Loads 8-Bit value in memory pointed by 16-Bit register into 8-Bit register. Decrements 16-Bit register">
+		<opcode instruction="LDD" value="0x3A" cycles="8" format="LDD {r8}, ({r16})" size="1" cenum="LDD_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="LDD_pr16_r8" brief="Loads 8-Bit register into memory pointed by 16-Bit register. Decrements 16-Bit register">
+		<opcode instruction="LDD" value="0x32" cycles="8" format="LDD ({r16}), {r8}" size="1" cenum="LDD_pHL_A">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LDI_r8_pr16" brief="Loads 8-Bit value in memory pointed by 16-Bit register into 8-Bit register. Increments 16-Bit register">
+		<opcode instruction="LDI" value="0x2A" cycles="8" format="LDI {r8}, ({r16})" size="1" cenum="LDI_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="LDI_pr16_r8" brief="Loads 8-Bit register into memory pointed by 16-Bit register. Increments 16-Bit register">
+		<opcode instruction="LDI" value="0x22" cycles="8" format="LDI ({r16}), {r8}" size="1" cenum="LDI_pHL_A">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r8_p8imm" brief="Loads 8-Bit value from memory at 0xFF00 + 8-Bit register into another 8-Bit register">
+		<opcode instruction="LD" value="0xF0" cycles="12" format="LD {r8}, ({8imm})" size="2" cenum="LD_A_pp8imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="p8imm" kind="ImmediatePointer" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_p8imm_r8">
+		<opcode instruction="LD" value="0xE0" cycles="12" format="LDI ({8imm}), {r8}" size="2" cenum="LD_pp8imm_A">
+			<argument name="p8imm" kind="ImmediatePointer" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r16_16imm">
+		<opcode instruction="LD" value="0x01" cycles="12" format="LD BC, {}" size="3" cenum="LD_BC_16imm">
+			<argument name="BC" kind="Register" size="2" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x11" cycles="12" format="LD DE, {}" size="3" cenum="LD_DE_16imm">
+			<argument name="DE" kind="Register" size="2" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x21" cycles="12" format="LD HL, {}" size="3" cenum="LD_HL_16imm">
+			<argument name="HL" kind="Register" size="2" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+		<opcode instruction="LD" value="0x31" cycles="12" format="LD SP, {}" size="3" cenum="LD_SP_16imm">
+			<argument name="SP" kind="Register" size="2" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r16_r16">
+		<opcode instruction="LD" value="0xF9" cycles="8" format="LD {r16out}, {r16in}" size="1" cenum="LD_SP_HL">
+			<argument name="SP" kind="Register" size="2" />
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_r16_r16_8imm">
+		<opcode instruction="LD" value="0xF8" cycles="12" format="LD{r16out} {r16in}, {8imm}" size="2" cenum="LD_HL_SP_8imm">
+			<argument name="HL" kind="Register" size="2" />
+			<argument name="SP" kind="Register" size="2" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="LD_p16imm_r16">
+		<opcode instruction="LD" value="0x08" cycles="20" format="LD ({16imm}), {r16}" size="3" cenum="LD_pp16imm_SP">
+			<argument name="p16imm" kind="ImmediatePointer" size="2" />
+			<argument name="SP" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="PUSH_r16">
+		<opcode instruction="PUSH" value="0xF5" cycles="16" format="PUSH AF" size="1" cenum="PUSH_AF">
+			<argument name="AF" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="PUSH" value="0xC5" cycles="16" format="PUSH BC" size="1" cenum="PUSH_BC">
+			<argument name="BC" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="PUSH" value="0xD5" cycles="16" format="PUSH DE" size="1" cenum="PUSH_DE">
+			<argument name="DE" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="PUSH" value="0xE5" cycles="16" format="PUSH HL" size="1" cenum="PUSH_HL">
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="POP_r16">
+		<opcode instruction="POP" value="0xF1" cycles="12" format="POP AF" size="1" cenum="POP_AF">
+			<argument name="AF" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="POP" value="0xC1" cycles="12" format="POP BC" size="1" cenum="POP_BC">
+			<argument name="BC" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="POP" value="0xD1" cycles="12" format="POP DE" size="1" cenum="POP_DE">
+			<argument name="DE" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="POP" value="0xE1" cycles="12" format="POP HL" size="1" cenum="POP_HL">
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="ADD_r8_r8">
+		<opcode instruction="ADD" value="0x87" cycles="4" format="ADD {}, A" size="1" cenum="ADD_A_A">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADD" value="0x80" cycles="4" format="ADD {}, B" size="1" cenum="ADD_A_B">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADD" value="0x81" cycles="4" format="ADD {}, C" size="1" cenum="ADD_A_C">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADD" value="0x82" cycles="4" format="ADD {}, D" size="1" cenum="ADD_A_D">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADD" value="0x83" cycles="4" format="ADD {}, E" size="1" cenum="ADD_A_E">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADD" value="0x84" cycles="4" format="ADD {}, H" size="1" cenum="ADD_A_H">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADD" value="0x85" cycles="4" format="ADD {}, L" size="1" cenum="ADD_A_L">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="ADD_r8_pr16">
+		<opcode instruction="ADD" value="0x86" cycles="8" format="ADD {r8out}, ({r16in})" size="1" cenum="ADD_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="ADD_r8_8imm">
+		<opcode instruction="ADD" value="0xC6" cycles="8" format="ADD {r8}, {8imm}" size="1" cenum="ADD_A_8imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="ADC_r8_r8">
+		<opcode instruction="ADC" value="0x8F" cycles="4" format="ADC {}, A" size="1" cenum="ADC_A_A">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADC" value="0x88" cycles="4" format="ADC {}, B" size="1" cenum="ADC_A_B">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADC" value="0x89" cycles="4" format="ADC {}, C" size="1" cenum="ADC_A_C">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADC" value="0x8A" cycles="4" format="ADC {}, D" size="1" cenum="ADC_A_D">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADC" value="0x8B" cycles="4" format="ADC {}, E" size="1" cenum="ADC_A_E">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADC" value="0x8C" cycles="4" format="ADC {}, H" size="1" cenum="ADC_A_H">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="ADC" value="0x8D" cycles="4" format="ADC {}, L" size="1" cenum="ADC_A_L">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="ADC_r8_pr16">
+		<opcode instruction="ADC" value="0x8E" cycles="8" format="ADC {r8out}, ({r16in})" size="1" cenum="ADC_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="ADC_r8_8imm">
+		<opcode instruction="ADC" value="0xCE" cycles="8" format="ADC {r8}, {8imm}" size="1" cenum="ADC_A_8imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SUB_r8_r8">
+		<opcode instruction="SUB" value="0x97" cycles="4" format="SUB {}, A" size="1" cenum="SUB_A_A">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SUB" value="0x90" cycles="4" format="SUB {}, B" size="1" cenum="SUB_A_B">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SUB" value="0x91" cycles="4" format="SUB {}, C" size="1" cenum="SUB_A_C">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SUB" value="0x92" cycles="4" format="SUB {}, D" size="1" cenum="SUB_A_D">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SUB" value="0x93" cycles="4" format="SUB {}, E" size="1" cenum="SUB_A_E">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SUB" value="0x94" cycles="4" format="SUB {}, H" size="1" cenum="SUB_A_H">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SUB" value="0x95" cycles="4" format="SUB {}, L" size="1" cenum="SUB_A_L">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SUB_r8_pr16">
+		<opcode instruction="SUB" value="0x96" cycles="8" format="SUB {r8out}, ({r16in})" size="1" cenum="SUB_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="SUB_r8_8imm">
+		<opcode instruction="SUB" value="0xD6" cycles="8" format="SUB {r8}, {8imm}" size="1" cenum="SUB_A_8imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SBC_r8_r8">
+		<opcode instruction="SBC" value="0x9F" cycles="4" format="SBC {}, A" size="1" cenum="SBC_A_A">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SBC" value="0x98" cycles="4" format="SBC {}, B" size="1" cenum="SBC_A_B">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SBC" value="0x99" cycles="4" format="SBC {}, C" size="1" cenum="SBC_A_C">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SBC" value="0x9A" cycles="4" format="SBC {}, D" size="1" cenum="SBC_A_D">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SBC" value="0x9B" cycles="4" format="SBC {}, E" size="1" cenum="SBC_A_E">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SBC" value="0x9C" cycles="4" format="SBC {}, H" size="1" cenum="SBC_A_H">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SBC" value="0x9D" cycles="4" format="SBC {}, L" size="1" cenum="SBC_A_L">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SBC_r8_pr16">
+		<opcode instruction="SBC" value="0x9E" cycles="8" format="SBC {r8out}, ({r16in})" size="1" cenum="SBC_A_pHL">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="SBC_r8_8imm">
+		<opcode instruction="SBC" value="0xDE" cycles="8" format="SBC {r8}, {8imm}" size="1" cenum="SBC_A_8imm">
+			<argument name="A" kind="Register" size="1" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="AND_r8">
+		<opcode instruction="AND" value="0xA7" cycles="4" format="AND A" size="1" cenum="AND_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="AND" value="0xA0" cycles="4" format="AND B" size="1" cenum="AND_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="AND" value="0xA1" cycles="4" format="AND C" size="1" cenum="AND_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="AND" value="0xA2" cycles="4" format="AND D" size="1" cenum="AND_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="AND" value="0xA3" cycles="4" format="AND E" size="1" cenum="AND_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="AND" value="0xA4" cycles="4" format="AND H" size="1" cenum="AND_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="AND" value="0xA5" cycles="4" format="AND L" size="1" cenum="AND_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="AND_pr16">
+		<opcode instruction="AND" value="0xA6" cycles="8" format="AND ({r16})" size="1" cenum="AND_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="AND_8imm">
+		<opcode instruction="AND" value="0xE6" cycles="8" format="AND {8imm}" size="1" cenum="AND_8imm">
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="OR_r8">
+		<opcode instruction="OR" value="0xB7" cycles="4" format="OR A" size="1" cenum="OR_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="OR" value="0xB0" cycles="4" format="OR B" size="1" cenum="OR_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="OR" value="0xB1" cycles="4" format="OR C" size="1" cenum="OR_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="OR" value="0xB2" cycles="4" format="OR D" size="1" cenum="OR_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="OR" value="0xB3" cycles="4" format="OR E" size="1" cenum="OR_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="OR" value="0xB4" cycles="4" format="OR H" size="1" cenum="OR_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="OR" value="0xB5" cycles="4" format="OR L" size="1" cenum="OR_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="OR_pr16">
+		<opcode instruction="OR" value="0xB6" cycles="8" format="OR ({r16})" size="1" cenum="OR_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="OR_8imm">
+		<opcode instruction="OR" value="0xF6" cycles="8" format="OR {8imm}" size="1" cenum="OR_8imm">
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="XOR_r8">
+		<opcode instruction="XOR" value="0xAF" cycles="4" format="XOR A" size="1" cenum="XOR_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="XOR" value="0xA8" cycles="4" format="XOR B" size="1" cenum="XOR_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="XOR" value="0xA9" cycles="4" format="XOR C" size="1" cenum="XOR_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="XOR" value="0xAA" cycles="4" format="XOR D" size="1" cenum="XOR_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="XOR" value="0xAB" cycles="4" format="XOR E" size="1" cenum="XOR_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="XOR" value="0xAC" cycles="4" format="XOR H" size="1" cenum="XOR_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="XOR" value="0xAD" cycles="4" format="XOR L" size="1" cenum="XOR_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="XOR_pr16">
+		<opcode instruction="XOR" value="0xAE" cycles="8" format="XOR ({r16})" size="1" cenum="XOR_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="XOR_8imm">
+		<opcode instruction="XOR" value="0xEE" cycles="8" format="XOR {8imm}" size="1" cenum="XOR_8imm">
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="CP_r8">
+		<opcode instruction="CP" value="0xBF" cycles="4" format="CP A" size="1" cenum="CP_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="CP" value="0xB8" cycles="4" format="CP B" size="1" cenum="CP_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="CP" value="0xB9" cycles="4" format="CP C" size="1" cenum="CP_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="CP" value="0xBA" cycles="4" format="CP D" size="1" cenum="CP_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="CP" value="0xBB" cycles="4" format="CP E" size="1" cenum="CP_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="CP" value="0xBC" cycles="4" format="CP H" size="1" cenum="CP_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="CP" value="0xBD" cycles="4" format="CP L" size="1" cenum="CP_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="CP_pr16">
+		<opcode instruction="CP" value="0xBE" cycles="8" format="CP ({r16})" size="1" cenum="CP_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="CP_8imm">
+		<opcode instruction="CP" value="0xFE" cycles="8" format="CP {8imm}" size="1" cenum="CP_8imm">
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="INC_r8">
+		<opcode instruction="INC" value="0x3C" cycles="4" format="INC A" size="1" cenum="INC_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="INC" value="0x04" cycles="4" format="INC B" size="1" cenum="INC_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="INC" value="0x0C" cycles="4" format="INC C" size="1" cenum="INC_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="INC" value="0x14" cycles="4" format="INC D" size="1" cenum="INC_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="INC" value="0x1C" cycles="4" format="INC E" size="1" cenum="INC_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="INC" value="0x24" cycles="4" format="INC H" size="1" cenum="INC_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="INC" value="0x2C" cycles="4" format="INC L" size="1" cenum="INC_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="INC_pr16">
+		<opcode instruction="INC" value="0x34" cycles="12" format="INC ({r16})" size="1" cenum="INC_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="DEC_r8">
+		<opcode instruction="DEC" value="0x3D" cycles="4" format="DEC A" size="1" cenum="DEC_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="DEC" value="0x05" cycles="4" format="DEC B" size="1" cenum="DEC_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="DEC" value="0x0D" cycles="4" format="DEC C" size="1" cenum="DEC_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="DEC" value="0x15" cycles="4" format="DEC D" size="1" cenum="DEC_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="DEC" value="0x1D" cycles="4" format="DEC E" size="1" cenum="DEC_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="DEC" value="0x25" cycles="4" format="DEC H" size="1" cenum="DEC_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="DEC" value="0x2D" cycles="4" format="DEC L" size="1" cenum="DEC_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="DEC_pr16">
+		<opcode instruction="DEC" value="0x35" cycles="12" format="DEC ({r16})" size="1" cenum="DEC_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="ADD_r16_r16">
+		<opcode instruction="ADD" value="0x09" cycles="8" format="ADD {}, BC" size="1" cenum="ADD_HL_BC">
+			<argument name="HL" kind="Register" size="2" />
+			<argument name="BC" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="ADD" value="0x19" cycles="8" format="ADD {}, DE" size="1" cenum="ADD_HL_DE">
+			<argument name="HL" kind="Register" size="2" />
+			<argument name="DE" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="ADD" value="0x29" cycles="8" format="ADD {}, HL" size="1" cenum="ADD_HL_HL">
+			<argument name="HL" kind="Register" size="2" />
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="ADD" value="0x39" cycles="8" format="ADD {}, SP" size="1" cenum="ADD_HL_SP">
+			<argument name="HL" kind="Register" size="2" />
+			<argument name="SP" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="ADD_r16_8imm">
+		<opcode instruction="ADD" value="0xE8" cycles="16" format="ADD {r16}, {8imm}" size="2" cenum="ADD_SP_8imm">
+			<argument name="SP" kind="Register" size="2" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="INC_r16">
+		<opcode instruction="INC" value="0x03" cycles="8" format="INC BC" size="1" cenum="INC_BC">
+			<argument name="BC" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="INC" value="0x13" cycles="8" format="INC DE" size="1" cenum="INC_DE">
+			<argument name="DE" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="INC" value="0x23" cycles="8" format="INC HL" size="1" cenum="INC_HL">
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="INC" value="0x33" cycles="8" format="INC SP" size="1" cenum="INC_SP">
+			<argument name="SP" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="DEC_r16">
+		<opcode instruction="DEC" value="0x0B" cycles="8" format="DEC BC" size="1" cenum="DEC_BC">
+			<argument name="BC" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="DEC" value="0x1B" cycles="8" format="DEC DE" size="1" cenum="DEC_DE">
+			<argument name="DE" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="DEC" value="0x2B" cycles="8" format="DEC HL" size="1" cenum="DEC_HL">
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+		<opcode instruction="DEC" value="0x3B" cycles="8" format="DEC SP" size="1" cenum="DEC_SP">
+			<argument name="SP" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="SWAP_r8">
+		<opcode instruction="SWAP" value="0xCB 0x37" cycles="8" format="SWAP A" size="2" cenum="SWAP_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SWAP" value="0xCB 0X30" cycles="8" format="SWAP B" size="2" cenum="SWAP_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SWAP" value="0xCB 0X31" cycles="8" format="SWAP C" size="2" cenum="SWAP_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SWAP" value="0xCB 0X32" cycles="8" format="SWAP D" size="2" cenum="SWAP_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SWAP" value="0xCB 0X33" cycles="8" format="SWAP E" size="2" cenum="SWAP_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SWAP" value="0xCB 0X34" cycles="8" format="SWAP H" size="2" cenum="SWAP_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SWAP" value="0xCB 0X35" cycles="8" format="SWAP L" size="2" cenum="SWAP_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SWAP_pr16">
+		<opcode instruction="SWAP" value="0xCB 0x36" cycles="16" format="SWAP ({r16})" size="2" cenum="SWAP_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="DAA">
+		<opcode instruction="DAA" value="0x27" cycles="4" format="DAA" size="1" cenum="DAA" />
+	</function-category>
+	<function-category category="CPL">
+		<opcode instruction="CPL" value="0x2F" cycles="4" format="CPL" size="1" cenum="CPL" />
+	</function-category>
+	<function-category category="CCF">
+		<opcode instruction="CCF" value="0x3F" cycles="4" format="CCF" size="1" cenum="CCF" />
+	</function-category>
+	<function-category category="SCF">
+		<opcode instruction="SCF" value="0x37" cycles="4" format="SCF" size="1" cenum="SCF" />
+	</function-category>
+	<function-category category="NOP">
+		<opcode instruction="NOP" value="0x00" cycles="4" format="NOP" size="1" cenum="NOP" />
+	</function-category>
+	<function-category category="HALT">
+		<opcode instruction="HALT" value="0x76" cycles="4" format="HALT" size="1" cenum="HALT" />
+	</function-category>
+	<function-category category="STOP">
+		<opcode instruction="STOP" value="0x10 0x00" cycles="4" format="STOP" size="1" cenum="STOP" />
+	</function-category>
+	<function-category category="DI">
+		<opcode instruction="DI" value="0xF3" cycles="4" format="DI" size="1" cenum="DI" />
+	</function-category>
+	<function-category category="EI">
+		<opcode instruction="EI" value="0xFB" cycles="4" format="EI" size="1" cenum="EI" />
+	</function-category>
+	<function-category category="RLCA">
+		<opcode instruction="RLCA" value="0x07" cycles="4" format="RLCA" size="1" cenum="RLCA" />
+	</function-category>
+	<function-category category="RLA">
+		<opcode instruction="RLA" value="0x17" cycles="4" format="RLA" size="1" cenum="RLA" />
+	</function-category>
+	<function-category category="RRCA">
+		<opcode instruction="RRCA" value="0x0F" cycles="4" format="RRCA" size="1" cenum="RRCA" />
+	</function-category>
+	<function-category category="RRA">
+		<opcode instruction="RRA" value="0x1F" cycles="4" format="RRA" size="1" cenum="RRA" />
+	</function-category>
+	<function-category category="RLC_r8">
+		<opcode instruction="RLC" value="0xCB 0x07" cycles="8" format="RLC A" size="2" cenum="RLC_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RLC" value="0xCB 0X00" cycles="8" format="RLC B" size="2" cenum="RLC_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RLC" value="0xCB 0X01" cycles="8" format="RLC C" size="2" cenum="RLC_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RLC" value="0xCB 0X02" cycles="8" format="RLC D" size="2" cenum="RLC_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RLC" value="0xCB 0X03" cycles="8" format="RLC E" size="2" cenum="RLC_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RLC" value="0xCB 0X04" cycles="8" format="RLC H" size="2" cenum="RLC_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RLC" value="0xCB 0X05" cycles="8" format="RLC L" size="2" cenum="RLC_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="RLC_pr16">
+		<opcode instruction="RLC" value="0xCB 0X06" cycles="16" format="RLC ({r16})" size="2" cenum="RLC_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="RL_r8">
+		<opcode instruction="RL" value="0xCB 0x17" cycles="8" format="RL A" size="2" cenum="RL_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RL" value="0xCB 0X10" cycles="8" format="RL B" size="2" cenum="RL_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RL" value="0xCB 0X11" cycles="8" format="RL C" size="2" cenum="RL_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RL" value="0xCB 0X12" cycles="8" format="RL D" size="2" cenum="RL_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RL" value="0xCB 0X13" cycles="8" format="RL E" size="2" cenum="RL_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RL" value="0xCB 0X14" cycles="8" format="RL H" size="2" cenum="RL_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RL" value="0xCB 0X15" cycles="8" format="RL L" size="2" cenum="RL_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="RL_pr16">
+		<opcode instruction="RL" value="0xCB 0x16" cycles="16" format="RL ({r16})" size="2" cenum="RL_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="RRC_r8">
+		<opcode instruction="RRC" value="0xCB 0x0f" cycles="8" format="RRC A" size="2" cenum="RRC_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RRC" value="0xCB 0X08" cycles="8" format="RRC B" size="2" cenum="RRC_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RRC" value="0xCB 0X09" cycles="8" format="RRC C" size="2" cenum="RRC_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RRC" value="0xCB 0X0a" cycles="8" format="RRC D" size="2" cenum="RRC_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RRC" value="0xCB 0X0b" cycles="8" format="RRC E" size="2" cenum="RRC_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RRC" value="0xCB 0X0c" cycles="8" format="RRC H" size="2" cenum="RRC_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RRC" value="0xCB 0X0d" cycles="8" format="RRC L" size="2" cenum="RRC_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="RRC_pr16">
+		<opcode instruction="RRC" value="0xCB 0X0E" cycles="16" format="RRC ({r16})" size="2" cenum="RRC_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="RR_r8">
+		<opcode instruction="RR" value="0xCB 0x1f" cycles="8" format="RR A" size="2" cenum="RR_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RR" value="0xCB 0X18" cycles="8" format="RR B" size="2" cenum="RR_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RR" value="0xCB 0X19" cycles="8" format="RR C" size="2" cenum="RR_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RR" value="0xCB 0X1a" cycles="8" format="RR D" size="2" cenum="RR_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RR" value="0xCB 0X1b" cycles="8" format="RR E" size="2" cenum="RR_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RR" value="0xCB 0X1c" cycles="8" format="RR H" size="2" cenum="RR_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RR" value="0xCB 0X1d" cycles="8" format="RR L" size="2" cenum="RR_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="RR_pr16">
+		<opcode instruction="RR" value="0xCB 0x16" cycles="16" format="RR ({r16})" size="2" cenum="RR_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="SLA_r8">
+		<opcode instruction="SLA" value="0xCB 0x27" cycles="8" format="SLA A" size="2" cenum="SLA_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SLA" value="0xCB 0X20" cycles="8" format="SLA B" size="2" cenum="SLA_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SLA" value="0xCB 0X21" cycles="8" format="SLA C" size="2" cenum="SLA_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SLA" value="0xCB 0X22" cycles="8" format="SLA D" size="2" cenum="SLA_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SLA" value="0xCB 0X23" cycles="8" format="SLA E" size="2" cenum="SLA_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SLA" value="0xCB 0X24" cycles="8" format="SLA H" size="2" cenum="SLA_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SLA" value="0xCB 0X25" cycles="8" format="SLA L" size="2" cenum="SLA_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SLA_pr16">
+		<opcode instruction="SLA" value="0xCB 0x26" cycles="16" format="SLA ({r16})" size="2" cenum="SLA_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="SRA_r8">
+		<opcode instruction="SRA" value="0xCB 0x2f" cycles="8" format="SRA A" size="2" cenum="SRA_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRA" value="0xCB 0X28" cycles="8" format="SRA B" size="2" cenum="SRA_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRA" value="0xCB 0X29" cycles="8" format="SRA C" size="2" cenum="SRA_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRA" value="0xCB 0X2a" cycles="8" format="SRA D" size="2" cenum="SRA_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRA" value="0xCB 0X2b" cycles="8" format="SRA E" size="2" cenum="SRA_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRA" value="0xCB 0X2c" cycles="8" format="SRA H" size="2" cenum="SRA_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRA" value="0xCB 0X2d" cycles="8" format="SRA L" size="2" cenum="SRA_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SRA_pr16">
+		<opcode instruction="SRA" value="0xCB 0x2e" cycles="16" format="SRA ({r16})" size="2" cenum="SRA_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="SRL_r8">
+		<opcode instruction="SRL" value="0xCB 0x3f" cycles="8" format="SRL A" size="2" cenum="SRL_A">
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0X38" cycles="8" format="SRL B" size="2" cenum="SRL_B">
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0X39" cycles="8" format="SRL C" size="2" cenum="SRL_C">
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0X3a" cycles="8" format="SRL D" size="2" cenum="SRL_D">
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0X3b" cycles="8" format="SRL E" size="2" cenum="SRL_E">
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0X3c" cycles="8" format="SRL H" size="2" cenum="SRL_H">
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0X3d" cycles="8" format="SRL L" size="2" cenum="SRL_L">
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SRL_pr16">
+		<opcode instruction="SRL" value="0xCB 0x3e" cycles="16" format="SRL ({r16})" size="2" cenum="SRL_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+		<opcode instruction="SRL" value="0xCB 0x36" cycles="16" format="SRL ({r16})" size="2" cenum="SRL_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="BIT_8imm_r8">
+		<opcode instruction="BIT" value="0xCB 0x47" cycles="8" format="BIT {}, A" size="3" cenum="BIT_8imm_A">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="BIT" value="0xCB 0X40" cycles="8" format="BIT {}, B" size="3" cenum="BIT_8imm_B">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="BIT" value="0xCB 0X41" cycles="8" format="BIT {}, C" size="3" cenum="BIT_8imm_C">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="BIT" value="0xCB 0X42" cycles="8" format="BIT {}, D" size="3" cenum="BIT_8imm_D">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="BIT" value="0xCB 0X43" cycles="8" format="BIT {}, E" size="3" cenum="BIT_8imm_E">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="BIT" value="0xCB 0X44" cycles="8" format="BIT {}, H" size="3" cenum="BIT_8imm_H">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="BIT" value="0xCB 0X45" cycles="8" format="BIT {}, L" size="3" cenum="BIT_8imm_L">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SET_8imm_r8">
+		<opcode instruction="SET" value="0xCB 0xC7" cycles="8" format="SET {}, A" size="3" cenum="SET_8imm_A">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SET" value="0xCB 0XC0" cycles="8" format="SET {}, B" size="3" cenum="SET_8imm_B">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SET" value="0xCB 0XC1" cycles="8" format="SET {}, C" size="3" cenum="SET_8imm_C">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SET" value="0xCB 0XC2" cycles="8" format="SET {}, D" size="3" cenum="SET_8imm_D">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SET" value="0xCB 0XC3" cycles="8" format="SET {}, E" size="3" cenum="SET_8imm_E">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SET" value="0xCB 0XC4" cycles="8" format="SET {}, H" size="3" cenum="SET_8imm_H">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="SET" value="0xCB 0XC5" cycles="8" format="SET {}, L" size="3" cenum="SET_8imm_L">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="SET_pr16">
+		<opcode instruction="SET" value="0xCB 0xC6" cycles="16" format="SET ({r16})" size="2" cenum="SET_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="RES_8imm_r8">
+		<opcode instruction="RES" value="0xCB 0x87" cycles="8" format="RES {}, A" size="3" cenum="RES_8imm_A">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="A" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RES" value="0xCB 0X80" cycles="8" format="RES {}, B" size="3" cenum="RES_8imm_B">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="B" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RES" value="0xCB 0X81" cycles="8" format="RES {}, C" size="3" cenum="RES_8imm_C">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="C" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RES" value="0xCB 0X82" cycles="8" format="RES {}, D" size="3" cenum="RES_8imm_D">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="D" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RES" value="0xCB 0X83" cycles="8" format="RES {}, E" size="3" cenum="RES_8imm_E">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="E" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RES" value="0xCB 0X84" cycles="8" format="RES {}, H" size="3" cenum="RES_8imm_H">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="H" kind="Register" size="1" />
+		</opcode>
+		<opcode instruction="RES" value="0xCB 0X85" cycles="8" format="RES {}, L" size="3" cenum="RES_8imm_L">
+			<argument name="8imm" kind="Immediate" size="1" />
+			<argument name="L" kind="Register" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="RES_pr16">
+		<opcode instruction="RES" value="0xCB 0x86" cycles="16" format="RES ({r16})" size="2" cenum="RES_pHL">
+			<argument name="HL" kind="RegisterPointer" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_16imm">
+		<opcode instruction="JP" value="0xC3" cycles="12" format="JP {16imm}" size="3" cenum="JP_16imm">
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_NZ_16imm">
+		<opcode instruction="JP" value="0xC2" cycles="12" format="JP NZ, {}" size="3" cenum="JP_NZ_16imm">
+			<argument name="NZ" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_Z_16imm">
+		<opcode instruction="JP" value="0xCA" cycles="12" format="JP Z, {}" size="3" cenum="JP_Z_16imm">
+			<argument name="Z" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_NC_16imm">
+		<opcode instruction="JP" value="0xD2" cycles="12" format="JP NC, {}" size="3" cenum="JP_NC_16imm">
+			<argument name="NC" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_C_16imm">
+		<opcode instruction="JP" value="0xDA" cycles="12" format="JP C, {}" size="3" cenum="JP_C_16imm">
+			<argument name="C" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_r16">
+		<opcode instruction="JP" value="0xE9" cycles="4" format="JP ({r16})" size="1" cenum="JP_HL">
+			<argument name="HL" kind="Register" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_8imm">
+		<opcode instruction="JP" value="0x18" cycles="8" format="JP {8imm}" size="2" cenum="JP_8imm">
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_NZ_8imm">
+		<opcode instruction="JP" value="0x20" cycles="12" format="JP NZ, {}" size="3" cenum="JP_NZ_8imm">
+			<argument name="NZ" kind="JumpCondition" size="0" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_Z_8imm">
+		<opcode instruction="JP" value="0x28" cycles="12" format="JP Z, {}" size="3" cenum="JP_Z_8imm">
+			<argument name="Z" kind="JumpCondition" size="0" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_NC_8imm">
+		<opcode instruction="JP" value="0x30" cycles="12" format="JP NC, {}" size="3" cenum="JP_NC_8imm">
+			<argument name="NC" kind="JumpCondition" size="0" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="JP_C_8imm">
+		<opcode instruction="JP" value="0x38" cycles="12" format="JP C, {}" size="3" cenum="JP_C_8imm">
+			<argument name="C" kind="JumpCondition" size="0" />
+			<argument name="8imm" kind="Immediate" size="1" />
+		</opcode>
+	</function-category>
+	<function-category category="CALL_16imm">
+		<opcode instruction="CALL" value="0xCD" cycles="12" format="CALL {16imm}" size="3" cenum="CALL_16imm">
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="CALL_NZ_16imm">
+		<opcode instruction="CALL" value="0xC4" cycles="12" format="CALL NZ, {8imm}" size="3" cenum="CALL_NZ_16imm">
+			<argument name="NZ" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="CALL_Z_16imm">
+		<opcode instruction="CALL" value="0xCC" cycles="12" format="CALL Z, {8imm}" size="3" cenum="CALL_Z_16imm">
+			<argument name="Z" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="CALL_NC_16imm">
+		<opcode instruction="CALL" value="0xD4" cycles="12" format="CALL NC, {8imm}" size="3" cenum="CALL_NC_16imm">
+			<argument name="NC" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="CALL_C_16imm">
+		<opcode instruction="CALL" value="0xDC" cycles="12" format="CALL C, {8imm}" size="3" cenum="CALL_C_16imm">
+			<argument name="C" kind="JumpCondition" size="0" />
+			<argument name="16imm" kind="Immediate" size="2" />
+		</opcode>
+	</function-category>
+	<function-category category="RET">
+		<opcode instruction="RET" value="0xC9" cycles="8" format="RET" size="1" cenum="RET" />
+	</function-category>
+	<function-category category="RETI">
+		<opcode instruction="RETI" value="0xD9" cycles="8" format="RETI" size="1" cenum="RETI" />
+	</function-category>
+	<function-category category="RET_NZ">
+		<opcode instruction="RET" value="0xC0" cycles="8" format="RET NZ" size="1" cenum="RET_NZ">
+			<argument name="NZ" kind="JumpCondition" size="0" />
+		</opcode>
+	</function-category>
+	<function-category category="RET_Z">
+		<opcode instruction="RET" value="0xC8" cycles="8" format="RET Z" size="1" cenum="RET_Z">
+			<argument name="Z" kind="JumpCondition" size="0" />
+		</opcode>
+	</function-category>
+	<function-category category="RET_NC">
+		<opcode instruction="RET" value="0xD0" cycles="8" format="RET NC" size="1" cenum="RET_NC">
+			<argument name="NC" kind="JumpCondition" size="0" />
+		</opcode>
+	</function-category>
+	<function-category category="RET_C">
+		<opcode instruction="RET" value="0xD8" cycles="8" format="RET C" size="1" cenum="RET_C">
+			<argument name="C" kind="JumpCondition" size="0" />
+		</opcode>
+	</function-category>
+</opcodes>

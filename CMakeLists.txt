@@ -4,8 +4,6 @@ cmake_minimum_required( VERSION 2.8 )
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_subdirectory(third-party/Catch2)
-
 #### Libgbe
 
 add_library( libgbe
@@ -14,7 +12,8 @@ add_library( libgbe
     src/bit_utils.cpp
     src/instruction_trait.cpp
     src/call_switch-autogen.cpp
-    src/registers.cpp)
+    src/registers.cpp
+    src/opcodes.cpp)
 
 target_include_directories(libgbe PRIVATE
     third-party/magic_enum/include
@@ -66,19 +65,30 @@ if (MSVC)
     target_link_libraries(libgbe PRIVATE fmt::fmt CAPSTONE_LIBRARY)
 else ()
     find_package(fmt CONFIG REQUIRED)
+    find_package(Catch2 CONFIG REQUIRED)
+    find_package(pugixml CONFIG REQUIRED)
 
-    target_link_libraries(libgbe -lfmt)
+    target_link_libraries(libgbe fmt::fmt pugixml::pugixml)
 endif (MSVC)
 
-#### Main executable
+#### Opcodes executable
 
-add_executable( gbe src/main.cpp )
-
-target_include_directories(gbe PRIVATE
+add_executable( gbopcodes src/opcodes_main.cpp )
+target_include_directories(gbopcodes PRIVATE
     third-party/magic_enum/include
     include)
 
-target_link_libraries( gbe PRIVATE libgbe )
+target_link_libraries( gbopcodes PRIVATE libgbe )
+
+#### Main executable
+
+#add_executable( gbe src/main.cpp )
+
+#target_include_directories(gbe PRIVATE
+#    third-party/magic_enum/include
+#    include)
+
+#target_link_libraries( gbe PRIVATE libgbe )
 
 #### Tests
 

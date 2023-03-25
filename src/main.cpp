@@ -14,11 +14,6 @@
 #include <array>
 #include <fmt/core.h>
 #include <fmt/os.h>
-
-extern "C" {
-    #include <capstone/capstone.h>
-}
-
 enum class CartridgeType : uint8_t
 {
     rom                     = 0x00,
