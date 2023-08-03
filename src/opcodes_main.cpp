@@ -10,20 +10,13 @@ int main()
 
     std::unordered_map<std::string, Opcode> opcodes;
 
-    manager.traverse_all([&opcodes](const auto& cat, const auto& opcode)
-    {
-        auto enum_str = opcode.instruction;
-        if (opcode.arguments.size() > 1)
-            enum_str += "_" + opcode.arguments[0].name;
-        for (int i = 1; i < opcode.arguments.size(); i++)
-            enum_str += "_" + opcode.arguments[1].name;
-        
-        std::cout << enum_str << " = ";
+    manager.traverse_all([&opcodes](const auto& cat, const Opcode& opcode)
+    {   
+        auto enum_str = opcode.to_enum_str();
         if (opcode.extended)
-            std::cout << fmt::format("0xCB {:#04x} ", opcode.value);
+            fmt::print("{} = {:#04x}\n", enum_str, opcode.value);
         else
-            std::cout << fmt::format("{:#04x}", opcode.value);
-        std::cout << std::endl;    
+            fmt::print("{} = 0xCB {:#04x}\n", enum_str, opcode.value);
         opcodes[enum_str] = opcode;
     });
 

@@ -33,9 +33,11 @@ Opcode::Opcode(std::string instruction, uint8_t value, bool extended, int cycles
 void Opcode::from_xml_node(const pugi::xml_node node, Opcode& opcode)
 {
     opcode.instruction = node.attribute("instruction").value();
-    auto value_str = node.attribute("value").value();
-    opcode.value = std::strtol(value_str, nullptr, 16);
-    opcode.extended = node.attribute("extended").as_bool();
+    auto value_str = std::string{ node.attribute("value").as_string() };
+    char* value_str_end = nullptr;
+    opcode.value = std::strtol(value_str.c_str(), &value_str_end, 16);
+    // opcode.extended = node.attribute("extended").as_bool();
+    opcode.extended = value_str_end == value_str.c_str()+value_str.size();
     opcode.cycles = node.attribute("cycles").as_int();
     opcode.format = node.attribute("format").value();
     opcode.size = node.attribute("size").as_int();
@@ -44,6 +46,16 @@ void Opcode::from_xml_node(const pugi::xml_node node, Opcode& opcode)
         opcode.arguments.emplace_back();
         Argument::from_xml_node(argument_node, opcode.arguments.back());
     }
+}
+
+std::string Opcode::to_enum_str() const
+{
+    auto enum_str = instruction;
+    if (arguments.size() > 1)
+        enum_str += "_" + arguments[0].name;
+    for (std::size_t i = 1; i < arguments.size(); i++)
+        enum_str += "_" + arguments[1].name;
+    return enum_str;
 }
 
 void OpcodeCategory::from_xml_node(const pugi::xml_node node, OpcodeCategory& category)
