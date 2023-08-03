@@ -11,7 +11,7 @@ add_library( libgbe
     src/gbcpu.cpp
     src/bit_utils.cpp
     src/instruction_trait.cpp
-    src/call_switch-autogen.cpp
+    #src/call_switch-autogen.cpp
     src/registers.cpp
     src/opcodes.cpp)
 
@@ -25,6 +25,9 @@ target_compile_options(libgbe PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic>
 )
+
+#### Catch 2
+add_subdirectory(third-party/Catch2)
 
 if (MSVC)
     #find_package(unofficial-sqlite3 CONFIG REQUIRED)
@@ -65,7 +68,7 @@ if (MSVC)
     target_link_libraries(libgbe PRIVATE fmt::fmt CAPSTONE_LIBRARY)
 else ()
     find_package(fmt CONFIG REQUIRED)
-    find_package(Catch2 CONFIG REQUIRED)
+    #find_package(Catch2 CONFIG REQUIRED)
     find_package(pugixml CONFIG REQUIRED)
 
     target_link_libraries(libgbe fmt::fmt pugixml::pugixml)
