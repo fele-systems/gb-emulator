@@ -3,6 +3,7 @@
 fmt/8.1.1
 catch2/3.3.1
 pugixml/1.13
+inja/3.4.0
 
 [generators]
 CMakeDeps
