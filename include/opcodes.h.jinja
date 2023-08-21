@@ -1,0 +1,24 @@
+#pragma once
+#include <cstdint>
+
+{{ notice }}
+
+enum class OpcodePrefix
+{
+    prefix0 = 0xCB,
+    prefix1 = 0x10,
+    none = 0x00
+};
+
+enum class Opcode : uint8_t
+{
+{% for category in categories %}
+    ////////////////////////////////////////////////////////////////////////
+    // {{ category.function_name }}: {{ category.brief }}
+    ////////////////////////////////////////////////////////////////////////
+    
+## for opcode in category.opcodes
+    {{ opcode.enum }} = {{ hex(opcode.value) }}, // {{ opcode.to_string }}
+## endfor
+{% endfor %}
+};

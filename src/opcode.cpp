@@ -1,4 +1,4 @@
-#include <opcodes.h>    
+#include <opcode.h>    
 #include <magic_enum.hpp>
 #include <cstdlib>
 #include <cassert>
@@ -51,7 +51,7 @@ void Opcode::from_xml_node(const pugi::xml_node node, Opcode& opcode)
 std::string Opcode::to_enum_str() const
 {
     auto enum_str = instruction;
-    if (arguments.size() > 1)
+    if (arguments.size() >= 1)
         enum_str += "_" + arguments[0].name;
     for (std::size_t i = 1; i < arguments.size(); i++)
         enum_str += "_" + arguments[1].name;

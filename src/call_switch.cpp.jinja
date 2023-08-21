@@ -1,0 +1,26 @@
+#include <gbcpu.h>
+#include <opcodes-autogen.h>
+
+{{ notice }}
+
+InstructionTrait GbCpu::execute_next()
+{
+    auto instruction = static_cast<Opcode> ( next_pc_byte() );
+    switch ( instruction ) {
+
+    {% for category in categories %}
+        ////////////////////////////////////////////////////////////////////////
+        // {{ category.name }}
+        ////////////////////////////////////////////////////////////////////////
+        {% for subcat in category.subcat %}
+            //----------------------------------------------------------------------
+            // {{ subcat.name }}
+            //----------------------------------------------------------------------
+            {% for opcode in subcat.opcodes if not opcode.extended %}
+                case Opcode::{{ opcode.getenum() }}:
+                    return {{ opcode.getfunctioncall() }};
+            {%- endfor %}
+        {% endfor %}
+    {% endfor %}
+    }
+}
